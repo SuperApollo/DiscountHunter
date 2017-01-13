@@ -2,8 +2,13 @@ package com.apollo.discounthunter.ui.fragment;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.constants.Constants;
+import com.apollo.discounthunter.retrofit.model.HomeModel;
+import com.apollo.discounthunter.retrofit.requestinterface.HomeListService;
 
+import retrofit.Call;
+import retrofit.Callback;
 import retrofit.GsonConverterFactory;
+import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
@@ -25,7 +30,19 @@ public class HotFragment extends BaseFragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
+        HomeListService service = retrofit.create(HomeListService.class);
+        Call<HomeModel> modelCall = service.repo("?c=API&a=app_items&offset=0&limit=10&eid=0");
+        modelCall.enqueue(new Callback<HomeModel>() {
+            @Override
+            public void onResponse(Response<HomeModel> response, Retrofit retrofit) {
+                mToastUtils.show(mContext,"成功");
+            }
 
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
 
     }
 

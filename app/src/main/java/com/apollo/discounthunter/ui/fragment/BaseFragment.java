@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.base.BaseApplication;
+import com.apollo.discounthunter.utils.ToastUtils;
 import com.apollo.discounthunter.widgets.CustomProgressView;
 
 import butterknife.ButterKnife;
@@ -24,11 +25,13 @@ public abstract class BaseFragment extends Fragment {
     protected CustomProgressView customProgressView;
     protected Context mContext;
     RadioGroup mRbBottom;
+    protected ToastUtils mToastUtils;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        BaseApplication.getContext();
+        mContext = BaseApplication.getContext();
+        mToastUtils = ToastUtils.shareInstance();
     }
 
     @Nullable
