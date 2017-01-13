@@ -1,5 +1,7 @@
 package com.apollo.discounthunter.ui.activity;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
@@ -8,7 +10,9 @@ import android.view.MenuInflater;
 import android.view.ViewConfiguration;
 import android.view.Window;
 
+import com.apollo.discounthunter.base.BaseApplication;
 import com.apollo.discounthunter.utils.ToastUtils;
+import com.apollo.discounthunter.widgets.CustomProgressView;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -21,6 +25,8 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends FragmentActivity {
     protected ToastUtils mToastUtils;
+    Context mContext;
+    protected CustomProgressView customProgressView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,8 +34,10 @@ public abstract class BaseActivity extends FragmentActivity {
         setContentView(getLayoutId());
         ButterKnife.bind(this);
         setOverflowShowingAlways();
-        initView();
+        mContext = BaseApplication.getContext();
         mToastUtils = ToastUtils.shareInstance();
+        initView();
+
     }
 
     @Override
@@ -92,4 +100,30 @@ public abstract class BaseActivity extends FragmentActivity {
      * 初始化view
      */
     protected abstract void initView();
+
+    /**
+     * 显示进度条
+     */
+    protected void showProgress() {
+        if (customProgressView == null) {
+            customProgressView = new CustomProgressView(mContext)
+                    .setCancelListener(new DialogInterface.OnCancelListener() {
+                        @Override
+                        public void onCancel(DialogInterface dialog) {
+
+                        }
+                    });
+        }
+        customProgressView.showProgressDialog();
+    }
+
+    /**
+     * 清理进度条
+     */
+    protected void clearProgress() {
+        if (customProgressView != null) {
+            customProgressView.dissDialog();
+            customProgressView = null;
+        }
+    }
 }

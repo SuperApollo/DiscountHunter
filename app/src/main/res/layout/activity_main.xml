@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_main_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
 
-</RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/grey_transparent" />
+
+    <RadioGroup
+        android:id="@+id/rg_main_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_home"
+            style="@style/tab_menu_item"
+            android:drawableTop="@drawable/selector_item_home"
+            android:text="@string/item_home" />
+
+        <RadioButton
+            android:id="@+id/rb_recommend"
+            style="@style/tab_menu_item"
+            android:drawableTop="@drawable/selector_item_recommend"
+            android:text="@string/item_recommend" />
+
+        <RadioButton
+            android:id="@+id/rb_hot"
+            style="@style/tab_menu_item"
+            android:drawableTop="@drawable/selector_item_hot"
+            android:text="@string/item_hot" />
+    </RadioGroup>
+
+</LinearLayout>

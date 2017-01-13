@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">折扣猎手</string>
+    <string name="action_search">搜索</string>
+    <string name="action_plus">添加</string>
+    <string name="action_setting">设置</string>
+    <string name="item_home">主页</string>
+    <string name="item_recommend">猎手推荐</string>
+    <string name="item_hot">实时热卖</string>
 </resources>
