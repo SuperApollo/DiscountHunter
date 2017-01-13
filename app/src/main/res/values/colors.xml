@@ -8,7 +8,7 @@
     <color name="black">#000000</color>
     <color name="transparent">#00000000</color>
     <!--底部导航栏细线条的颜色-->
-    <color name="grey_transparent">#66666666</color>
+    <color name="grey_transparent">#86999999</color>
     <!--底部导航栏字体颜色-->
     <color name="item_textcolor">@color/appColor</color>
     <color name="item_text_normal">#b5b5b5</color>

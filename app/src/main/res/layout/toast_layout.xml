@@ -19,6 +19,6 @@
         android:paddingTop="-0.5dp"
         android:text="通知"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="17sp" />
 
 </LinearLayout>

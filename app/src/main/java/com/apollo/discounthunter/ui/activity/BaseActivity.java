@@ -7,9 +7,11 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.ViewConfiguration;
 import android.view.Window;
 
+import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.base.BaseApplication;
 import com.apollo.discounthunter.utils.ToastUtils;
 import com.apollo.discounthunter.widgets.CustomProgressView;
@@ -23,10 +25,11 @@ import butterknife.ButterKnife;
  * Created by zayh_yf20160909 on 2017/1/11.
  */
 
-public abstract class BaseActivity extends FragmentActivity {
+public abstract class BaseActivity extends FragmentActivity implements MenuItem.OnActionExpandListener {
     protected ToastUtils mToastUtils;
     Context mContext;
     protected CustomProgressView customProgressView;
+    protected MenuItem mSearchItem;//顶部搜索
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +49,8 @@ public abstract class BaseActivity extends FragmentActivity {
         if (id != -1) {
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(id, menu);
+            mSearchItem = menu.findItem(R.id.action_search);
+            mSearchItem.setOnActionExpandListener(this);
             return true;
         } else
             return super.onCreateOptionsMenu(menu);
@@ -125,5 +130,15 @@ public abstract class BaseActivity extends FragmentActivity {
             customProgressView.dissDialog();
             customProgressView = null;
         }
+    }
+
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem menuItem) {
+        return false;
+    }
+
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+        return false;
     }
 }

@@ -8,7 +8,9 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RadioGroup;
 
+import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.base.BaseApplication;
 import com.apollo.discounthunter.widgets.CustomProgressView;
 
@@ -21,6 +23,7 @@ import butterknife.ButterKnife;
 public abstract class BaseFragment extends Fragment {
     protected CustomProgressView customProgressView;
     protected Context mContext;
+    RadioGroup mRbBottom;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,7 +36,22 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutId(), container, false);
         ButterKnife.bind(this, view);
+        initView();
         return view;
+    }
+
+    private void initView() {
+        mRbBottom = (RadioGroup) getActivity().findViewById(R.id.rg_main_bottom);
+        if (hideBottom())
+            mRbBottom.setVisibility(View.GONE);
+        else
+            mRbBottom.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mRbBottom.setVisibility(View.VISIBLE);
     }
 
     /**

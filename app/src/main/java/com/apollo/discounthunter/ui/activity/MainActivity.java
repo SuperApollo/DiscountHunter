@@ -4,6 +4,8 @@ import android.app.ActionBar;
 import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -12,13 +14,15 @@ import com.apollo.discounthunter.ui.fragment.FragmentAdapter;
 import com.apollo.discounthunter.ui.fragment.HomeFragment;
 import com.apollo.discounthunter.ui.fragment.HotFragment;
 import com.apollo.discounthunter.ui.fragment.RecommendFragment;
-import com.apollo.discounthunter.utils.FragmentUtils;
+import com.apollo.discounthunter.utils.IntentUtils;
 import com.apollo.discounthunter.utils.ViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+
+import static java.lang.System.currentTimeMillis;
 
 public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedChangeListener, ViewPager.OnPageChangeListener {
     @BindView(R.id.rg_main_bottom)
@@ -32,6 +36,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @BindView(R.id.vp_main_container)
     ViewPager mVpContainer;
     private ActionBar mActionBar;
+    private long mExitTime;
+
 
     @Override
     protected int getLayoutId() {
@@ -56,11 +62,13 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         hotDrawable.setBounds(0, 0, ViewUtil.dp2px(mContext, 24), ViewUtil.dp2px(mContext, 24));
         mRbHot.setCompoundDrawables(null, hotDrawable, null, null);
 
+        mVpContainer.setOffscreenPageLimit(2);
         mRadioGroup.setOnCheckedChangeListener(this);
         mActionBar = getActionBar();
         initFragment();
         setTitle(R.string.item_home);
         mRbHome.setChecked(true);
+
     }
 
     /**
@@ -129,5 +137,27 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     public void onPageScrollStateChanged(int state) {
 
+    }
+
+    @Override
+    public boolean onMenuItemActionExpand(MenuItem menuItem) {
+        mRadioGroup.setVisibility(View.GONE);
+        return true;
+    }
+
+    @Override
+    public boolean onMenuItemActionCollapse(MenuItem menuItem) {
+        mRadioGroup.setVisibility(View.VISIBLE);
+        return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        if ((currentTimeMillis() - mExitTime) > 2000) {
+            mToastUtils.show(mContext, "再按一次退出程序");
+            mExitTime = currentTimeMillis();
+        } else {
+            MainActivity.this.finish();
+        }
     }
 }
