@@ -37,6 +37,7 @@ public abstract class BaseFragment extends Fragment {
         View view = inflater.inflate(getLayoutId(), container, false);
         ButterKnife.bind(this, view);
         initView();
+        init();
         return view;
     }
 
@@ -53,6 +54,11 @@ public abstract class BaseFragment extends Fragment {
         super.onDestroy();
         mRbBottom.setVisibility(View.VISIBLE);
     }
+
+    /**
+     * 一些初始化操作
+     */
+    protected abstract void init();
 
     /**
      * 获取布局id

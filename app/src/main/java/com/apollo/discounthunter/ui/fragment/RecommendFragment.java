@@ -8,6 +8,11 @@ import com.apollo.discounthunter.R;
 
 public class RecommendFragment extends BaseFragment {
     @Override
+    protected void init() {
+
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.fragment_recommend;
     }

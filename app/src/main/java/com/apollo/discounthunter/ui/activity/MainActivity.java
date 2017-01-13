@@ -14,7 +14,6 @@ import com.apollo.discounthunter.ui.fragment.FragmentAdapter;
 import com.apollo.discounthunter.ui.fragment.HomeFragment;
 import com.apollo.discounthunter.ui.fragment.HotFragment;
 import com.apollo.discounthunter.ui.fragment.RecommendFragment;
-import com.apollo.discounthunter.utils.IntentUtils;
 import com.apollo.discounthunter.utils.ViewUtil;
 
 import java.util.ArrayList;
