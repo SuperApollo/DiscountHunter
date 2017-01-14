@@ -26,12 +26,14 @@ public abstract class BaseFragment extends Fragment {
     protected Context mContext;
     RadioGroup mRbBottom;
     protected ToastUtils mToastUtils;
+    protected String TAG;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = BaseApplication.getContext();
         mToastUtils = ToastUtils.shareInstance();
+        TAG = getClass().getSimpleName();
     }
 
     @Nullable

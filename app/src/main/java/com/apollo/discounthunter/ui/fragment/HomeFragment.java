@@ -1,10 +1,16 @@
 package com.apollo.discounthunter.ui.fragment;
 
+import android.util.Log;
+
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.retrofit.model.HomeModel;
-import com.apollo.discounthunter.retrofit.requestinterface.HomeListService;
+import com.apollo.discounthunter.retrofit.requestinterface.ApiService;
+import com.apollo.discounthunter.utils.LogUtil;
 import com.apollo.discounthunter.widgets.XListView;
+import com.squareup.okhttp.ResponseBody;
+
+import java.io.IOException;
 
 import butterknife.BindView;
 import retrofit.Call;
@@ -36,17 +42,22 @@ public class HomeFragment extends BaseFragment {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
-        HomeListService service = retrofit.create(HomeListService.class);
-        Call<HomeModel> modelCall = service.repo("?c=API&a=app_items&offset=0&limit=10&eid=0");
-        modelCall.enqueue(new Callback<HomeModel>() {
+        ApiService service = retrofit.create(ApiService.class);
+        Call<ResponseBody> modelCall = service.loadHomeListRepo();
+        modelCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Response<HomeModel> response, Retrofit retrofit) {
+            public void onResponse(Response<ResponseBody> response, Retrofit retrofit) {
                 mToastUtils.show(mContext, "成功");
+                try {
+                    LogUtil.d(TAG,response.body().string());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             @Override
             public void onFailure(Throwable t) {
-
+                LogUtil.d(TAG,t.toString());
             }
         });
 

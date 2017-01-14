@@ -8,6 +8,10 @@ public interface Constants {
     /**
      * 服务器根地址
      */
-    public static final String BASE_URL = "http://www.zhekoulieshou.com";
+    String BASE_URL = "http://www.zhekoulieshou.com/";
+    /**
+     * 首页列表数据地址
+     */
+    String HOME_LIST = BASE_URL+"?c=API&a=app_items&offset=0&limit=10&eid=0";
 
 }
