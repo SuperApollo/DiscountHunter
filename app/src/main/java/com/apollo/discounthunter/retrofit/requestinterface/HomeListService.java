@@ -12,6 +12,6 @@ import retrofit.http.Path;
  */
 
 public interface HomeListService {
-    @GET("append")
+    @GET("/{append}")
     Call<HomeModel> repo(@Path("append") String append);
 }

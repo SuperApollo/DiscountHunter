@@ -18,33 +18,10 @@ import retrofit.Retrofit;
 public class HotFragment extends BaseFragment {
     @Override
     protected void init() {
-        requestData();
-    }
-
-    /**
-     * 请求主页列表数据
-     */
-    private void requestData() {
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(Constants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        HomeListService service = retrofit.create(HomeListService.class);
-        Call<HomeModel> modelCall = service.repo("?c=API&a=app_items&offset=0&limit=10&eid=0");
-        modelCall.enqueue(new Callback<HomeModel>() {
-            @Override
-            public void onResponse(Response<HomeModel> response, Retrofit retrofit) {
-                mToastUtils.show(mContext,"成功");
-            }
-
-            @Override
-            public void onFailure(Throwable t) {
-
-            }
-        });
 
     }
+
+
 
     @Override
     protected int getLayoutId() {
