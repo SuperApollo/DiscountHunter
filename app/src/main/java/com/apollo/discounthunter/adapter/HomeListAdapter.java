@@ -1,6 +1,7 @@
 package com.apollo.discounthunter.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,7 +60,7 @@ public class HomeListAdapter extends BaseAdapter {
             holder.tvPrice = (TextView) view.findViewById(R.id.tv_home_item_price);
             holder.tvTime = (TextView) view.findViewById(R.id.tv_home_item_time);
             holder.tvReason = (TextView) view.findViewById(R.id.tv_home_item_reason);
-
+            holder.tvUnusable = (TextView) view.findViewById(R.id.tv_home_item_unusable);
             view.setTag(holder);
 
         } else {
@@ -67,10 +68,26 @@ public class HomeListAdapter extends BaseAdapter {
 
         }
         imageLoaderUtils.loadImageView(homeModel.getPic(), holder.ivIcon);
-        holder.tvTitle.setText(homeModel.getTitle());
-        holder.tvPrice.setText("¥" + homeModel.getPrice());
+        String title = homeModel.getTitle();
+        if (!TextUtils.equals("0", homeModel.getFlag()))
+            title = "【置顶】" + title;
+        holder.tvTitle.setText(title);
+        float p = Float.parseFloat(homeModel.getPrice());
+        if (p > 0)
+            holder.tvPrice.setText("¥" + homeModel.getPrice());
+        else
+            holder.tvPrice.setVisibility(View.GONE);
         holder.tvTime.setText(TimeUtils.getReleaseTime(homeModel.getRelease_time()));
         holder.tvReason.setText(homeModel.getReason());
+
+        if (!TextUtils.isEmpty(homeModel.getTotalCount())&&!TextUtils.isEmpty(homeModel.getAppliedCount())){
+            float totlaCount = Float.parseFloat(homeModel.getTotalCount());
+            float appliedCount = Float.parseFloat(homeModel.getAppliedCount());
+            if ((appliedCount / totlaCount) < 1)
+                holder.tvUnusable.setVisibility(View.GONE);
+            else
+                holder.tvUnusable.setVisibility(View.VISIBLE);
+        }
 
         return view;
     }
@@ -81,6 +98,7 @@ public class HomeListAdapter extends BaseAdapter {
         TextView tvPrice;
         TextView tvTime;
         TextView tvReason;
+        TextView tvUnusable;
     }
 
 }

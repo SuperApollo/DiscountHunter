@@ -1,11 +1,14 @@
 package com.apollo.discounthunter.retrofit.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * 首页列表实体类
  * Created by Apollo on 2017/1/13.
  */
 
-public class HomeModel {
+public class HomeModel implements Parcelable {
     private String id;//折扣信息唯一id
     private String web_url;//折扣信息下单地址
     private String app_url;//唤起淘宝app的折扣信息下单地址
@@ -29,6 +32,44 @@ public class HomeModel {
     private String flag;//置顶标志 非0置顶
     private String totalCount;//优惠券总数
     private String appliedCount;//优惠券领取总数
+
+    protected HomeModel(Parcel in) {
+        id = in.readString();
+        web_url = in.readString();
+        app_url = in.readString();
+        pic = in.readString();
+        title = in.readString();
+        reason = in.readString();
+        price = in.readString();
+        soldcount = in.readString();
+        commission = in.readString();
+        item_cat_id = in.readString();
+        num_iid = in.readString();
+        platform_id = in.readString();
+        end_time = in.readString();
+        release_time = in.readString();
+        eventid = in.readString();
+        addtime = in.readString();
+        seller_id = in.readString();
+        quan_id = in.readString();
+        quan_price = in.readString();
+        quan_link = in.readString();
+        flag = in.readString();
+        totalCount = in.readString();
+        appliedCount = in.readString();
+    }
+
+    public static final Creator<HomeModel> CREATOR = new Creator<HomeModel>() {
+        @Override
+        public HomeModel createFromParcel(Parcel in) {
+            return new HomeModel(in);
+        }
+
+        @Override
+        public HomeModel[] newArray(int size) {
+            return new HomeModel[size];
+        }
+    };
 
     public String getId() {
         return id;
@@ -212,5 +253,37 @@ public class HomeModel {
 
     public void setAppliedCount(String appliedCount) {
         this.appliedCount = appliedCount;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeString(web_url);
+        parcel.writeString(app_url);
+        parcel.writeString(pic);
+        parcel.writeString(title);
+        parcel.writeString(reason);
+        parcel.writeString(price);
+        parcel.writeString(soldcount);
+        parcel.writeString(commission);
+        parcel.writeString(item_cat_id);
+        parcel.writeString(num_iid);
+        parcel.writeString(platform_id);
+        parcel.writeString(end_time);
+        parcel.writeString(release_time);
+        parcel.writeString(eventid);
+        parcel.writeString(addtime);
+        parcel.writeString(seller_id);
+        parcel.writeString(quan_id);
+        parcel.writeString(quan_price);
+        parcel.writeString(quan_link);
+        parcel.writeString(flag);
+        parcel.writeString(totalCount);
+        parcel.writeString(appliedCount);
     }
 }

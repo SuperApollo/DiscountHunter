@@ -4,12 +4,15 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="10dp">
+    android:paddingBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingTop="5dp">
 
     <ImageView
         android:id="@+id/iv_home_item_icon"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:src="@mipmap/icon_logo" />
 
     <RelativeLayout
@@ -23,10 +26,10 @@
             android:id="@+id/tv_home_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="2"
-            android:textColor="@color/black"
             android:ellipsize="end"
+            android:maxLines="2"
             android:text="标题"
+            android:textColor="@color/black"
             android:textSize="14sp" />
 
         <TextView
@@ -45,12 +48,24 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/tv_home_item_time"
+            android:id="@+id/tv_home_item_unusable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/tv_home_item_reason"
+            android:layout_toLeftOf="@+id/tv_home_item_time"
+            android:textSize="12sp"
+            android:textColor="@color/red"
+            android:text="@string/unusable"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/tv_home_item_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
             android:text="时间"
             android:textColor="@color/grey"
             android:textSize="12sp" />
@@ -61,12 +76,13 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:text="推荐理由"
+            android:ellipsize="end"
             android:maxEms="10"
             android:singleLine="true"
-            android:ellipsize="end"
+            android:text="推荐理由"
             android:textColor="@color/grey"
-            android:textSize="12sp" />
+            android:textSize="12sp"
+            android:visibility="gone" />
 
 
     </RelativeLayout>

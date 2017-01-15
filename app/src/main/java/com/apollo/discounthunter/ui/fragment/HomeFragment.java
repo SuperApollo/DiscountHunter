@@ -1,13 +1,18 @@
 package com.apollo.discounthunter.ui.fragment;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.View;
+import android.widget.AdapterView;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.adapter.HomeListAdapter;
 import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.retrofit.model.HomeModel;
 import com.apollo.discounthunter.retrofit.requestinterface.ApiService;
+import com.apollo.discounthunter.ui.activity.GoodsDetailActivity;
+import com.apollo.discounthunter.utils.IntentUtils;
 import com.apollo.discounthunter.widgets.XListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -60,12 +65,24 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onRefresh() {
                 mHandler.sendEmptyMessageDelayed(STOP_REFRESH, 1000);
+                mOffset = 0;
+                mHomeModels.clear();
+                requestData();
             }
 
             @Override
             public void onLoadMore() {
-                requestData();
                 mHandler.sendEmptyMessageDelayed(STOP_LOADMORE, 1000);
+                requestData();
+            }
+        });
+
+        mXlvHome.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(Constants.GOODS_INFO,mHomeModels.get(i-1));
+                IntentUtils.sendIntent(getActivity(), GoodsDetailActivity.class,bundle);
             }
         });
 
