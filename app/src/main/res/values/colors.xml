@@ -13,4 +13,6 @@
     <color name="item_textcolor">@color/appColor</color>
     <color name="item_text_normal">#b5b5b5</color>
     <color name="progress_color">#660894EC</color>
+    <color name="red">#FF0000</color>
+    <color name="grey">#666666</color>
 </resources>

@@ -1,16 +1,19 @@
 package com.apollo.discounthunter.ui.fragment;
 
-import android.util.Log;
-
 import com.apollo.discounthunter.R;
+import com.apollo.discounthunter.adapter.HomeListAdapter;
 import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.retrofit.model.HomeModel;
 import com.apollo.discounthunter.retrofit.requestinterface.ApiService;
 import com.apollo.discounthunter.utils.LogUtil;
 import com.apollo.discounthunter.widgets.XListView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import retrofit.Call;
@@ -26,6 +29,8 @@ import retrofit.Retrofit;
 public class HomeFragment extends BaseFragment {
     @BindView(R.id.xlv_home)
     XListView mXlvHome;
+    List<HomeModel> mHomeModels = new ArrayList<>();
+    private HomeListAdapter mAdapter;
 
     @Override
     protected void init() {
@@ -43,24 +48,41 @@ public class HomeFragment extends BaseFragment {
                 .build();
 
         ApiService service = retrofit.create(ApiService.class);
-        Call<ResponseBody> modelCall = service.loadHomeListRepo();
+        Call<ResponseBody> modelCall = service.loadHomeListRepo("API", "app_items", "0", "10", "0");
+        showProgress();
         modelCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Response<ResponseBody> response, Retrofit retrofit) {
-                mToastUtils.show(mContext, "成功");
-                try {
-                    LogUtil.d(TAG,response.body().string());
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                clearProgress();
+                parseData(response);
             }
 
             @Override
             public void onFailure(Throwable t) {
-                LogUtil.d(TAG,t.toString());
+                clearProgress();
             }
         });
 
+    }
+
+    /**
+     * 解析主页列表数据
+     *
+     * @param response
+     */
+    private void parseData(Response<ResponseBody> response) {
+        String json = "";
+        try {
+            json = response.body().string();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Gson gson = new Gson();
+        mHomeModels = gson.fromJson(json, new TypeToken<List<HomeModel>>() {
+        }.getType());
+        mAdapter = new HomeListAdapter(mContext,mHomeModels);
+        mXlvHome.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -1,10 +1,10 @@
 package com.apollo.discounthunter.retrofit.requestinterface;
 
-import com.apollo.discounthunter.constants.Constants;
 import com.squareup.okhttp.ResponseBody;
 
 import retrofit.Call;
 import retrofit.http.GET;
+import retrofit.http.Query;
 
 /**
  * 主页列表的服务器接口
@@ -12,6 +12,10 @@ import retrofit.http.GET;
  */
 
 public interface ApiService {
-    @GET(Constants.HOME_LIST)
-    Call<ResponseBody> loadHomeListRepo();
+    @GET("/")
+    Call<ResponseBody> loadHomeListRepo(@Query("c") String c,
+                                        @Query("a") String a,
+                                        @Query("offset") String offset,
+                                        @Query("limit") String limit,
+                                        @Query("eid") String eid);
 }
