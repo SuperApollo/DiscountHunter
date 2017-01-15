@@ -281,4 +281,31 @@ public class TimeUtils {
         }
         return showTime;
     }
+
+    public static String getReleaseTime(String releaseTime) {
+        String showTime = "";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        long millis = 0;
+        Date date = null;
+        try {
+            date = sdf.parse(releaseTime);
+            millis = date.getTime();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        long now = System.currentTimeMillis();
+        long delta = now - millis;
+        if (delta < (3600 * 1000)) {//小于1小时
+            showTime = delta / (1000 * 60) + "分钟前";
+        } else if ((3600 * 1000) < delta && delta < (3600 * 1000 * 24)) {//小于1天
+            showTime = delta/(3600 * 1000)+"小时前";
+        } else {
+            showTime = delta/(3600 * 1000 * 24)+"天前";
+        }
+
+        return showTime;
+    }
 }

@@ -8,14 +8,15 @@
 
     <ImageView
         android:id="@+id/iv_home_item_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:src="@mipmap/icon_logo" />
 
     <RelativeLayout
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
         android:layout_weight="1">
 
         <TextView
@@ -23,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="2"
+            android:textColor="@color/black"
             android:ellipsize="end"
             android:text="标题"
             android:textSize="14sp" />
@@ -47,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/tv_home_item_reason"
             android:text="时间"
             android:textColor="@color/grey"
@@ -60,6 +62,9 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:text="推荐理由"
+            android:maxEms="10"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textColor="@color/grey"
             android:textSize="12sp" />
 

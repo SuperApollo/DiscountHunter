@@ -25,7 +25,6 @@ public class HomeListAdapter extends BaseAdapter {
     LayoutInflater mInflater;
 
 
-
     public HomeListAdapter(Context context, List<HomeModel> datas) {
         this.mContext = context;
         this.mDatas = datas;
@@ -50,11 +49,11 @@ public class HomeListAdapter extends BaseAdapter {
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         HomeModel homeModel = mDatas.get(i);
-        ViewHolder holder = null;
+        ViewHolder holder;
         ImageLoaderUtils imageLoaderUtils = ImageLoaderUtils.getInstance(mContext);
-        if (view==null){
+        if (view == null) {
             holder = new ViewHolder();
-            view = mInflater.inflate(R.layout.home_list_item,null);
+            view = mInflater.inflate(R.layout.home_list_item, null);
             holder.ivIcon = (ImageView) view.findViewById(R.id.iv_home_item_icon);
             holder.tvTitle = (TextView) view.findViewById(R.id.tv_home_item_title);
             holder.tvPrice = (TextView) view.findViewById(R.id.tv_home_item_price);
@@ -63,20 +62,20 @@ public class HomeListAdapter extends BaseAdapter {
 
             view.setTag(holder);
 
-        }else {
+        } else {
             holder = (ViewHolder) view.getTag();
 
         }
-        imageLoaderUtils.loadImageView(homeModel.getPic(),holder.ivIcon);
+        imageLoaderUtils.loadImageView(homeModel.getPic(), holder.ivIcon);
         holder.tvTitle.setText(homeModel.getTitle());
-        holder.tvPrice.setText(homeModel.getPrice());
-        holder.tvTime.setText(TimeUtils.changeTime(homeModel.getRelease_time()));
+        holder.tvPrice.setText("¥" + homeModel.getPrice());
+        holder.tvTime.setText(TimeUtils.getReleaseTime(homeModel.getRelease_time()));
         holder.tvReason.setText(homeModel.getReason());
 
         return view;
     }
 
-    class ViewHolder{
+    class ViewHolder {
         ImageView ivIcon;
         TextView tvTitle;
         TextView tvPrice;

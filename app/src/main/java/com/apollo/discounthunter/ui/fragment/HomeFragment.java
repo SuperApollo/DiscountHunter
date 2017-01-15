@@ -1,11 +1,13 @@
 package com.apollo.discounthunter.ui.fragment;
 
+import android.os.Handler;
+import android.os.Message;
+
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.adapter.HomeListAdapter;
 import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.retrofit.model.HomeModel;
 import com.apollo.discounthunter.retrofit.requestinterface.ApiService;
-import com.apollo.discounthunter.utils.LogUtil;
 import com.apollo.discounthunter.widgets.XListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -31,9 +33,44 @@ public class HomeFragment extends BaseFragment {
     XListView mXlvHome;
     List<HomeModel> mHomeModels = new ArrayList<>();
     private HomeListAdapter mAdapter;
+    private static final int STOP_REFRESH = 1;
+    private static final int STOP_LOADMORE = 2;
+    private int mOffset = 0;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case STOP_REFRESH:
+                    mXlvHome.stopRefresh();
+                    break;
+                case STOP_LOADMORE:
+                    mXlvHome.stopLoadMore();
+                    break;
+            }
+        }
+    };
 
     @Override
     protected void init() {
+        mXlvHome.setVerticalScrollBarEnabled(false);
+        mXlvHome.setPullLoadEnable(true);
+        mXlvHome.setPullRefreshEnable(true);
+        mXlvHome.setXListViewListener(new XListView.IXListViewListener() {
+            @Override
+            public void onRefresh() {
+                mHandler.sendEmptyMessageDelayed(STOP_REFRESH, 1000);
+            }
+
+            @Override
+            public void onLoadMore() {
+                requestData();
+                mHandler.sendEmptyMessageDelayed(STOP_LOADMORE, 1000);
+            }
+        });
+
+        mAdapter = new HomeListAdapter(mContext, mHomeModels);
+        mXlvHome.setAdapter(mAdapter);
         requestData();
 
     }
@@ -48,18 +85,23 @@ public class HomeFragment extends BaseFragment {
                 .build();
 
         ApiService service = retrofit.create(ApiService.class);
-        Call<ResponseBody> modelCall = service.loadHomeListRepo("API", "app_items", "0", "10", "0");
+        Call<ResponseBody> modelCall = service.loadHomeListRepo("API", "app_items", mOffset + "", "10", "0");
         showProgress();
         modelCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Response<ResponseBody> response, Retrofit retrofit) {
+                mOffset += 10;
                 clearProgress();
+                mHandler.sendEmptyMessage(STOP_LOADMORE);
+                mHandler.sendEmptyMessage(STOP_REFRESH);
                 parseData(response);
             }
 
             @Override
             public void onFailure(Throwable t) {
                 clearProgress();
+                mHandler.sendEmptyMessage(STOP_LOADMORE);
+                mHandler.sendEmptyMessage(STOP_REFRESH);
             }
         });
 
@@ -72,16 +114,17 @@ public class HomeFragment extends BaseFragment {
      */
     private void parseData(Response<ResponseBody> response) {
         String json = "";
+        List<HomeModel> datas = null;
         try {
             json = response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
         }
         Gson gson = new Gson();
-        mHomeModels = gson.fromJson(json, new TypeToken<List<HomeModel>>() {
+        datas = gson.fromJson(json, new TypeToken<List<HomeModel>>() {
         }.getType());
-        mAdapter = new HomeListAdapter(mContext,mHomeModels);
-        mXlvHome.setAdapter(mAdapter);
+        if (datas!=null)
+            mHomeModels.addAll(datas);
         mAdapter.notifyDataSetChanged();
     }
 
