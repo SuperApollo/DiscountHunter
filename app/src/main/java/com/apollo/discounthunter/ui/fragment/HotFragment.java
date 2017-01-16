@@ -59,6 +59,7 @@ public class HotFragment extends BaseFragment {
             }
         }
     };
+
     @Override
     protected void init() {
         mXlvHot.setVerticalScrollBarEnabled(false);

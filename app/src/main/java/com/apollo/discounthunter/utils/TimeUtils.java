@@ -298,12 +298,14 @@ public class TimeUtils {
 
         long now = System.currentTimeMillis();
         long delta = now - millis;
-        if (delta < (3600 * 1000)) {//小于1小时
+        if (delta < 0) {
+            showTime = "0分钟前";
+        } else if (delta < (3600 * 1000)) {//小于1小时
             showTime = delta / (1000 * 60) + "分钟前";
         } else if ((3600 * 1000) < delta && delta < (3600 * 1000 * 24)) {//小于1天
-            showTime = delta/(3600 * 1000)+"小时前";
+            showTime = delta / (3600 * 1000) + "小时前";
         } else {
-            showTime = delta/(3600 * 1000 * 24)+"天前";
+            showTime = delta / (3600 * 1000 * 24) + "天前";
         }
 
         return showTime;

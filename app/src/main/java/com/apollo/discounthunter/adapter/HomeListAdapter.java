@@ -25,7 +25,6 @@ public class HomeListAdapter extends BaseAdapter {
     List<Model> mDatas;
     LayoutInflater mInflater;
 
-
     public HomeListAdapter(Context context, List<Model> datas) {
         this.mContext = context;
         this.mDatas = datas;
