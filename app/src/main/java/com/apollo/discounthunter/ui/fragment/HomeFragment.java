@@ -89,8 +89,9 @@ public class HomeFragment extends BaseFragment {
                 bundle.putParcelable(Constants.GOODS_INFO, homeModel);
                 String appUrl = homeModel.getApp_url();
                 if (TextUtils.isEmpty(appUrl)) {//去往weburl
+                    bundle.putString(Constants.BUNDLE_TAG, TAG);
                     IntentUtils.sendIntent(getActivity(), ShowWebActivity.class, bundle);
-                } else {
+                } else {//去往商品详情页
                     IntentUtils.sendIntent(getActivity(), GoodsDetailActivity.class, bundle);
                 }
 

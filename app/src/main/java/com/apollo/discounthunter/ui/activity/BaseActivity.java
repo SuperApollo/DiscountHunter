@@ -31,6 +31,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
     Context mContext;
     protected CustomProgressView customProgressView;
     protected MenuItem mSearchItem;//顶部搜索
+    protected final String TAG = getClass().getSimpleName();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

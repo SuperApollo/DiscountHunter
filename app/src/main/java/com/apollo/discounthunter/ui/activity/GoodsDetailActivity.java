@@ -1,6 +1,9 @@
 package com.apollo.discounthunter.ui.activity;
 
 import android.app.ActionBar;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.MenuItem;
@@ -13,6 +16,7 @@ import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.retrofit.model.Model;
 import com.apollo.discounthunter.utils.ImageLoaderUtils;
+import com.apollo.discounthunter.utils.IntentUtils;
 
 import butterknife.BindView;
 
@@ -55,8 +59,8 @@ public class GoodsDetailActivity extends BaseActivity {
         mActionBar.setDisplayHomeAsUpEnabled(true);
 
         mImageLoader = ImageLoaderUtils.getInstance(mContext);
-        Bundle bundle = getIntent().getExtras();
-        if (bundle!=null) {
+        final Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
             mHomeModel = bundle.getParcelable(Constants.GOODS_INFO);
             String title = mHomeModel.getTitle();
             if (!TextUtils.equals("0", mHomeModel.getFlag()))
@@ -64,7 +68,7 @@ public class GoodsDetailActivity extends BaseActivity {
             setTitle(title);
             mTvTitle.setText(title);
             mTvReasson.setText(mHomeModel.getReason());
-            mImageLoader.loadImageView(mHomeModel.getPic(),mIv);
+            mImageLoader.loadImageView(mHomeModel.getPic(), mIv);
             float p = Float.parseFloat(mHomeModel.getPrice());
             if (p > 0)
                 mTvPrice.setText("¥" + mHomeModel.getPrice());
@@ -81,22 +85,75 @@ public class GoodsDetailActivity extends BaseActivity {
         mBtnQuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mToastUtils.show(mContext,"去领券");
+                if (checkPackage("com.taobao.taobao")) {
+                    toTaoBao(mHomeModel.getQuan_link());
+                } else {
+                    mToastUtils.show(mContext,"请安装淘宝APP");
+                    bundle.putString(Constants.BUNDLE_TAG, TAG + "_quan");
+                    IntentUtils.sendIntent(GoodsDetailActivity.this, ShowWebActivity.class, bundle);
+                }
             }
         });
 
         mBtnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mToastUtils.show(mContext,"去下单");
+                mToastUtils.show(mContext, "去下单");
+                if (checkPackage("com.taobao.taobao")) {
+                    toTaoBao(mHomeModel.getApp_url());
+                } else {
+                    mToastUtils.show(mContext,"请安装淘宝APP");
+                    bundle.putString(Constants.BUNDLE_TAG, TAG + "_buy");
+                    IntentUtils.sendIntent(GoodsDetailActivity.this, ShowWebActivity.class, bundle);
+                }
+
             }
         });
 
     }
 
+    /**
+     * 跳转到淘宝
+     *
+     * @param url
+     */
+    private void toTaoBao(String url) {
+        if (url.contains("https")) {
+            url = url.replace("https", "taobao");
+        }
+        if (url.contains("http")) {
+            url = url.replace("http", "taobao");
+        }
+
+        Intent intent = new Intent();
+        intent.setAction("android.intent.action.VIEW");
+        Uri uri = Uri.parse(url);
+        intent.setData(uri);
+        startActivity(intent);
+    }
+
+    /**
+     * 检查包名是否存在
+     *
+     * @param packageName
+     * @return
+     */
+    public boolean checkPackage(String packageName) {
+        if (packageName == null || "".equals(packageName))
+            return false;
+        try {
+            mContext.getPackageManager().getApplicationInfo(packageName, PackageManager
+                    .GET_UNINSTALLED_PACKAGES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
         }

@@ -17,5 +17,8 @@ public interface Constants {
      * 点击商品条目跳转携带的商品信息
      */
     String GOODS_INFO = "goods_info";
-
+    /**
+     * bundle传值标志
+     */
+    String BUNDLE_TAG = "bundle_tag";
 }
