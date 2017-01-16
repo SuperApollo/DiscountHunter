@@ -88,7 +88,7 @@ public class GoodsDetailActivity extends BaseActivity {
                 if (checkPackage("com.taobao.taobao")) {
                     toTaoBao(mHomeModel.getQuan_link());
                 } else {
-                    mToastUtils.show(mContext,"请安装淘宝APP");
+                    mToastUtils.show(mContext, "请安装淘宝APP");
                     bundle.putString(Constants.BUNDLE_TAG, TAG + "_quan");
                     IntentUtils.sendIntent(GoodsDetailActivity.this, ShowWebActivity.class, bundle);
                 }
@@ -98,11 +98,10 @@ public class GoodsDetailActivity extends BaseActivity {
         mBtnBuy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mToastUtils.show(mContext, "去下单");
                 if (checkPackage("com.taobao.taobao")) {
                     toTaoBao(mHomeModel.getApp_url());
                 } else {
-                    mToastUtils.show(mContext,"请安装淘宝APP");
+                    mToastUtils.show(mContext, "请安装淘宝APP");
                     bundle.putString(Constants.BUNDLE_TAG, TAG + "_buy");
                     IntentUtils.sendIntent(GoodsDetailActivity.this, ShowWebActivity.class, bundle);
                 }

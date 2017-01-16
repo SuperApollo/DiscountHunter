@@ -85,12 +85,14 @@ public class HomeListAdapter extends BaseAdapter {
         if (!TextUtils.isEmpty(homeModel.getTotalCount()) && !TextUtils.isEmpty(homeModel.getAppliedCount())) {
             totlaCount = Float.parseFloat(homeModel.getTotalCount());
             appliedCount = Float.parseFloat(homeModel.getAppliedCount());
-
+            if ((appliedCount / totlaCount) < 1)
+                holder.tvUnusable.setVisibility(View.GONE);//隐藏已失效
+            else
+                holder.tvUnusable.setVisibility(View.VISIBLE);//显示已失效
+        } else {
+            holder.tvUnusable.setVisibility(View.GONE);//隐藏已失效
         }
-        if ((appliedCount / totlaCount) < 1)
-            holder.tvUnusable.setVisibility(View.GONE);
-        else
-            holder.tvUnusable.setVisibility(View.VISIBLE);//显示已失效
+
         return view;
     }
 

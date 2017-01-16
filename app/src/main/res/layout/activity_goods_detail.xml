@@ -25,8 +25,7 @@
                 android:padding="10dp"
                 android:text="标题"
                 android:textColor="@color/black"
-                android:textSize="18sp"
-                 />
+                android:textSize="18sp" />
 
             <View
                 android:layout_width="match_parent"
@@ -49,7 +48,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp">
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="20dp">
 
                 <TextView
                     android:id="@+id/tv_goods_detail_price"
