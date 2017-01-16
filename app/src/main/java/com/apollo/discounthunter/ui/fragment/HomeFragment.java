@@ -3,6 +3,7 @@ package com.apollo.discounthunter.ui.fragment;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 
@@ -12,6 +13,7 @@ import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.retrofit.model.HomeModel;
 import com.apollo.discounthunter.retrofit.requestinterface.ApiService;
 import com.apollo.discounthunter.ui.activity.GoodsDetailActivity;
+import com.apollo.discounthunter.ui.activity.ShowWebActivity;
 import com.apollo.discounthunter.utils.IntentUtils;
 import com.apollo.discounthunter.widgets.XListView;
 import com.google.gson.Gson;
@@ -41,6 +43,7 @@ public class HomeFragment extends BaseFragment {
     private static final int STOP_REFRESH = 1;
     private static final int STOP_LOADMORE = 2;
     private int mOffset = 0;
+    private boolean firstEnter = true;//首次进入加载一页数据
 
     private Handler mHandler = new Handler() {
         @Override
@@ -80,15 +83,27 @@ public class HomeFragment extends BaseFragment {
         mXlvHome.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                HomeModel homeModel = mHomeModels.get(i - 1);
                 Bundle bundle = new Bundle();
-                bundle.putParcelable(Constants.GOODS_INFO,mHomeModels.get(i-1));
-                IntentUtils.sendIntent(getActivity(), GoodsDetailActivity.class,bundle);
+                bundle.putParcelable(Constants.GOODS_INFO, homeModel);
+                String appUrl = homeModel.getApp_url();
+                if (TextUtils.isEmpty(appUrl)) {//去往weburl
+                    IntentUtils.sendIntent(getActivity(), ShowWebActivity.class, bundle);
+                } else {
+                    IntentUtils.sendIntent(getActivity(), GoodsDetailActivity.class, bundle);
+                }
+
+
             }
         });
 
         mAdapter = new HomeListAdapter(mContext, mHomeModels);
         mXlvHome.setAdapter(mAdapter);
-        requestData();
+        if (firstEnter) {
+            requestData();
+            firstEnter = false;
+        }
+
 
     }
 
@@ -131,7 +146,7 @@ public class HomeFragment extends BaseFragment {
      */
     private void parseData(Response<ResponseBody> response) {
         String json = "";
-        List<HomeModel> datas = null;
+        List<HomeModel> datas;
         try {
             json = response.body().string();
         } catch (IOException e) {
@@ -140,7 +155,7 @@ public class HomeFragment extends BaseFragment {
         Gson gson = new Gson();
         datas = gson.fromJson(json, new TypeToken<List<HomeModel>>() {
         }.getType());
-        if (datas!=null)
+        if (datas != null)
             mHomeModels.addAll(datas);
         mAdapter.notifyDataSetChanged();
     }

@@ -27,6 +27,8 @@ public abstract class BaseFragment extends Fragment {
     RadioGroup mRbBottom;
     protected ToastUtils mToastUtils;
     protected String TAG;
+    protected boolean isVisible;//当前fragment是否可见
+    protected boolean isPrepared;//当前fragment视图是否准备好
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,10 +42,22 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutId(), container, false);
+        isPrepared = true;
         ButterKnife.bind(this, view);
-        initView();
-        init();
+        lazyLoad();
         return view;
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (getUserVisibleHint()) {
+            isVisible = true;
+            onVisible();
+        } else {
+            isVisible = false;
+            onInvisible();
+        }
     }
 
     private void initView() {
@@ -58,6 +72,31 @@ public abstract class BaseFragment extends Fragment {
     public void onDestroy() {
         super.onDestroy();
         mRbBottom.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * 当前fragment可见
+     */
+    protected void onVisible() {
+        lazyLoad();
+    }
+
+    /**
+     * 懒加载
+     */
+    protected void lazyLoad() {
+        if (!isPrepared || !isVisible) {
+            return;
+        }
+        initView();
+        init();
+    }
+
+    /**
+     * 当前fragment不可见
+     */
+    protected void onInvisible() {
+
     }
 
     /**
@@ -84,7 +123,7 @@ public abstract class BaseFragment extends Fragment {
      */
     protected void showProgress() {
         if (customProgressView == null) {
-            customProgressView = new CustomProgressView(mContext)
+            customProgressView = new CustomProgressView(getActivity())
                     .setCancelListener(new DialogInterface.OnCancelListener() {
                         @Override
                         public void onCancel(DialogInterface dialog) {

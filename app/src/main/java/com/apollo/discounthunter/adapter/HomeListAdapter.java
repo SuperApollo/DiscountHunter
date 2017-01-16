@@ -73,22 +73,25 @@ public class HomeListAdapter extends BaseAdapter {
             title = "【置顶】" + title;
         holder.tvTitle.setText(title);
         float p = Float.parseFloat(homeModel.getPrice());
-        if (p > 0)
+        if (p > 0) {
             holder.tvPrice.setText("¥" + homeModel.getPrice());
-        else
+            holder.tvPrice.setVisibility(View.VISIBLE);
+        } else
             holder.tvPrice.setVisibility(View.GONE);
         holder.tvTime.setText(TimeUtils.getReleaseTime(homeModel.getRelease_time()));
         holder.tvReason.setText(homeModel.getReason());
 
-        if (!TextUtils.isEmpty(homeModel.getTotalCount())&&!TextUtils.isEmpty(homeModel.getAppliedCount())){
-            float totlaCount = Float.parseFloat(homeModel.getTotalCount());
-            float appliedCount = Float.parseFloat(homeModel.getAppliedCount());
-            if ((appliedCount / totlaCount) < 1)
-                holder.tvUnusable.setVisibility(View.GONE);
-            else
-                holder.tvUnusable.setVisibility(View.VISIBLE);
-        }
+        float appliedCount = 1f;//已领取券数
+        float totlaCount = 1f;//总券数
+        if (!TextUtils.isEmpty(homeModel.getTotalCount()) && !TextUtils.isEmpty(homeModel.getAppliedCount())) {
+            totlaCount = Float.parseFloat(homeModel.getTotalCount());
+            appliedCount = Float.parseFloat(homeModel.getAppliedCount());
 
+        }
+        if ((appliedCount / totlaCount) < 1)
+            holder.tvUnusable.setVisibility(View.GONE);
+        else
+            holder.tvUnusable.setVisibility(View.VISIBLE);//显示已失效
         return view;
     }
 

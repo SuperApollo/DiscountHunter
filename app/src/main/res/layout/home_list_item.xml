@@ -55,6 +55,7 @@
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/tv_home_item_time"
             android:textSize="12sp"
+            android:textStyle="bold"
             android:textColor="@color/red"
             android:text="@string/unusable"
             android:visibility="gone" />
