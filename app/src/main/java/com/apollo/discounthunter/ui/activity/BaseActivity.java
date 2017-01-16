@@ -13,6 +13,7 @@ import android.view.Window;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.base.BaseApplication;
+import com.apollo.discounthunter.utils.ActivityManager;
 import com.apollo.discounthunter.utils.ToastUtils;
 import com.apollo.discounthunter.widgets.CustomProgressView;
 
@@ -40,7 +41,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
         mContext = BaseApplication.getContext();
         mToastUtils = ToastUtils.shareInstance();
         initView();
-
+        ActivityManager.getInstance().addActivity(BaseActivity.this);
     }
 
     @Override

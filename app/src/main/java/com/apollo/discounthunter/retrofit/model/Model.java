@@ -4,11 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * 首页列表实体类
+ * 首页、推荐、热卖列表实体类
  * Created by Apollo on 2017/1/13.
  */
 
-public class HomeModel implements Parcelable {
+public class Model implements Parcelable {
     private String id;//折扣信息唯一id
     private String web_url;//折扣信息下单地址
     private String app_url;//唤起淘宝app的折扣信息下单地址
@@ -33,7 +33,7 @@ public class HomeModel implements Parcelable {
     private String totalCount;//优惠券总数
     private String appliedCount;//优惠券领取总数
 
-    protected HomeModel(Parcel in) {
+    protected Model(Parcel in) {
         id = in.readString();
         web_url = in.readString();
         app_url = in.readString();
@@ -59,15 +59,15 @@ public class HomeModel implements Parcelable {
         appliedCount = in.readString();
     }
 
-    public static final Creator<HomeModel> CREATOR = new Creator<HomeModel>() {
+    public static final Creator<Model> CREATOR = new Creator<Model>() {
         @Override
-        public HomeModel createFromParcel(Parcel in) {
-            return new HomeModel(in);
+        public Model createFromParcel(Parcel in) {
+            return new Model(in);
         }
 
         @Override
-        public HomeModel[] newArray(int size) {
-            return new HomeModel[size];
+        public Model[] newArray(int size) {
+            return new Model[size];
         }
     };
 

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.apollo.discounthunter.R;
-import com.apollo.discounthunter.retrofit.model.HomeModel;
+import com.apollo.discounthunter.retrofit.model.Model;
 import com.apollo.discounthunter.utils.ImageLoaderUtils;
 import com.apollo.discounthunter.utils.TimeUtils;
 
@@ -22,11 +22,11 @@ import java.util.List;
 
 public class HomeListAdapter extends BaseAdapter {
     Context mContext;
-    List<HomeModel> mDatas;
+    List<Model> mDatas;
     LayoutInflater mInflater;
 
 
-    public HomeListAdapter(Context context, List<HomeModel> datas) {
+    public HomeListAdapter(Context context, List<Model> datas) {
         this.mContext = context;
         this.mDatas = datas;
         mInflater = LayoutInflater.from(context);
@@ -49,7 +49,7 @@ public class HomeListAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        HomeModel homeModel = mDatas.get(i);
+        Model homeModel = mDatas.get(i);
         ViewHolder holder;
         ImageLoaderUtils imageLoaderUtils = ImageLoaderUtils.getInstance(mContext);
         if (view == null) {

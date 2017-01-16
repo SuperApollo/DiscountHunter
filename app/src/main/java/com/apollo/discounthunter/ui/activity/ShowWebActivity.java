@@ -5,11 +5,12 @@ import android.webkit.WebView;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.constants.Constants;
-import com.apollo.discounthunter.retrofit.model.HomeModel;
+import com.apollo.discounthunter.retrofit.model.Model;
 
 import butterknife.BindView;
 
 /**
+ * 展示web页
  * Created by Apollo on 2017/1/16.
  */
 
@@ -31,7 +32,7 @@ public class ShowWebActivity extends BaseActivity {
     protected void initView() {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            HomeModel homeModel = bundle.getParcelable(Constants.GOODS_INFO);
+            Model homeModel = bundle.getParcelable(Constants.GOODS_INFO);
             mWebView.loadUrl(homeModel.getWeb_url());
         }
     }

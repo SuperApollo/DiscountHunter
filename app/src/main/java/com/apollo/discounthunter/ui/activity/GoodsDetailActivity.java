@@ -11,12 +11,13 @@ import android.widget.TextView;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.constants.Constants;
-import com.apollo.discounthunter.retrofit.model.HomeModel;
+import com.apollo.discounthunter.retrofit.model.Model;
 import com.apollo.discounthunter.utils.ImageLoaderUtils;
 
 import butterknife.BindView;
 
 /**
+ * 商品详情展示页
  * Created by wangpengbo on 2017/1/15.
  */
 
@@ -34,7 +35,7 @@ public class GoodsDetailActivity extends BaseActivity {
     @BindView(R.id.btn_goods_detail_buy)
     Button mBtnBuy;
 
-    private HomeModel mHomeModel;
+    private Model mHomeModel;
     private ImageLoaderUtils mImageLoader;
     private ActionBar mActionBar;
 

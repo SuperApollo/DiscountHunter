@@ -71,7 +71,8 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mRbBottom.setVisibility(View.VISIBLE);
+        if (mRbBottom != null)
+            mRbBottom.setVisibility(View.VISIBLE);
     }
 
     /**

@@ -10,7 +10,7 @@ import android.widget.AdapterView;
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.adapter.HomeListAdapter;
 import com.apollo.discounthunter.constants.Constants;
-import com.apollo.discounthunter.retrofit.model.HomeModel;
+import com.apollo.discounthunter.retrofit.model.Model;
 import com.apollo.discounthunter.retrofit.requestinterface.ApiService;
 import com.apollo.discounthunter.ui.activity.GoodsDetailActivity;
 import com.apollo.discounthunter.ui.activity.ShowWebActivity;
@@ -32,13 +32,14 @@ import retrofit.Response;
 import retrofit.Retrofit;
 
 /**
+ * 主页
  * Created by Apollo on 2017/1/13.
  */
 
 public class HomeFragment extends BaseFragment {
     @BindView(R.id.xlv_home)
     XListView mXlvHome;
-    List<HomeModel> mHomeModels = new ArrayList<>();
+    List<Model> mHomeModels = new ArrayList<>();
     private HomeListAdapter mAdapter;
     private static final int STOP_REFRESH = 1;
     private static final int STOP_LOADMORE = 2;
@@ -83,7 +84,7 @@ public class HomeFragment extends BaseFragment {
         mXlvHome.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                HomeModel homeModel = mHomeModels.get(i - 1);
+                Model homeModel = mHomeModels.get(i - 1);
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(Constants.GOODS_INFO, homeModel);
                 String appUrl = homeModel.getApp_url();
@@ -146,14 +147,14 @@ public class HomeFragment extends BaseFragment {
      */
     private void parseData(Response<ResponseBody> response) {
         String json = "";
-        List<HomeModel> datas;
+        List<Model> datas;
         try {
             json = response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
         }
         Gson gson = new Gson();
-        datas = gson.fromJson(json, new TypeToken<List<HomeModel>>() {
+        datas = gson.fromJson(json, new TypeToken<List<Model>>() {
         }.getType());
         if (datas != null)
             mHomeModels.addAll(datas);
