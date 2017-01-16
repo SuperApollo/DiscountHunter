@@ -17,4 +17,6 @@
     <color name="grey">#666666</color>
     <!--领券、下单按钮-->
     <color name="buy_button">#FF5400</color>
+    <!--actionbar 背景色-->
+    <color name="actionbar_bg">#F5F5F5</color>
 </resources>

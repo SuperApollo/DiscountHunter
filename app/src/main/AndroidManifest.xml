@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".base.BaseApplication"
         android:allowBackup="true"
@@ -18,8 +19,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.GoodsDetailActivity"/>
-        <activity android:name=".ui.activity.ShowWebActivity"/>
+        <activity
+            android:name=".ui.activity.GoodsDetailActivity"
+            android:theme="@style/ActivityTheme_Light" />
+        <activity
+            android:name=".ui.activity.ShowWebActivity"
+            android:theme="@style/ActivityTheme_Light" />
     </application>
 
 </manifest>

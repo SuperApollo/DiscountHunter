@@ -48,7 +48,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="20dp">
@@ -57,38 +57,40 @@
                     android:id="@+id/tv_goods_detail_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="15dp"
                     android:layout_toLeftOf="@+id/btn_goods_detail_quan"
                     android:background="@drawable/bg_price"
                     android:gravity="center_vertical"
+                    android:layout_centerVertical="true"
                     android:paddingBottom="2dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
                     android:paddingTop="2dp"
+                    android:textSize="14sp"
                     android:text="14"
                     android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/btn_goods_detail_quan"
                     android:layout_width="wrap_content"
-                    android:layout_height="25dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
                     android:layout_toLeftOf="@+id/btn_goods_detail_buy"
                     android:background="@drawable/bg_buy"
                     android:text="@string/quan"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="16sp" />
 
                 <Button
                     android:id="@+id/btn_goods_detail_buy"
                     android:layout_width="wrap_content"
-                    android:layout_height="25dp"
+                    android:layout_height="40dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/bg_buy"
                     android:text="@string/buy"
                     android:textColor="@color/white"
-                    android:textSize="12sp" />
+                    android:textSize="16sp" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
