@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.apollo.discounthunter.R;
@@ -57,9 +58,11 @@ public class HomeListAdapter extends BaseAdapter {
             holder.ivIcon = (ImageView) view.findViewById(R.id.iv_home_item_icon);
             holder.tvTitle = (TextView) view.findViewById(R.id.tv_home_item_title);
             holder.tvPrice = (TextView) view.findViewById(R.id.tv_home_item_price);
+            holder.tvBuyCount = (TextView) view.findViewById(R.id.tv_home_item_buycount);
             holder.tvTime = (TextView) view.findViewById(R.id.tv_home_item_time);
             holder.tvReason = (TextView) view.findViewById(R.id.tv_home_item_reason);
             holder.tvUnusable = (TextView) view.findViewById(R.id.tv_home_item_unusable);
+            holder.rlItem = (RelativeLayout) view.findViewById(R.id.rl_home_item);
             view.setTag(holder);
 
         } else {
@@ -80,15 +83,27 @@ public class HomeListAdapter extends BaseAdapter {
         holder.tvTime.setText(TimeUtils.getReleaseTime(homeModel.getRelease_time()));
         holder.tvReason.setText(homeModel.getReason());
 
+        int soldCount = Integer.parseInt(homeModel.getSoldcount());
+        if (soldCount < 100) {
+            holder.tvBuyCount.setVisibility(View.GONE);
+        } else {
+            holder.tvBuyCount.setVisibility(View.VISIBLE);
+            holder.tvBuyCount.setText(homeModel.getSoldcount() + "人付款");
+        }
+
         float appliedCount = 1f;//已领取券数
         float totlaCount = 1f;//总券数
         if (!TextUtils.isEmpty(homeModel.getTotalCount()) && !TextUtils.isEmpty(homeModel.getAppliedCount())) {
             totlaCount = Float.parseFloat(homeModel.getTotalCount());
             appliedCount = Float.parseFloat(homeModel.getAppliedCount());
-            if ((appliedCount / totlaCount) < 1)
+            if ((appliedCount / totlaCount) < 1) {
                 holder.tvUnusable.setVisibility(View.GONE);//隐藏已失效
-            else
+//                holder.rlItem.setAlpha(1.0f);
+            } else {
                 holder.tvUnusable.setVisibility(View.VISIBLE);//显示已失效
+//                holder.rlItem.setAlpha(0.4f);
+            }
+
         } else {
             holder.tvUnusable.setVisibility(View.GONE);//隐藏已失效
         }
@@ -100,9 +115,11 @@ public class HomeListAdapter extends BaseAdapter {
         ImageView ivIcon;
         TextView tvTitle;
         TextView tvPrice;
+        TextView tvBuyCount;
         TextView tvTime;
         TextView tvReason;
         TextView tvUnusable;
+        RelativeLayout rlItem;
     }
 
 }
