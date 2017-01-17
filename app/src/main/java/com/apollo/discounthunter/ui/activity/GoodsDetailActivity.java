@@ -43,7 +43,6 @@ public class GoodsDetailActivity extends BaseActivity {
 
     private Model mHomeModel;
     private ImageLoaderUtils mImageLoader;
-    private ActionBar mActionBar;
 
     @Override
     protected int getLayoutId() {
@@ -57,9 +56,6 @@ public class GoodsDetailActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mActionBar = getActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-
         mImageLoader = ImageLoaderUtils.getInstance(mContext);
         final Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
@@ -152,17 +148,9 @@ public class GoodsDetailActivity extends BaseActivity {
 
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     float startX = 0;
     float startY = 0;
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {

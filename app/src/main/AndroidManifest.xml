@@ -21,6 +21,7 @@
         </activity>
         <activity
             android:name=".ui.activity.GoodsDetailActivity"
+            android:logo="@mipmap/icon_arrow_left"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme_Light" />
         <activity

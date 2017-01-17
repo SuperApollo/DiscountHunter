@@ -66,7 +66,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerInParent="true"
-            android:alpha="0.5"
+            android:alpha="0.6"
             android:text="@string/unusable"
             android:textColor="@color/red"
             android:textSize="24sp"

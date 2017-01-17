@@ -1,5 +1,6 @@
 package com.apollo.discounthunter.ui.activity;
 
+import android.app.ActionBar;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
     protected CustomProgressView customProgressView;
     protected MenuItem mSearchItem;//顶部搜索
     protected final String TAG = getClass().getSimpleName();
+    protected ActionBar mActionBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,6 +44,9 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
         setOverflowShowingAlways();
         mContext = BaseApplication.getContext();
         mToastUtils = ToastUtils.shareInstance();
+        mActionBar = getActionBar();
+        mActionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar.setHomeAsUpIndicator(R.mipmap.icon_arrow_left);
         initView();
         ActivityManager.getInstance().addActivity(BaseActivity.this);
     }
@@ -57,6 +62,17 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
             return true;
         } else
             return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

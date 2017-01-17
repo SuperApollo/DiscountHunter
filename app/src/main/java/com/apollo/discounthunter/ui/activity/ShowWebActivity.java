@@ -1,6 +1,5 @@
 package com.apollo.discounthunter.ui.activity;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -8,8 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.MenuItem;
 import android.webkit.DownloadListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -29,7 +26,6 @@ import butterknife.BindView;
 public class ShowWebActivity extends BaseActivity {
     @BindView(R.id.webview_showweb)
     WebView mWebView;
-    private ActionBar mActionBar;
     private final int START_LOAD = 10086;
     private final int END_LOAD = 10087;
     private Handler mHandler = new Handler() {
@@ -58,9 +54,6 @@ public class ShowWebActivity extends BaseActivity {
 
     @Override
     protected void initView() {
-        mActionBar = getActionBar();
-        mActionBar.setDisplayHomeAsUpEnabled(true);
-
         mWebView.requestFocusFromTouch();//输入焦点
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);//支持js
@@ -121,13 +114,4 @@ public class ShowWebActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

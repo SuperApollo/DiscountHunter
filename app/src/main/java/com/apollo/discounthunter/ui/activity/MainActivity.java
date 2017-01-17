@@ -68,6 +68,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         setTitle(R.string.item_home);
         mRbHome.setChecked(true);
 
+        mActionBar.setDisplayHomeAsUpEnabled(false);
+
     }
 
     /**
