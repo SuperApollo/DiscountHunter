@@ -21,9 +21,11 @@
         </activity>
         <activity
             android:name=".ui.activity.GoodsDetailActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme_Light" />
         <activity
             android:name=".ui.activity.ShowWebActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme_Light" />
     </application>
 

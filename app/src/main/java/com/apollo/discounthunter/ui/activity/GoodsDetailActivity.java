@@ -161,26 +161,6 @@ public class GoodsDetailActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        float startX = 0;
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                startX = event.getX();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                float movingX = event.getX();
-                if (movingX - startX > 50) {//向右滑动50像素，判断为结束当前activity
-                    LogUtil.d(TAG, "结束");
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                break;
-        }
-
-        return super.onTouchEvent(event);
-    }
-
     float startX = 0;
     float startY = 0;
     @Override
@@ -195,6 +175,7 @@ public class GoodsDetailActivity extends BaseActivity {
                 float movingY = ev.getRawY();
                 if ((movingX - startX) > 200 && Math.abs(movingY - startY) < 100) {//向右滑动200像素，并且 y 方向滑动不超过100像素，判断为结束当前activity手势
                     GoodsDetailActivity.this.finish();
+                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
                 }
                 break;
             case MotionEvent.ACTION_UP:

@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -142,5 +143,16 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
     @Override
     public boolean onMenuItemActionCollapse(MenuItem menuItem) {
         return false;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //解决activity退出动画不生效问题
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            this.finish();
+            overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 }
