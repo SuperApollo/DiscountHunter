@@ -5,6 +5,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -101,6 +104,11 @@ public class HomeListAdapter extends BaseAdapter {
 //                holder.rlItem.setAlpha(1.0f);
             } else {
                 holder.tvUnusable.setVisibility(View.VISIBLE);//显示已失效
+                ScaleAnimation scaleAnimation = new ScaleAnimation(3f,1f,3f,1f);
+                scaleAnimation.setDuration(500);
+                scaleAnimation.setFillAfter(false);
+                holder.tvUnusable.startAnimation(scaleAnimation);
+
 //                holder.rlItem.setAlpha(0.4f);
             }
 

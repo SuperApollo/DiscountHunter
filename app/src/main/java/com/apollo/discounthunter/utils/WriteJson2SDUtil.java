@@ -25,7 +25,7 @@ public class WriteJson2SDUtil {
                 Environment.MEDIA_MOUNTED)) {// 判断是否存在SD卡
             return;
         }
-        File file = new File(AppConfig.FILE_DOWNLOAD + "crash" + File.separator + name + ".txt");
+        File file = new File(AppConfig.FILE_DOWNLOAD + File.separator + "crash_discount_hunter" + File.separator + name + ".txt");
         if (!file.getParentFile().exists()) {// 判断父文件是否存在，如果不存在则创建
             file.getParentFile().mkdirs();
         }

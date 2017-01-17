@@ -22,7 +22,9 @@ public class BaseApplication extends Application {
     private void init() {
         baseApplication = this;
         mContext = getApplicationContext();
-        CrashHandler.getInstance().init(mContext);
+        //初始化错误日志记录
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
     }
 
     public static BaseApplication getBaseApplication() {

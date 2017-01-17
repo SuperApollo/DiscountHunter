@@ -34,7 +34,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     RadioButton mRbHot;
     @BindView(R.id.vp_main_container)
     ViewPager mVpContainer;
-    private ActionBar mActionBar;
     private long mExitTime;
 
 
@@ -63,7 +62,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
         mVpContainer.setOffscreenPageLimit(2);
         mRadioGroup.setOnCheckedChangeListener(this);
-        mActionBar = getActionBar();
         initFragment();
         setTitle(R.string.item_home);
         mRbHome.setChecked(true);
