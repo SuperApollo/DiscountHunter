@@ -72,8 +72,10 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                finish();
-                overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                if (!TextUtils.equals("MainActivity", getClass().getSimpleName())) {//mainactivity不响应点击
+                    finish();
+                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);

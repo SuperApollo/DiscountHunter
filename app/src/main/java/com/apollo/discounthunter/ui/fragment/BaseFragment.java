@@ -1,5 +1,6 @@
 package com.apollo.discounthunter.ui.fragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -61,11 +62,14 @@ public abstract class BaseFragment extends Fragment {
     }
 
     private void initView() {
-        mRbBottom = (RadioGroup) getActivity().findViewById(R.id.rg_main_bottom);
-        if (hideBottom())
-            mRbBottom.setVisibility(View.GONE);
-        else
-            mRbBottom.setVisibility(View.VISIBLE);
+        Activity parent = getActivity();
+        if (parent != null) {
+            mRbBottom = (RadioGroup) parent.findViewById(R.id.rg_main_bottom);
+            if (hideBottom())
+                mRbBottom.setVisibility(View.GONE);
+            else
+                mRbBottom.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

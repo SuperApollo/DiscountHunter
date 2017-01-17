@@ -183,10 +183,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         //移除搜索fragment
         if (mSearchFragment != null) {
             transaction.remove(mSearchFragment);
-            mFragments.remove(mSearchFragment);
-            mSearchFragment = null;
         }
         transaction.commit();
+        mFragments.remove(mSearchFragment);
+        mSearchFragment = null;
         mFragmentAdapter.notifyDataSetChanged();
         mVpContainer.setCurrentItem(mCurrentItem);
         return true;
