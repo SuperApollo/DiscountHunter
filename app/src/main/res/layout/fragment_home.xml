@@ -7,7 +7,6 @@
     <com.apollo.discounthunter.widgets.XListView
         android:id="@+id/xlv_home"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layoutAnimation="@anim/list_anim_layout" />
-
+        android:layout_height="match_parent" />
+    <!--android:layoutAnimation="@anim/list_anim_layout"-->
 </LinearLayout>

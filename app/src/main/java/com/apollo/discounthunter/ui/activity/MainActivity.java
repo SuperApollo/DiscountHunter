@@ -17,6 +17,7 @@ import com.apollo.discounthunter.ui.fragment.FragmentAdapter;
 import com.apollo.discounthunter.ui.fragment.HomeFragment;
 import com.apollo.discounthunter.ui.fragment.HotFragment;
 import com.apollo.discounthunter.ui.fragment.RecommendFragment;
+import com.apollo.discounthunter.ui.fragment.SearchFragment;
 import com.apollo.discounthunter.utils.ViewUtil;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -43,11 +44,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     ViewPager mVpContainer;
     private long mExitTime;
     private List<Fragment> mFragments;
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    private GoogleApiClient client;
+    private SearchFragment mSearchFragment;
+    private FragmentAdapter mFragmentAdapter;
+    private int mCurrentItem;//当前显示的viewpager条目号
 
 
     @Override
@@ -95,7 +94,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         mFragments.add(recommendFragment);
         mFragments.add(hotFragment);
 
-        FragmentAdapter mFragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), mFragments);
+        mFragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), mFragments);
         mVpContainer.setAdapter(mFragmentAdapter);
         mVpContainer.setCurrentItem(0);
         mVpContainer.setOnPageChangeListener(this);
@@ -160,7 +159,15 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         for (Fragment fragment : mFragments) {
             transaction.hide(fragment);
         }
+        //添加搜索fragment
+        mSearchFragment = new SearchFragment();
+        mFragments.add(mSearchFragment);
+        transaction.show(mSearchFragment);
         transaction.commit();
+        mFragmentAdapter.notifyDataSetChanged();
+        mCurrentItem = mVpContainer.getCurrentItem();
+        mVpContainer.setCurrentItem(3);
+
         return true;
     }
 
@@ -173,7 +180,15 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         for (Fragment fragment : mFragments) {
             transaction.show(fragment);
         }
+        //移除搜索fragment
+        if (mSearchFragment != null) {
+            transaction.remove(mSearchFragment);
+            mFragments.remove(mSearchFragment);
+            mSearchFragment = null;
+        }
         transaction.commit();
+        mFragmentAdapter.notifyDataSetChanged();
+        mVpContainer.setCurrentItem(mCurrentItem);
         return true;
     }
 
@@ -187,48 +202,4 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-    }
-
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
-    public Action getIndexApiAction() {
-        Thing object = new Thing.Builder()
-                .setName("Main Page") // TODO: Define a title for the content shown.
-                // TODO: Make sure this auto-generated URL is correct.
-                .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
-                .build();
-        return new Action.Builder(Action.TYPE_VIEW)
-                .setObject(object)
-                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
-                .build();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-        AppIndex.AppIndexApi.start(client, getIndexApiAction());
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        AppIndex.AppIndexApi.end(client, getIndexApiAction());
-        client.disconnect();
-    }
 }
