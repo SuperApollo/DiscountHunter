@@ -34,4 +34,9 @@ public class AppConfig {
      * app下载位置
      */
     public static final String FILE_DOWNLOAD = Environment.getExternalStorageDirectory() + File.separator + "discount_hunter/";
+
+    /**
+     * 数据库名称
+     */
+    public static final String DB_NAME = "discount_hunter.db";
 }

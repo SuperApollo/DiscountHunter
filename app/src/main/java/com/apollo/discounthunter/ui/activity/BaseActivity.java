@@ -5,10 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -16,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
 import android.view.Window;
+import android.widget.SearchView;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.base.BaseApplication;
@@ -32,13 +30,14 @@ import butterknife.ButterKnife;
  * Created by zayh_yf20160909 on 2017/1/11.
  */
 
-public abstract class BaseActivity extends FragmentActivity implements MenuItem.OnActionExpandListener {
+public abstract class BaseActivity extends FragmentActivity implements MenuItem.OnActionExpandListener, SearchView.OnQueryTextListener {
     protected ToastUtils mToastUtils;
     Context mContext;
     protected CustomProgressView customProgressView;
     protected MenuItem mSearchItem;//顶部搜索
     protected final String TAG = getClass().getSimpleName();
     protected ActionBar mActionBar;
+    protected SearchView mSearchView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +62,9 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
             inflater.inflate(id, menu);
             mSearchItem = menu.findItem(R.id.action_search);
             mSearchItem.setOnActionExpandListener(this);
+            mSearchView = (SearchView) mSearchItem.getActionView();
+            if (mSearchView != null)
+                mSearchView.setOnQueryTextListener(this);
             return true;
         } else
             return super.onCreateOptionsMenu(menu);
@@ -179,4 +181,15 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
         }
         return super.onKeyDown(keyCode, event);
     }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+       return false;
+    }
+
 }

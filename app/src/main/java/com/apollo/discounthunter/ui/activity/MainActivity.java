@@ -1,14 +1,14 @@
 package com.apollo.discounthunter.ui.activity;
 
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -18,11 +18,8 @@ import com.apollo.discounthunter.ui.fragment.HomeFragment;
 import com.apollo.discounthunter.ui.fragment.HotFragment;
 import com.apollo.discounthunter.ui.fragment.RecommendFragment;
 import com.apollo.discounthunter.ui.fragment.SearchFragment;
+import com.apollo.discounthunter.utils.LogUtil;
 import com.apollo.discounthunter.utils.ViewUtil;
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,12 +39,18 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     RadioButton mRbHot;
     @BindView(R.id.vp_main_container)
     ViewPager mVpContainer;
+    @BindView(R.id.fl_main_container)
+    FrameLayout mFlContainer;
+
     private long mExitTime;
     private List<Fragment> mFragments;
     private SearchFragment mSearchFragment;
     private FragmentAdapter mFragmentAdapter;
-    private int mCurrentItem;//当前显示的viewpager条目号
+    private OnSearchListner onSearchListner;
 
+    public void setOnSearchListner(OnSearchListner onSearchListner) {
+        this.onSearchListner = onSearchListner;
+    }
 
     @Override
     protected int getLayoutId() {
@@ -160,13 +163,14 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             transaction.hide(fragment);
         }
         //添加搜索fragment
-        mSearchFragment = new SearchFragment();
-        mFragments.add(mSearchFragment);
+        if (mSearchFragment == null)
+            mSearchFragment = new SearchFragment();
+
+        mVpContainer.setVisibility(View.GONE);
+        mFlContainer.setVisibility(View.VISIBLE);
+        transaction.add(R.id.fl_main_container, mSearchFragment);
         transaction.show(mSearchFragment);
         transaction.commit();
-        mFragmentAdapter.notifyDataSetChanged();
-        mCurrentItem = mVpContainer.getCurrentItem();
-        mVpContainer.setCurrentItem(3);
 
         return true;
     }
@@ -180,16 +184,36 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         for (Fragment fragment : mFragments) {
             transaction.show(fragment);
         }
+
         //移除搜索fragment
         if (mSearchFragment != null) {
             transaction.remove(mSearchFragment);
         }
         transaction.commit();
-        mFragments.remove(mSearchFragment);
         mSearchFragment = null;
-        mFragmentAdapter.notifyDataSetChanged();
-        mVpContainer.setCurrentItem(mCurrentItem);
+        mVpContainer.setVisibility(View.VISIBLE);
+        mFlContainer.setVisibility(View.GONE);
+
         return true;
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        if (onSearchListner != null) {
+            return onSearchListner.onSearchTextSubmit(query);
+        } else {
+            return super.onQueryTextSubmit(query);
+        }
+
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        if (onSearchListner != null) {
+            return onSearchListner.onSearchTextChange(newText);
+        } else {
+            return super.onQueryTextChange(newText);
+        }
     }
 
     @Override
@@ -200,6 +224,12 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         } else {
             MainActivity.this.finish();
         }
+    }
+
+    public interface OnSearchListner {
+        boolean onSearchTextSubmit(String text);
+
+        boolean onSearchTextChange(String newText);
     }
 
 }
