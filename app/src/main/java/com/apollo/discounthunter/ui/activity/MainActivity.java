@@ -47,6 +47,15 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private SearchFragment mSearchFragment;
     private FragmentAdapter mFragmentAdapter;
     private OnSearchListner onSearchListner;
+    private String mEid;//记录当前在那个fragment页面，告诉搜索页
+
+    public String getmEid() {
+        return mEid;
+    }
+
+    public void setmEid(String mEid) {
+        this.mEid = mEid;
+    }
 
     public void setOnSearchListner(OnSearchListner onSearchListner) {
         this.onSearchListner = onSearchListner;
@@ -134,16 +143,19 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 mRbHome.setChecked(true);
                 mRbRecommend.setChecked(false);
                 mRbHot.setChecked(false);
+                mEid = "0";
                 break;
             case 1:
                 mRbHome.setChecked(false);
                 mRbRecommend.setChecked(true);
                 mRbHot.setChecked(false);
+                mEid = "2";
                 break;
             case 2:
                 mRbHome.setChecked(false);
                 mRbRecommend.setChecked(false);
                 mRbHot.setChecked(true);
+                mEid = "6";
                 break;
         }
     }

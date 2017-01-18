@@ -4,6 +4,27 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:id="@+id/rl_search_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/search_history"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/btn_clear_search_history"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/selector_button_clear" />
+    </RelativeLayout>
+
     <com.apollo.discounthunter.widgets.XListView
         android:id="@+id/xlv_search"
         android:layout_width="match_parent"
