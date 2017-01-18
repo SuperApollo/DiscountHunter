@@ -233,7 +233,7 @@ public class SearchFragment extends BaseFragment {
         if (datas != null)
             mSearchModels.addAll(datas);
         if (mSearchAdapter == null) {
-            mSearchAdapter = new HomeListAdapter(mContext, datas);
+            mSearchAdapter = new HomeListAdapter(mContext, mSearchModels);
             mXlvSearch.setAdapter(mSearchAdapter);
         } else {
             mSearchAdapter.notifyDataSetChanged();

@@ -47,7 +47,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private SearchFragment mSearchFragment;
     private FragmentAdapter mFragmentAdapter;
     private OnSearchListner onSearchListner;
-    private String mEid;//记录当前在那个fragment页面，告诉搜索页
+    private String mEid = "0";//记录当前在那个fragment页面，告诉搜索页
 
     public String getmEid() {
         return mEid;
