@@ -20,6 +20,7 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Xml;
 import android.view.WindowManager;
@@ -1215,5 +1216,39 @@ public class AppUtil {
         resolution[0] = dm.widthPixels;
         resolution[1] = dm.heightPixels;
         return resolution;
+    }
+
+    /**
+     * 获取当前版本号
+     *
+     * @param context
+     * @return
+     */
+    public static String getAppVersionName(Context context) {
+        String versionName = "";
+        try {
+            PackageManager packageManager = context.getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo("com.apollo.discounthunter", 0);
+            versionName = packageInfo.versionName;
+            if (TextUtils.isEmpty(versionName)) {
+                return "";
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return versionName;
+    }
+
+    /**
+     * 手机信息
+     *
+     * @return
+     */
+    public static String getUA() {
+        String handSetInfo =
+                "手机型号:" + android.os.Build.MODEL +
+                        ",SDK版本:" + android.os.Build.VERSION.SDK +
+                        ",系统版本:Android" + android.os.Build.VERSION.RELEASE;
+        return handSetInfo;
     }
 }

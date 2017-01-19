@@ -1,12 +1,10 @@
 package com.apollo.discounthunter.ui.activity;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -18,7 +16,6 @@ import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.retrofit.model.Model;
 import com.apollo.discounthunter.utils.ImageLoaderUtils;
 import com.apollo.discounthunter.utils.IntentUtils;
-import com.apollo.discounthunter.utils.LogUtil;
 
 import butterknife.BindView;
 

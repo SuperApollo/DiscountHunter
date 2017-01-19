@@ -15,6 +15,8 @@ import android.webkit.WebViewClient;
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.retrofit.model.Model;
+import com.apollo.discounthunter.utils.AppUtil;
+import com.apollo.discounthunter.utils.LogUtil;
 
 import butterknife.BindView;
 
@@ -68,7 +70,10 @@ public class ShowWebActivity extends BaseActivity {
         settings.setJavaScriptEnabled(true);
         settings.setBuiltInZoomControls(true);
         settings.setSupportZoom(true);
-
+        String myUa = AppUtil.getUA();
+        String ua = mWebView.getSettings().getUserAgentString();
+        mWebView.getSettings().setUserAgentString(ua.replace("Android", myUa));
+        LogUtil.d(TAG, ua + "\n" + myUa);
         mWebView.setDownloadListener(new DownloadListener() {
             @Override
             public void onDownloadStart(String s, String s1, String s2, String s3, long l) {
@@ -88,7 +93,11 @@ public class ShowWebActivity extends BaseActivity {
 
                     // Otherwise allow the OS to handle things like tel, mailto, etc.
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                    startActivity(intent);
+                    try {
+                        startActivity(intent);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     return true;
                 }
 
