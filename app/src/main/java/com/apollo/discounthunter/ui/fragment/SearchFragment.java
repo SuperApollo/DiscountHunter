@@ -103,6 +103,9 @@ public class SearchFragment extends BaseFragment {
 
             @Override
             public boolean onSearchTextChange(String newText) {
+                if (!TextUtils.equals(newText, mSearchText)) {//若搜索关键字变化，则清空集合
+                    mSearchModels.clear();
+                }
                 return false;
             }
         });
@@ -126,11 +129,12 @@ public class SearchFragment extends BaseFragment {
         mXlvSearch.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                int position = i > 0 ? i - 1 : 0;
                 if (isHistory) {//当前是搜索历史列表，点击后搜索
-                    SearchHistory searchHistory = mSearchHistories.get(i - 1);
+                    SearchHistory searchHistory = mSearchHistories.get(position);
                     searchGoods(searchHistory.getSearch());
                 } else {//当前是搜索结果列表，点击后进入详情
-                    Model searchModel = mSearchModels.get(i - 1);
+                    Model searchModel = mSearchModels.get(position);
                     Bundle bundle = new Bundle();
                     bundle.putParcelable(Constants.GOODS_INFO, searchModel);
                     String appUrl = searchModel.getApp_url();
@@ -179,7 +183,6 @@ public class SearchFragment extends BaseFragment {
     private void searchGoods(String text) {
         if (mRlSearchHistory.getVisibility() == View.VISIBLE)
             mRlSearchHistory.setVisibility(View.GONE);
-        mSearchModels.clear();
 
         mXlvSearch.setPullLoadEnable(true);
         mXlvSearch.setPullRefreshEnable(true);
@@ -196,7 +199,7 @@ public class SearchFragment extends BaseFragment {
         searchlCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Response<ResponseBody> response, Retrofit retrofit) {
-//                mOffset += 10;
+                mOffset += 10;
                 clearProgress();
                 mHandler.sendEmptyMessage(STOP_LOADMORE);
                 mHandler.sendEmptyMessage(STOP_REFRESH);
