@@ -6,9 +6,9 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <!--网络权限-->
     <uses-permission android:name="android.permission.INTERNET" />
-    <!--写文件夹权限-->
+    <!--写SD卡权限-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!--读文件夹权限-->
+    <!--读SD卡权限-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application

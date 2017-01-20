@@ -29,8 +29,8 @@ public class BaseApplication extends Application {
         baseApplication = this;
         mContext = getApplicationContext();
         //初始化错误日志记录
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(getApplicationContext());
+//        CrashHandler crashHandler = CrashHandler.getInstance();
+//        crashHandler.init(getApplicationContext());
     }
 
     /**

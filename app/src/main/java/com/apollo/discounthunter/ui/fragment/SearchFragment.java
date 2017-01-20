@@ -27,6 +27,7 @@ import com.apollo.discounthunter.utils.IntentUtils;
 import com.apollo.discounthunter.utils.TimeUtils;
 import com.apollo.discounthunter.widgets.XListView;
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.ResponseBody;
 
@@ -77,6 +78,7 @@ public class SearchFragment extends BaseFragment {
     private String mSearchText;
     private boolean isHistory;//当前展示的是否是搜索历史的adapter内容
     private String eId;
+    private boolean searchChange;
 
     //此方法在懒加载中不走
     @Override
@@ -98,21 +100,25 @@ public class SearchFragment extends BaseFragment {
                 //保存搜索历史
                 SearchHistoryDaoHelper helper = SearchHistoryDaoHelper.getSearchHistoryDaoHelper();
                 helper.insertOrReplace(new SearchHistory(text, TimeUtils.getCurrentTime()));
+
                 return true;
             }
 
             @Override
             public boolean onSearchTextChange(String newText) {
-                if (!TextUtils.equals(newText, mSearchText)) {//若搜索关键字变化，则清空集合
-                    mSearchModels.clear();
+                if (!TextUtils.isEmpty(newText) && !TextUtils.equals(newText, mSearchText)) {//若搜索关键字变化，则清空集合
+                    searchChange = true;
+                } else {
+                    searchChange = false;
                 }
-                return false;
+                return true;
             }
         });
 
         mXlvSearch.setXListViewListener(new XListView.IXListViewListener() {
             @Override
             public void onRefresh() {
+                searchChange = false;
                 mHandler.sendEmptyMessageDelayed(STOP_REFRESH, 1000);
                 mOffset = 0;
                 mSearchModels.clear();
@@ -121,6 +127,7 @@ public class SearchFragment extends BaseFragment {
 
             @Override
             public void onLoadMore() {
+                searchChange = false;
                 mHandler.sendEmptyMessageDelayed(STOP_LOADMORE, 1000);
                 searchGoods(mSearchText);
             }
@@ -204,7 +211,7 @@ public class SearchFragment extends BaseFragment {
                 mHandler.sendEmptyMessage(STOP_LOADMORE);
                 mHandler.sendEmptyMessage(STOP_REFRESH);
                 parseData(response);
-                isHistory = false;
+
             }
 
             @Override
@@ -224,23 +231,43 @@ public class SearchFragment extends BaseFragment {
      */
     private void parseData(Response<ResponseBody> response) {
         String json = "";
-        List<Model> datas;
+        List<Model> datas = null;
         try {
             json = response.body().string();
         } catch (IOException e) {
             e.printStackTrace();
         }
         Gson gson = new Gson();
-        datas = gson.fromJson(json, new TypeToken<List<Model>>() {
-        }.getType());
-        if (datas != null)
-            mSearchModels.addAll(datas);
+        try {
+            datas = gson.fromJson(json, new TypeToken<List<Model>>() {
+            }.getType());
+        } catch (JsonSyntaxException e) {
+            mToastUtils.show(mContext,"抱歉，未索索到相关商品");
+            e.printStackTrace();
+        }
+        int index = mSearchModels.size();
+        if (datas != null&&datas.size()>1) {
+            if (!searchChange) {//如果搜索内容没变化则添加集合
+                mSearchModels.addAll(datas);
+            } else {//如果搜索内容变化了，则添加集合清空之前的搜索结果,为了解决mSearchModels.clear 报错
+                mSearchModels.addAll(datas);
+                for (int i=0;i<index;i++){
+                    mSearchModels.remove(0);
+                }
+
+            }
+        }else {
+            mToastUtils.show(mContext,"抱歉，未索索到相关商品");
+            return;
+        }
+
         if (mSearchAdapter == null) {
             mSearchAdapter = new HomeListAdapter(mContext, mSearchModels);
             mXlvSearch.setAdapter(mSearchAdapter);
         } else {
             mSearchAdapter.notifyDataSetChanged();
         }
+        isHistory = false;
 
     }
 
