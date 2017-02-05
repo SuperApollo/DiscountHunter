@@ -38,4 +38,5 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.3'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'org.greenrobot:greendao:2.2.0'
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }

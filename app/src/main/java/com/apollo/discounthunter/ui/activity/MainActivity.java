@@ -1,6 +1,8 @@
 package com.apollo.discounthunter.ui.activity;
 
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,6 +22,7 @@ import com.apollo.discounthunter.ui.fragment.RecommendFragment;
 import com.apollo.discounthunter.ui.fragment.SearchFragment;
 import com.apollo.discounthunter.utils.LogUtil;
 import com.apollo.discounthunter.utils.ViewUtil;
+import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,6 +72,12 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     protected int getMenuLayoutId() {
         return R.menu.main;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        MobclickAgent.openActivityDurationTrack(false);//禁止默认的activity 统计方式
     }
 
     @Override

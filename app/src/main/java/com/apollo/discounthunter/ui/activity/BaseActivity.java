@@ -20,6 +20,7 @@ import com.apollo.discounthunter.base.BaseApplication;
 import com.apollo.discounthunter.utils.ActivityManager;
 import com.apollo.discounthunter.utils.ToastUtils;
 import com.apollo.discounthunter.widgets.CustomProgressView;
+import com.umeng.analytics.MobclickAgent;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -52,6 +53,20 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
         mActionBar.setHomeAsUpIndicator(R.mipmap.icon_arrow_left);
         initView();
         ActivityManager.getInstance().addActivity(BaseActivity.this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);//统计时长
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());//统计页面
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 
     @Override

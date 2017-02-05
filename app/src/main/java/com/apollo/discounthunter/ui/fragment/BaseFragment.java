@@ -15,6 +15,7 @@ import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.base.BaseApplication;
 import com.apollo.discounthunter.utils.ToastUtils;
 import com.apollo.discounthunter.widgets.CustomProgressView;
+import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
 
@@ -47,6 +48,18 @@ public abstract class BaseFragment extends Fragment {
         ButterKnife.bind(this, view);
         lazyLoad();
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());//统计页面
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 
     @Override

@@ -8,6 +8,7 @@ import com.apollo.discounthunter.constants.AppConfig;
 import com.apollo.discounthunter.greendao.dao.DaoMaster;
 import com.apollo.discounthunter.greendao.dao.DaoSession;
 import com.apollo.discounthunter.utils.CrashHandler;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * Created by ${Apollo} on 2017/1/13.
@@ -28,9 +29,10 @@ public class BaseApplication extends Application {
     private void init() {
         baseApplication = this;
         mContext = getApplicationContext();
+        MobclickAgent.setCatchUncaughtExceptions(false);//关闭友盟错误统计
         //初始化错误日志记录
-//        CrashHandler crashHandler = CrashHandler.getInstance();
-//        crashHandler.init(getApplicationContext());
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
     }
 
     /**

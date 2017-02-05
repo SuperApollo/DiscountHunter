@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.apollo.discounthunter.base.BaseApplication;
 import com.apollo.discounthunter.constants.AppConfig;
 import com.apollo.discounthunter.ui.activity.MainActivity;
+import com.umeng.analytics.MobclickAgent;
 
 import java.io.File;
 import java.io.PrintWriter;
@@ -200,6 +201,9 @@ public class CrashHandler implements UncaughtExceptionHandler {
         String time = formatter.format(new Date());
         SharedPreferencesUtils.putString("erro_time", time);
         WriteJson2SDUtil.writeJson(sb.toString(), "" + time);
+        //友盟统计
+        MobclickAgent.reportError(mContext, sb.toString());
+        MobclickAgent.onKillProcess(mContext);
     }
 
     public String getTime() {
