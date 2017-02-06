@@ -36,6 +36,25 @@ android {
     }
 }
 
+//友盟多渠道打包
+productFlavors {
+    xiaomi {
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi"]
+    }
+    qihoo {
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "qihoo"]
+    }
+    baidu {
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "baidu"]
+    }
+    wandoujia {
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia"]
+    }
+    qq {
+        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "qq"]
+    }
+}
+
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
