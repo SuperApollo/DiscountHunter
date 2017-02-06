@@ -16,8 +16,20 @@ android {
             java.srcDirs = ['src/main/java', 'src/main/java-gen']
         }
     }
-    buildTypes {
+    signingConfigs {
         release {
+            keyAlias 'discount_hunter'
+            keyPassword 'apollo123'
+            storeFile file('../dh_keystore.jks')
+            storePassword 'apollo123'
+        }
+    }
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.release
+        }
+        release {
+            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
