@@ -217,6 +217,7 @@ public class SearchFragment extends BaseFragment {
             @Override
             public void onFailure(Throwable t) {
                 clearProgress();
+                mToastUtils.show(mContext, "网络错误,请检查网络环境!");
                 mHandler.sendEmptyMessage(STOP_LOADMORE);
                 mHandler.sendEmptyMessage(STOP_REFRESH);
             }
