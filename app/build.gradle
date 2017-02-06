@@ -17,6 +17,12 @@ android {
         }
     }
     signingConfigs {
+        debugConfig {
+            storeFile file("../dh_keystore.jks")      //签名文件
+            storePassword "apollo123"
+            keyAlias "discount_hunter"
+            keyPassword "apollo123"  //签名密码
+        }
         release {
             keyAlias 'discount_hunter'
             keyPassword 'apollo123'
@@ -25,33 +31,34 @@ android {
         }
     }
     buildTypes {
-        debug {
-            signingConfig signingConfigs.release
-        }
         release {
-            signingConfig signingConfigs.release
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // 自定义输出配置
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为DiscountHunter_v1.0_wandoujia.apk
+                        def fileName = "DiscountHunter_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
         }
     }
-}
+    //友盟多渠道打包
+    productFlavors {
+        kuan {}
+        xiaomi {}
+        qh360 {}
+        baidu {}
+        wandoujia {}
+        qq {}
+    }
 
-//友盟多渠道打包
-productFlavors {
-    xiaomi {
-        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "xiaomi"]
-    }
-    qihoo {
-        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "qihoo"]
-    }
-    baidu {
-        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "baidu"]
-    }
-    wandoujia {
-        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "wandoujia"]
-    }
-    qq {
-        manifestPlaceholders = [UMENG_CHANNEL_VALUE: "qq"]
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
     }
 }
 
