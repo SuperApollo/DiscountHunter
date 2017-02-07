@@ -200,10 +200,11 @@ public class CrashHandler implements UncaughtExceptionHandler {
         sb.append(result);
         String time = formatter.format(new Date());
         SharedPreferencesUtils.putString("erro_time", time);
-        WriteJson2SDUtil.writeJson(sb.toString(), "" + time);
         //友盟统计
         MobclickAgent.reportError(mContext, sb.toString());
         MobclickAgent.onKillProcess(mContext);
+
+        WriteJson2SDUtil.writeJson(sb.toString(), "" + time);
     }
 
     public String getTime() {

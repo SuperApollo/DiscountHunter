@@ -52,7 +52,7 @@ public class SearchFragment extends BaseFragment {
     XListView mXlvSearch;
     @BindView(R.id.rl_search_history)
     RelativeLayout mRlSearchHistory;
-    @BindView(R.id.btn_clear_search_history)
+//    @BindView(R.id.btn_clear_search_history)
     Button mBtnClear;
     private List<SearchHistory> mSearchHistories = new ArrayList<>();
     private List<Model> mSearchModels = new ArrayList<>();
