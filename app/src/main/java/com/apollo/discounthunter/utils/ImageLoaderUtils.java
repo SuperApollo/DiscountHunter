@@ -18,6 +18,7 @@ import com.nostra13.universalimageloader.core.display.SimpleBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -175,5 +176,20 @@ public class ImageLoaderUtils {
         // String imageUri = "content://media/external/audio/albumart/13"; //
         // from content provider
         imageLoader.displayImage("content://" + uri, imageView);
+    }
+    /**
+     * 清除缓存
+     */
+    public void clearCache() {
+        imageLoader.clearMemoryCache();//清除内存缓存
+        imageLoader.clearDiskCache();//清除sd卡缓存
+    }
+
+    /**
+     * 获取缓存文件夹
+     */
+    public File getDiskCache() {
+        File diskCacheFile = imageLoader.getDiskCache().getDirectory();
+        return diskCacheFile;
     }
 }
