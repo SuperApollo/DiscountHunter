@@ -41,7 +41,7 @@ public class KeyBoardUtils {
     }
 
 
-    public static boolean isShowKeyBord(Context context, View view) {
+    public static boolean isShowKeyBoard(Context context, View view) {
         InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm.isActive(view)) {
             return false;
@@ -89,5 +89,26 @@ public class KeyBoardUtils {
         return false;
     }
 
+    /**
+     * 当前软键盘是否打开
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isShowKeyBoard(Context context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        boolean isOpen = imm.isActive();//isOpen若返回true，则表示输入法打开
+        return isOpen;
+    }
+
+    /**
+     * 切换状态，若当前显示则隐藏，反之则显示
+     *
+     * @param context
+     */
+    public static void switchKeyBoard(Context context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+    }
 
 }

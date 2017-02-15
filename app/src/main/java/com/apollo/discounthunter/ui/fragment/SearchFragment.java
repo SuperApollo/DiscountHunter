@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.apollo.discounthunter.R;
@@ -24,6 +25,7 @@ import com.apollo.discounthunter.ui.activity.GoodsDetailActivity;
 import com.apollo.discounthunter.ui.activity.MainActivity;
 import com.apollo.discounthunter.ui.activity.ShowWebActivity;
 import com.apollo.discounthunter.utils.IntentUtils;
+import com.apollo.discounthunter.utils.KeyBoardUtils;
 import com.apollo.discounthunter.utils.TimeUtils;
 import com.apollo.discounthunter.widgets.XListView;
 import com.google.gson.Gson;
@@ -243,22 +245,22 @@ public class SearchFragment extends BaseFragment {
             datas = gson.fromJson(json, new TypeToken<List<Model>>() {
             }.getType());
         } catch (JsonSyntaxException e) {
-            mToastUtils.show(mContext,"抱歉，未索索到相关商品");
+            mToastUtils.show(mContext, "抱歉，未索索到相关商品");
             e.printStackTrace();
         }
         int index = mSearchModels.size();
-        if (datas != null&&datas.size()>1) {
+        if (datas != null && datas.size() > 1) {
             if (!searchChange) {//如果搜索内容没变化则添加集合
                 mSearchModels.addAll(datas);
             } else {//如果搜索内容变化了，则添加集合清空之前的搜索结果,为了解决mSearchModels.clear 报错
                 mSearchModels.addAll(datas);
-                for (int i=0;i<index;i++){
+                for (int i = 0; i < index; i++) {
                     mSearchModels.remove(0);
                 }
 
             }
-        }else {
-            mToastUtils.show(mContext,"抱歉，未索索到相关商品");
+        } else {
+            mToastUtils.show(mContext, "抱歉，未索索到相关商品");
             return;
         }
 
@@ -267,6 +269,11 @@ public class SearchFragment extends BaseFragment {
             mXlvSearch.setAdapter(mSearchAdapter);
         } else {
             mSearchAdapter.notifyDataSetChanged();
+            MainActivity fatherActivity = (MainActivity) getActivity();
+            EditText editText = fatherActivity.getmSearchEditText();
+            if (editText != null) {//上拉加载后让搜索edittext失去焦点，防止软键盘弹出
+                editText.clearFocus();
+            }
         }
         isHistory = false;
 

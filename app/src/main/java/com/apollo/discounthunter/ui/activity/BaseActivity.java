@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.SearchView;
 
 import com.apollo.discounthunter.R;
@@ -39,6 +40,11 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
     protected final String TAG = getClass().getSimpleName();
     protected ActionBar mActionBar;
     protected SearchView mSearchView;
+    public EditText mSearchEditText;
+
+    public EditText getmSearchEditText() {
+        return mSearchEditText;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,8 +84,12 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
             mSearchItem = menu.findItem(R.id.action_search);
             mSearchItem.setOnActionExpandListener(this);
             mSearchView = (SearchView) mSearchItem.getActionView();
-            if (mSearchView != null)
+            if (mSearchView != null) {
                 mSearchView.setOnQueryTextListener(this);
+                int viewId = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+                mSearchEditText = (EditText) mSearchView.findViewById(viewId);
+            }
+
             return true;
         } else
             return super.onCreateOptionsMenu(menu);
@@ -204,7 +214,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
 
     @Override
     public boolean onQueryTextChange(String newText) {
-       return false;
+        return false;
     }
 
 }
