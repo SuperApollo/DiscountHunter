@@ -59,6 +59,7 @@ public class RecommendFragment extends BaseFragment {
             }
         }
     };
+
     @Override
     protected void init() {
         mXlvRecommend.setVerticalScrollBarEnabled(false);
@@ -144,19 +145,20 @@ public class RecommendFragment extends BaseFragment {
      * @param response
      */
     private void parseData(Response<ResponseBody> response) {
-        String json = "";
+        String json;
         List<Model> datas;
         try {
             json = response.body().string();
-        } catch (IOException e) {
+            Gson gson = new Gson();
+            datas = gson.fromJson(json, new TypeToken<List<Model>>() {
+            }.getType());
+            if (datas != null)
+                mRecommendModels.addAll(datas);
+            mAdapter.notifyDataSetChanged();
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        Gson gson = new Gson();
-        datas = gson.fromJson(json, new TypeToken<List<Model>>() {
-        }.getType());
-        if (datas != null)
-            mRecommendModels.addAll(datas);
-        mAdapter.notifyDataSetChanged();
+
     }
 
     @Override
