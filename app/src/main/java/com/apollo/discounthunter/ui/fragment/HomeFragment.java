@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 
 import com.apollo.discounthunter.R;
@@ -15,6 +16,7 @@ import com.apollo.discounthunter.retrofit.requestinterface.ApiService;
 import com.apollo.discounthunter.ui.activity.GoodsDetailActivity;
 import com.apollo.discounthunter.ui.activity.ShowWebActivity;
 import com.apollo.discounthunter.utils.IntentUtils;
+import com.apollo.discounthunter.utils.ListViewRecorder;
 import com.apollo.discounthunter.widgets.XListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -59,6 +61,9 @@ public class HomeFragment extends BaseFragment {
             }
         }
     };
+    private int scrolledX;
+    private int scrolledY;
+    private ListViewRecorder recorder;
 
     @Override
     protected void init() {
@@ -106,7 +111,22 @@ public class HomeFragment extends BaseFragment {
             firstEnter = false;
         }
 
+        //记录listview滑动位置
+        if (recorder == null) {
+            recorder = new ListViewRecorder(mXlvHome);
+            recorder.initEvent();
+        }
 
+    }
+
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        if (isVisibleToUser) {
+            if (recorder != null)
+                recorder.restore();
+        }
+        super.setUserVisibleHint(isVisibleToUser);
     }
 
     /**
