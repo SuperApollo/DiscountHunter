@@ -6,6 +6,15 @@ import de.greenrobot.daogenerator.Schema;
 
 public class GreenDaoGenerator {
     public static void main(String[] args) throws Exception {
+        //======================重要提示=======================
+        //  运行完了此方法后要及时修改./greendao.dao.DaoMaster 里面的 onUpgrade方法,有字段变化需要更新数据库时，把版本号加1
+        //  修改为  if (newVersion > oldVersion) {
+        //               MigrationHelper.getInstance().migrate(db,ContactDao.class,MsgListDao.class,PriHisMsgDao.class.......);
+        //          } else {
+        //              dropAllTables(db, true);
+        //              onCreate(db);
+        //          }
+        //=====================================================
         Schema schema = new Schema(1, "com.apollo.discounthunter.greendao.bean");//前面参数为版本号后一个包名
         schema.setDefaultJavaPackageDao("com.apollo.discounthunter.greendao.dao");
         addBean(schema);//添加bean数据
