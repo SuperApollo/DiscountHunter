@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 
 import com.apollo.discounthunter.R;
@@ -59,6 +60,7 @@ public class HotFragment extends BaseFragment {
             }
         }
     };
+    private int firstVisiblePosition;
 
     @Override
     protected void init() {
@@ -97,12 +99,36 @@ public class HotFragment extends BaseFragment {
 
             }
         });
+        mXlvHot.setOnScrollListener(new XListView.OnXScrollListener() {
+            @Override
+            public void onXScrolling(View view) {
+
+            }
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+                firstVisiblePosition = mXlvHot.getFirstVisiblePosition();
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+
+            }
+        });
 
         mAdapter = new HomeListAdapter(mContext, mHotModels);
         mXlvHot.setAdapter(mAdapter);
         if (firstEnter) {
             requestData();
             firstEnter = false;
+        }
+    }
+
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (mXlvHot != null && firstVisiblePosition > 0) {
+            mXlvHot.setSelection(firstVisiblePosition);
         }
     }
 

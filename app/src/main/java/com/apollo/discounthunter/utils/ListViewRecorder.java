@@ -5,6 +5,8 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.ListView;
 
+import com.apollo.discounthunter.base.BaseApplication;
+
 /**
  * listview位置记录恢复工具类,适用于每个item高度相等的listview
  * Created by Apollo on 2017/2/15.
@@ -17,6 +19,7 @@ public class ListViewRecorder {
     private int offSetY;
     private int listPos;
     private int lastY;
+    private int firstVisiblePosition;
 
     public ListViewRecorder(ListView listView) {
         mListView = listView;
@@ -33,8 +36,8 @@ public class ListViewRecorder {
                 // 不滚动时记录当前滚动到的位置
                 if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_IDLE) {
                     record();
-
-                    ViewGroup item = (ViewGroup) mListView.getChildAt(0);//此处必须为0
+                    //第二种方法
+                    ViewGroup item = (ViewGroup) mListView.getChildAt(1);//此处必须为0,因为listview有头布局，所以在此为1
                     offSetY = item.getTop();
                 }
             }
@@ -59,13 +62,14 @@ public class ListViewRecorder {
      * @return
      */
     public int getScrollY() {
-        View c = mListView.getChildAt(0);
+        View c = mListView.getChildAt(1);
         if (c == null) {
             return 0;
         }
-        int firstVisiblePosition = mListView.getFirstVisiblePosition();
+        firstVisiblePosition = mListView.getFirstVisiblePosition();
         int top = c.getTop();
-        int total = -top + firstVisiblePosition * c.getHeight();
+        //因为有下拉刷新头，所以计算的有偏差，要减去头布局高度
+        int total = Math.abs(top) + firstVisiblePosition * c.getHeight() + ViewUtil.dp2px(BaseApplication.getContext(), 60);
         return total;
     }
 
@@ -90,5 +94,14 @@ public class ListViewRecorder {
     public void reCover() {
         mListView.setSelectionFromTop(listPos, offSetY);
     }
+
+    /**
+     * 恢复到记录的item
+     */
+    public void reCoverTo() {
+        mListView.setSelection(firstVisiblePosition);
+
+    }
+
 
 }

@@ -22,7 +22,6 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.squareup.okhttp.ResponseBody;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,9 +60,7 @@ public class HomeFragment extends BaseFragment {
             }
         }
     };
-    private int scrolledX;
-    private int scrolledY;
-    private ListViewRecorder recorder;
+    private int firstVisiblePosition;
 
     @Override
     protected void init() {
@@ -103,6 +100,22 @@ public class HomeFragment extends BaseFragment {
 
             }
         });
+        mXlvHome.setOnScrollListener(new XListView.OnXScrollListener() {
+            @Override
+            public void onXScrolling(View view) {
+
+            }
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+                firstVisiblePosition = mXlvHome.getFirstVisiblePosition();
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+
+            }
+        });
 
         mAdapter = new HomeListAdapter(mContext, mHomeModels);
         mXlvHome.setAdapter(mAdapter);
@@ -111,22 +124,16 @@ public class HomeFragment extends BaseFragment {
             firstEnter = false;
         }
 
-        //记录listview滑动位置
-        if (recorder == null) {
-            recorder = new ListViewRecorder(mXlvHome);
-            recorder.initEvent();
-        }
 
     }
 
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
-        if (isVisibleToUser) {
-            if (recorder != null)
-                recorder.restore();
-        }
         super.setUserVisibleHint(isVisibleToUser);
+        if (mXlvHome != null && firstVisiblePosition > 0) {
+            mXlvHome.setSelection(firstVisiblePosition);
+        }
     }
 
     /**
