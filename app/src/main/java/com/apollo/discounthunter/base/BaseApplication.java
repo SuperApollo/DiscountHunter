@@ -8,6 +8,7 @@ import com.apollo.discounthunter.constants.AppConfig;
 import com.apollo.discounthunter.greendao.dao.DaoMaster;
 import com.apollo.discounthunter.greendao.dao.DaoSession;
 import com.apollo.discounthunter.utils.CrashHandler;
+import com.squareup.leakcanary.LeakCanary;
 import com.umeng.analytics.MobclickAgent;
 
 /**
@@ -33,6 +34,8 @@ public class BaseApplication extends Application {
         //初始化错误日志记录
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext());
+        //内存泄漏检测
+        LeakCanary.install(this);
     }
 
     /**
