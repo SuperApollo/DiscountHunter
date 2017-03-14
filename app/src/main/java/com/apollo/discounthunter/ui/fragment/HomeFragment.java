@@ -16,7 +16,6 @@ import com.apollo.discounthunter.retrofit.requestinterface.ApiService;
 import com.apollo.discounthunter.ui.activity.GoodsDetailActivity;
 import com.apollo.discounthunter.ui.activity.ShowWebActivity;
 import com.apollo.discounthunter.utils.IntentUtils;
-import com.apollo.discounthunter.utils.ListViewRecorder;
 import com.apollo.discounthunter.widgets.XListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

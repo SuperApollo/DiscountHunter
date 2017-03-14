@@ -46,4 +46,9 @@ public interface ApiService {
                                           @Query("limit") String limit,
                                           @Query("eid") String eid,
                                           @Query("q") String q);
+
+    @GET("/")
+    Call<ResponseBody> loadCheckUpdateRepo(@Query("id") String id,
+                                           @Query("appid") String appid);
+
 }

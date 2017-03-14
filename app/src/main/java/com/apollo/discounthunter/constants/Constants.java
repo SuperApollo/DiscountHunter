@@ -10,9 +10,14 @@ public interface Constants {
      */
     String BASE_URL = "http://www.zhekoulieshou.com/";
     /**
+     * 检查更新地址
+     */
+    String CHECK_UPDATE_URL = "http://app.qq.com/";
+//          +"#id=detail&appid=1105879293";
+    /**
      * 首页列表数据地址
      */
-    String HOME_LIST = BASE_URL+"?c=API&a=app_items&offset=0&limit=10&eid=0";
+    String HOME_LIST = BASE_URL + "?c=API&a=app_items&offset=0&limit=10&eid=0";
     /**
      * 点击商品条目跳转携带的商品信息
      */

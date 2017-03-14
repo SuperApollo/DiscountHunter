@@ -13,11 +13,12 @@
         android:src="@mipmap/icon_logo" />
 
     <TextView
+        android:id="@+id/tv_about_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:text="折扣猎手 V1.1" />
+        android:text="版本号" />
 
     <com.apollo.discounthunter.widgets.ItemView
         android:id="@+id/item_about_update"
