@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.apollo.discounthunter.widgets.ItemView
+        android:id="@+id/item_setting_about"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="20dp"
+        app:leftDrawable="@mipmap/ic_launcher"
+        app:leftText="@string/about" />
+
+    <com.apollo.discounthunter.widgets.ItemView
+        android:id="@+id/item_setting_flash"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:leftDrawable="@mipmap/ic_launcher"
+        app:leftText="@string/flash"
+        app:topLine="true" />
+
+</LinearLayout>

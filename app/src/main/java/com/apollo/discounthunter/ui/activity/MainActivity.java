@@ -1,8 +1,11 @@
 package com.apollo.discounthunter.ui.activity;
 
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -20,6 +23,7 @@ import com.apollo.discounthunter.ui.fragment.HomeFragment;
 import com.apollo.discounthunter.ui.fragment.HotFragment;
 import com.apollo.discounthunter.ui.fragment.RecommendFragment;
 import com.apollo.discounthunter.ui.fragment.SearchFragment;
+import com.apollo.discounthunter.utils.IntentUtils;
 import com.apollo.discounthunter.utils.LogUtil;
 import com.apollo.discounthunter.utils.ViewUtil;
 import com.umeng.analytics.MobclickAgent;
@@ -74,6 +78,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         return R.menu.main;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -253,4 +258,19 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         boolean onSearchTextChange(String newText);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_setting:
+                mToastUtils.show(this, "设置");
+                IntentUtils.sendIntent(this, SettingActivity.class);
+                return true;
+            case R.id.action_plus:
+                mToastUtils.show(this, "添加");
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
 }

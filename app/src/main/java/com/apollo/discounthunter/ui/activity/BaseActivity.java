@@ -3,8 +3,10 @@ package com.apollo.discounthunter.ui.activity;
 import android.app.ActionBar;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -46,6 +48,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
         return mSearchEditText;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
