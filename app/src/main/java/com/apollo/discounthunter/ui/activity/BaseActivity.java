@@ -162,6 +162,16 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
     protected abstract void initView();
 
     /**
+     * 设置标题
+     *
+     * @param title
+     */
+    protected void setTitle(String title) {
+        ActionBar actionBar = getActionBar();
+        actionBar.setTitle(title);
+    }
+
+    /**
      * 显示进度条
      */
     protected void showProgress() {

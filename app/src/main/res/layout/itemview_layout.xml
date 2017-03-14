@@ -25,6 +25,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableLeft="@mipmap/ic_launcher"
+            android:drawablePadding="10dp"
             android:gravity="center_vertical"
             android:text="关于" />
 
@@ -35,6 +36,14 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:src="@mipmap/arrow_right" />
+
+        <com.suke.widget.SwitchButton
+            android:id="@+id/item_switch_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

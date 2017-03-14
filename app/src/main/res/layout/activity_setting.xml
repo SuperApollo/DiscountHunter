@@ -19,6 +19,7 @@
         android:layout_height="48dp"
         app:leftDrawable="@mipmap/ic_launcher"
         app:leftText="@string/flash"
+        app:showType="2"
         app:topLine="true" />
 
 </LinearLayout>

@@ -262,7 +262,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_setting:
-                mToastUtils.show(this, "设置");
                 IntentUtils.sendIntent(this, SettingActivity.class);
                 return true;
             case R.id.action_plus:

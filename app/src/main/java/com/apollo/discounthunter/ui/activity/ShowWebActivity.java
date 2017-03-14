@@ -45,6 +45,13 @@ public class ShowWebActivity extends BaseActivity {
     };
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
+        mHandler = null;
+    }
+
+    @Override
     protected int getLayoutId() {
         return R.layout.activity_showweb;
     }

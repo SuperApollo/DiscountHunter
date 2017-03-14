@@ -18,7 +18,7 @@ import java.util.List;
 public class ActivityManager {
 
     private List<Activity> activityList = new LinkedList<Activity>();
-    private static ActivityManager instance;
+    private static volatile ActivityManager instance;
 
     private ActivityManager() {
     }
@@ -31,7 +31,8 @@ public class ActivityManager {
     public static ActivityManager getInstance() {
         if (null == instance) {
             synchronized (ActivityManager.class) {
-                instance = new ActivityManager();
+                if (null == instance)
+                    instance = new ActivityManager();
             }
         }
         return instance;
@@ -92,6 +93,8 @@ public class ActivityManager {
             activity.finish();
         }
         System.exit(0);
+        activityList = null;
+        instance = null;
     }
 
 }
