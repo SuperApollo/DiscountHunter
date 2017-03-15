@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -62,7 +63,7 @@ public class ShowWebActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(View view) {
         mWebView.requestFocusFromTouch();//输入焦点
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);//支持js

@@ -2,13 +2,19 @@ package com.apollo.discounthunter.ui.activity;
 
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.retrofit.model.AppUpdateInfoModel;
+import com.apollo.discounthunter.utils.ApkUpdateUtil;
 import com.apollo.discounthunter.utils.AppUtil;
+import com.apollo.discounthunter.utils.MyPopUtil;
 import com.apollo.discounthunter.widgets.ItemView;
 import com.google.gson.Gson;
 
@@ -34,6 +40,8 @@ public class AboutActivity extends BaseActivity {
     ItemView itemSuggestion;
     @BindView(R.id.tv_about_version)
     TextView tvVersion;
+    private MyPopUtil myPopUtil;
+    private View parent;
 
     @Override
     protected int getLayoutId() {
@@ -46,7 +54,8 @@ public class AboutActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(View view) {
+        parent = view;
         String versionName = AppUtil.getAppVersionName(this);
         tvVersion.setText("折扣猎手 V" + versionName);
         itemUpdate.setOnItemClickedListner(new ItemView.onItemClickedListner() {
@@ -62,6 +71,8 @@ public class AboutActivity extends BaseActivity {
                 mToastUtils.show(mContext, "意见反馈");
             }
         });
+
+        myPopUtil = MyPopUtil.getInstance(this);
     }
 
     /**
@@ -75,7 +86,6 @@ public class AboutActivity extends BaseActivity {
     private void parseData(String json) {
         AppUpdateInfoModel updateInfoModel = null;
         try {
-
             Gson gson = new Gson();
             if (json != null)
                 updateInfoModel = gson.fromJson(json, AppUpdateInfoModel.class);
@@ -85,6 +95,7 @@ public class AboutActivity extends BaseActivity {
             switch (toUpdate) {
                 case HAS_UPDATE:
                     mToastUtils.show(mContext, "新版本" + serverVersion);
+                    chooseDialogShow(serverVersion,updateInfoModel.getAppUrl(),updateInfoModel.getAppSize(),updateInfoModel.getAppDescription());
                     break;
                 case NO_UPDATE:
                     mToastUtils.show(mContext, "当前是最新版本");
@@ -97,8 +108,7 @@ public class AboutActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (updateInfoModel != null)
-            Log.i(TAG, updateInfoModel.toString());
+
     }
 
     private class CheckUpdateTask extends AsyncTask {
@@ -110,19 +120,19 @@ public class AboutActivity extends BaseActivity {
 
         @Override
         protected Object doInBackground(Object[] objects) {
+            String json = null;
             try {
                 //从URL加载document对象
                 Document document = Jsoup.connect(Constants.CHECK_UPDATE_GITHUB_URL).get();
                 Element body = document.body();
-                if (body != null)
-                    parseData(body.text());
+                json = body.text();
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
 
-            return null;
+            return json;
         }
 
         @Override
@@ -133,6 +143,7 @@ public class AboutActivity extends BaseActivity {
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
+            parseData((String) o);
             clearProgress();
         }
     }
@@ -204,4 +215,45 @@ public class AboutActivity extends BaseActivity {
         return versionsInt;
     }
 
+    /**
+     * 是否升级弹框
+     *  @param curVersion
+     * @param appUrl
+     * @param appSize
+     * @param appDescription
+     */
+    private void chooseDialogShow(String curVersion, final String appUrl, String appSize, String appDescription) {
+        myPopUtil.initView(R.layout.new_update_pop, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
+                R.style.add_pop_tv_style);
+        myPopUtil.showAtLoacation(parent, Gravity.CENTER, 0, 0);
+        TextView tv_new_update_num = queryViewById(myPopUtil.getmPopView(), R.id.tv_new_update_num);
+        tv_new_update_num.setText("版本号：" + curVersion);
+        TextView tvDescription = queryViewById(myPopUtil.getmPopView(), R.id.tv_new_update_description);
+        tvDescription.setMovementMethod(ScrollingMovementMethod.getInstance());
+        TextView tv_cancel = queryViewById(myPopUtil.getmPopView(), R.id.tv_new_update_pop_cancel);
+        TextView tv_ok = queryViewById(myPopUtil.getmPopView(), R.id.tv_new_update_pop_ok);
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myPopUtil.dismiss();
+            }
+        });
+        tv_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myPopUtil.dismiss();
+                try {//防止apprUrl错误造成崩溃
+                    ApkUpdateUtil apkUpdateUtil = new ApkUpdateUtil(mContext, appUrl);
+                    apkUpdateUtil.startDown();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mToastUtils.show(mContext, e.getMessage());
+                }
+            }
+        });
+    }
+
+    private <T extends View> T queryViewById(View parentView, int id) {
+        return (T) parentView.findViewById(id);
+    }
 }

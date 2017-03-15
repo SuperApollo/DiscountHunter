@@ -10,9 +10,11 @@ import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.Window;
 import android.widget.EditText;
@@ -60,7 +62,8 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
         mActionBar = getActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeAsUpIndicator(R.mipmap.icon_arrow_left);
-        initView();
+        View view = LayoutInflater.from(mContext).inflate(getLayoutId(),null);
+        initView(view);
         ActivityManager.getInstance().addActivity(BaseActivity.this);
     }
 
@@ -158,8 +161,9 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
 
     /**
      * 初始化view
+     * @param view
      */
-    protected abstract void initView();
+    protected abstract void initView(View view);
 
     /**
      * 设置标题

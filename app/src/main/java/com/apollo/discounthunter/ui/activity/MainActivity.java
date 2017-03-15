@@ -3,14 +3,12 @@ package com.apollo.discounthunter.ui.activity;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -24,7 +22,6 @@ import com.apollo.discounthunter.ui.fragment.HotFragment;
 import com.apollo.discounthunter.ui.fragment.RecommendFragment;
 import com.apollo.discounthunter.ui.fragment.SearchFragment;
 import com.apollo.discounthunter.utils.IntentUtils;
-import com.apollo.discounthunter.utils.LogUtil;
 import com.apollo.discounthunter.utils.ViewUtil;
 import com.umeng.analytics.MobclickAgent;
 
@@ -86,7 +83,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     }
 
     @Override
-    protected void initView() {
+    protected void initView(View view) {
         //设置radiobutton上方图片的大小
         Drawable homeDrawable = getResources().getDrawable(R.drawable.selector_item_home);
         homeDrawable.setBounds(0, 0, ViewUtil.dp2px(mContext, 24), ViewUtil.dp2px(mContext, 24));

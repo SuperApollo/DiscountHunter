@@ -1,5 +1,7 @@
 package com.apollo.discounthunter.ui.activity;
 
+import android.view.View;
+
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.utils.IntentUtils;
 import com.apollo.discounthunter.widgets.ItemView;
@@ -27,7 +29,7 @@ public class SettingActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(View view) {
         setTitle("我的设置");
         itemAbout.setOnItemClickedListner(new ItemView.onItemClickedListner() {
             @Override

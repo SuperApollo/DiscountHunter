@@ -52,7 +52,7 @@ public class GoodsDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected void initView() {
+    protected void initView(View view) {
         mImageLoader = ImageLoaderUtils.getInstance(mContext);
         final Bundle bundle = getIntent().getExtras();
         if (bundle != null) {

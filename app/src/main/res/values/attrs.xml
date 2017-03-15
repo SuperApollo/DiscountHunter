@@ -10,5 +10,20 @@
         <!--0普通，1右箭头，2switchbutton-->
         <attr name="showType" format="integer"></attr>
     </declare-styleable>
+    <!--自定义进度条的框-->
+    <attr name="progress_unreach_color" format="color" />
+    <attr name="progress_unreach_height" format="dimension" />
+    <attr name="progress_reach_color" format="color" />
+    <attr name="progress_reach_height" format="dimension" />
+    <attr name="progress_text_color" format="color" />
+    <attr name="progress_text_size" format="dimension" />
+    <attr name="progress_text_offset" format="dimension" />
+    <attr name="radius" format="dimension" />
+    <declare-styleable name="HorizontalProgressBar">
+        <attr name="progress_unreach_color" />
+        <attr name="progress_unreach_height" />
+        <attr name="progress_reach_color" />
+        <attr name="progress_reach_height" />
+    </declare-styleable>
 
 </resources>
