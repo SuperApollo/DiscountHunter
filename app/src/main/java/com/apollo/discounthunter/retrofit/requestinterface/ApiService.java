@@ -50,5 +50,6 @@ public interface ApiService {
     @GET("/")
     Call<ResponseBody> loadCheckUpdateRepo(@Query("id") String id,
                                            @Query("appid") String appid);
-
+    @GET("/")
+    Call<ResponseBody> loadCheckUpdateGithubRepo();
 }

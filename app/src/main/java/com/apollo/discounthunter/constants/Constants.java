@@ -15,6 +15,10 @@ public interface Constants {
     String CHECK_UPDATE_URL = "http://app.qq.com/";
 //          +"#id=detail&appid=1105879293";
     /**
+     * 放在github上的app
+     */
+    String CHECK_UPDATE_GITHUB_URL = "https://raw.githubusercontent.com/SuperApollo/app-update/master/description";
+    /**
      * 首页列表数据地址
      */
     String HOME_LIST = BASE_URL + "?c=API&a=app_items&offset=0&limit=10&eid=0";

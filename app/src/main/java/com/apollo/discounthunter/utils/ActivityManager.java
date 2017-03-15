@@ -93,6 +93,7 @@ public class ActivityManager {
             activity.finish();
         }
         System.exit(0);
+        activityList.clear();
         activityList = null;
         instance = null;
     }
