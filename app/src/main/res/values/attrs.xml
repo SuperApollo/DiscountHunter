@@ -5,6 +5,8 @@
         <attr name="topLine" format="boolean"></attr>
         <attr name="bottomLine" format="boolean"></attr>
         <attr name="leftText" format="string"></attr>
+        <attr name="rightText" format="string"></attr>
+        <attr name="redPoint" format="boolean"></attr>
         <attr name="leftDrawable" format="reference"></attr>
         <attr name="rightDrawable" format="reference"></attr>
         <!--0普通，1右箭头，2switchbutton-->

@@ -3,10 +3,10 @@ package com.apollo.discounthunter.ui.activity;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.apollo.discounthunter.R;
@@ -31,9 +31,9 @@ import butterknife.BindView;
  */
 
 public class AboutActivity extends BaseActivity {
-    private static final int SERVER_VERSION_ERROR = 0x00010086;
-    private static final int HAS_UPDATE = 0x00010087;
-    private static final int NO_UPDATE = 0x00010088;
+    private final int SERVER_VERSION_ERROR = 0x00010086;
+    private final int HAS_UPDATE = 0x00010087;
+    private final int NO_UPDATE = 0x00010088;
     @BindView(R.id.item_about_update)
     ItemView itemUpdate;
     @BindView(R.id.item_about_suggestion)
@@ -75,6 +75,15 @@ public class AboutActivity extends BaseActivity {
         myPopUtil = MyPopUtil.getInstance(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (myPopUtil != null) {
+            myPopUtil = null;
+        }
+
+    }
+
     /**
      * 检查更新
      */
@@ -95,7 +104,7 @@ public class AboutActivity extends BaseActivity {
             switch (toUpdate) {
                 case HAS_UPDATE:
                     mToastUtils.show(mContext, "新版本" + serverVersion);
-                    chooseDialogShow(serverVersion,updateInfoModel.getAppUrl(),updateInfoModel.getAppSize(),updateInfoModel.getAppDescription());
+                    chooseDialogShow(serverVersion, updateInfoModel.getAppUrl(), updateInfoModel.getAppSize(), updateInfoModel.getAppDescription());
                     break;
                 case NO_UPDATE:
                     mToastUtils.show(mContext, "当前是最新版本");
@@ -217,7 +226,8 @@ public class AboutActivity extends BaseActivity {
 
     /**
      * 是否升级弹框
-     *  @param curVersion
+     *
+     * @param curVersion
      * @param appUrl
      * @param appSize
      * @param appDescription
@@ -230,6 +240,12 @@ public class AboutActivity extends BaseActivity {
         tv_new_update_num.setText("版本号：" + curVersion);
         TextView tvDescription = queryViewById(myPopUtil.getmPopView(), R.id.tv_new_update_description);
         tvDescription.setMovementMethod(ScrollingMovementMethod.getInstance());
+        LinearLayout ll_new_update_description = queryViewById(myPopUtil.getmPopView(), R.id.ll_new_update_description);
+        if (!TextUtils.isEmpty(appDescription)) {
+            tvDescription.setText(appDescription + "\n【更新包大小】" + appSize);
+            ll_new_update_description.setVisibility(View.VISIBLE);
+        }
+
         TextView tv_cancel = queryViewById(myPopUtil.getmPopView(), R.id.tv_new_update_pop_cancel);
         TextView tv_ok = queryViewById(myPopUtil.getmPopView(), R.id.tv_new_update_pop_ok);
         tv_cancel.setOnClickListener(new View.OnClickListener() {

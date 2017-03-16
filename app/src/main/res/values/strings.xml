@@ -11,6 +11,7 @@
     <string name="clear_search_history">清空</string>
     <string name="about">关于</string>
     <string name="flash">手电筒</string>
+    <string name="clear_cache">清理缓存</string>
     <!--xlistview-->
     <string name="xlistview_header_hint_normal">下拉刷新</string>
     <string name="xlistview_header_hint_ready">松开刷新数据</string>

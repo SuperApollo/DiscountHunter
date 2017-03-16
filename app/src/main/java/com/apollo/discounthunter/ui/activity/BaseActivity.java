@@ -62,7 +62,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
         mActionBar = getActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeAsUpIndicator(R.mipmap.icon_arrow_left);
-        View view = LayoutInflater.from(mContext).inflate(getLayoutId(),null);
+        View view = LayoutInflater.from(this).inflate(getLayoutId(),null);
         initView(view);
         ActivityManager.getInstance().addActivity(BaseActivity.this);
     }

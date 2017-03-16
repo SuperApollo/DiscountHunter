@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 
 import com.apollo.discounthunter.R;
 import com.suke.widget.SwitchButton;
+
+import retrofit.Call;
 
 /**
  * 自定义itemview
@@ -24,8 +27,10 @@ public class ItemView extends LinearLayout {
     private boolean bottomLine;//是否显示底部分割线
     private int leftDrawable;//左侧图标
     private String leftText;//左侧文字
+    private String rightText;//右侧文字
     private int rightDrawable;//右侧图标
-    private int showType = 1;//右箭头
+    private boolean redPoint;//右侧小红点
+    private int showType = 1;//右箭头显示样式
     private View topLineView;
     private View bottomLineView;
     private TextView tvLef;
@@ -34,6 +39,8 @@ public class ItemView extends LinearLayout {
     private OnToggleButtonChangeListner toggleButtonChangeListner;
     private RelativeLayout bodyLayout;
     private SwitchButton toggleButton;
+    private TextView tvRight;
+    private ImageView ivPoint;
 
     public void setToggleButtonChangeListner(OnToggleButtonChangeListner toggleButtonChangeListner) {
         this.toggleButtonChangeListner = toggleButtonChangeListner;
@@ -127,6 +134,12 @@ public class ItemView extends LinearLayout {
                     case R.styleable.ItemView_leftText:
                         leftText = typedArray.getString(attr);
                         break;
+                    case R.styleable.ItemView_rightText:
+                        rightText = typedArray.getString(attr);
+                        break;
+                    case R.styleable.ItemView_redPoint:
+                        redPoint = typedArray.getBoolean(attr, false);
+                        break;
                     case R.styleable.ItemView_rightDrawable:
                         rightDrawable = typedArray.getResourceId(attr, 0);
                         break;
@@ -147,6 +160,8 @@ public class ItemView extends LinearLayout {
         topLineView = itemView.findViewById(R.id.item_top_line);
         bottomLineView = itemView.findViewById(R.id.item_bottom_line);
         tvLef = (TextView) itemView.findViewById(R.id.item_tv_left);
+        tvRight = (TextView) itemView.findViewById(R.id.item_tv_right);
+        ivPoint = (ImageView) itemView.findViewById(R.id.item_iv_point);
         ivRight = (ImageView) itemView.findViewById(R.id.item_iv_right);
         bodyLayout = (RelativeLayout) itemView.findViewById(R.id.item_body_layout);
         toggleButton = (SwitchButton) itemView.findViewById(R.id.item_switch_button);
@@ -159,6 +174,13 @@ public class ItemView extends LinearLayout {
         }
 
         tvLef.setText(leftText);
+        if (!TextUtils.isEmpty(rightText)) {
+            tvRight.setText(rightText);
+            tvRight.setVisibility(VISIBLE);
+        }
+        if (redPoint) {
+            ivPoint.setVisibility(VISIBLE);
+        }
 
         switch (showType) {
             case 0://普通

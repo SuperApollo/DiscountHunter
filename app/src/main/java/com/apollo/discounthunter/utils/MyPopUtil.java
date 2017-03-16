@@ -104,7 +104,6 @@ public class MyPopUtil {
     public void dismiss() {
         if (mMyPopupWindow != null) {
             mMyPopupWindow.dismiss();
-            mMyPopupWindow = null;
         }
 
     }

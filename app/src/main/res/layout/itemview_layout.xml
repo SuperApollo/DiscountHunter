@@ -37,6 +37,29 @@
             android:layout_centerVertical="true"
             android:src="@mipmap/arrow_right" />
 
+        <TextView
+            android:id="@+id/item_tv_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/item_iv_right"
+            android:maxEms="5"
+            android:singleLine="true"
+            android:text="右侧文字"
+            android:textColor="@color/grey"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/item_iv_point"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/red_port"
+            android:visibility="gone" />
+
         <com.suke.widget.SwitchButton
             android:id="@+id/item_switch_button"
             android:layout_width="wrap_content"
