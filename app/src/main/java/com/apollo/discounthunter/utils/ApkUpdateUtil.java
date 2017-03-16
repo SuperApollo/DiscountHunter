@@ -4,18 +4,28 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.constants.AppConfig;
+import com.apollo.discounthunter.retrofit.ServiceGenerator;
+import com.apollo.discounthunter.retrofit.requestinterface.DownloadService;
 import com.apollo.discounthunter.widgets.HorizontalProgressBar;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
-import okhttp3.Call;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * APP升级工具
@@ -30,6 +40,7 @@ public class ApkUpdateUtil {
     private HorizontalProgressBar bar;
     private Dialog dialog;
     private TextView textSize;
+    private final String TAG = AppUtil.class.getSimpleName();
 
     public ApkUpdateUtil(Context context, String apkUrl) {
         this.apkUrl = apkUrl;
@@ -54,51 +65,43 @@ public class ApkUpdateUtil {
         textSize.setText("正在更新" + (int) press + "%");
     }
 
+    private void updateProgress(int p) {
+        bar.setProgress(p);
+        textSize.setText("正在更新" + p + "%");
+    }
+
+    /**
+     * 开始下载
+     */
     public void startDown() {
         if (!Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {// 判断是否存在SD卡
             ToastUtils.show(mContext, "SD卡不可用");
             return;
         }
-        final File file = new File(Environment.getExternalStorageDirectory().toString() + File.separator + "discount_hunter" + File.separator + apkName);
-        if (!file.getParentFile().exists()) {// 判断父文件是否存在，如果不存在则创建
-            file.getParentFile().mkdirs();
-        }
-        //        if (file.exists()) {
-        //            setupAPk(file);
-        //            return;
-//        }
-//        OkHttpManager.getInstance().down(apkUrl, savaPath, apkName).enqueue(new IProgressCallback() {
-//            @Override
-//            public void progress(long total, long current) {
-//                updatePress(total, current);
-//            }
-//
-//            @Override
-//            public boolean before() {
-//                dialog.show();
-//                return false;
-//            }
-//
-//            @Override
-//            public void success(String result) {
-//                if (dialog.isShowing()) {
-//                    dialog.dismiss();
-//                }
-//                if (file.exists()) {
-//                    setupAPk(file);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                if (dialog.isShowing()) {
-//                    dialog.dismiss();
-//                }
-//                call.cancel();
-//                Toast.makeText(mContext.getApplicationContext(), "下载失败", Toast.LENGTH_SHORT).show();
-//                e.printStackTrace();
-//            }
-//        });
+
+        DownloadService downloadService = ServiceGenerator.createService(DownloadService.class);
+        String[] strings = apkUrl.split("https://github.com/");
+        Call<ResponseBody> call = downloadService.downloadRepo(strings[0]);
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    Log.i(TAG, "连接服务成功,开始下载存储文件===");
+                    new SaveTask(response.body()).execute();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+                call.cancel();
+                Toast.makeText(mContext.getApplicationContext(), "连接服务失败", Toast.LENGTH_SHORT).show();
+                Log.e(TAG, t.getMessage());
+            }
+        });
+
     }
 
 
@@ -108,5 +111,110 @@ public class ApkUpdateUtil {
         intent.setAction(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
         mContext.startActivity(intent);
+    }
+
+    /**
+     * 将文件保存到本地
+     *
+     * @param body
+     * @param filePath
+     * @return
+     */
+    private boolean writeResponseBodyToDisk(ResponseBody body, String filePath) {
+        try {
+            // todo change the file location/name according to your needs
+            File downloadApkFile = new File(filePath);
+            if (!downloadApkFile.getParentFile().exists()) {
+                downloadApkFile.getParentFile().mkdirs();
+            }
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+                byte[] fileReader = new byte[4096];
+
+                long fileSize = body.contentLength();
+                long fileSizeDownloaded = 0;
+
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(downloadApkFile);
+
+                while (true) {
+                    int read = inputStream.read(fileReader);
+
+                    if (read == -1) {
+                        break;
+                    }
+
+                    outputStream.write(fileReader, 0, read);
+
+                    fileSizeDownloaded += read;
+
+                    Log.w("saveFile", "file download: " + fileSizeDownloaded + " of " + fileSize);
+                }
+
+                outputStream.flush();
+
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    /**
+     * 下载任务
+     */
+    private class SaveTask extends AsyncTask {
+        ResponseBody body;
+
+        public SaveTask(ResponseBody body) {
+            this.body = body;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            dialog.show();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            String filePath = AppConfig.FILE_DOWNLOAD + "apk" + File.separator + apkName;
+            boolean success = writeResponseBodyToDisk(body, filePath);
+            Log.i(TAG, "保存成功：" + success);
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Object[] values) {
+            super.onProgressUpdate(values);
+            updateProgress((Integer) values[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+
+            if (dialog.isShowing()) {
+                dialog.dismiss();
+            }
+            String filePath = AppConfig.FILE_DOWNLOAD + File.separator + "apk" + File.separator + apkName;
+            File file = new File(filePath);
+            if (file.exists()) {
+                setupAPk(file);
+            }
+        }
     }
 }

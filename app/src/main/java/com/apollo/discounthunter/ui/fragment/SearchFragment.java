@@ -31,18 +31,18 @@ import com.apollo.discounthunter.widgets.XListView;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import com.squareup.okhttp.ResponseBody;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import retrofit.Call;
-import retrofit.Callback;
-import retrofit.GsonConverterFactory;
-import retrofit.Response;
-import retrofit.Retrofit;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * 搜索界面
@@ -207,22 +207,22 @@ public class SearchFragment extends BaseFragment {
         showProgress();
         searchlCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Response<ResponseBody> response, Retrofit retrofit) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 mOffset += 10;
                 clearProgress();
                 mHandler.sendEmptyMessage(STOP_LOADMORE);
                 mHandler.sendEmptyMessage(STOP_REFRESH);
                 parseData(response);
-
             }
 
             @Override
-            public void onFailure(Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 clearProgress();
                 mToastUtils.show(mContext, "网络错误,请检查网络环境!");
                 mHandler.sendEmptyMessage(STOP_LOADMORE);
                 mHandler.sendEmptyMessage(STOP_REFRESH);
             }
+
         });
 
     }

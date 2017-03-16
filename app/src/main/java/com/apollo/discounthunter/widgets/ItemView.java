@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.apollo.discounthunter.R;
 import com.suke.widget.SwitchButton;
 
-import retrofit.Call;
 
 /**
  * 自定义itemview

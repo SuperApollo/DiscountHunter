@@ -259,7 +259,7 @@ public class AboutActivity extends BaseActivity {
             public void onClick(View view) {
                 myPopUtil.dismiss();
                 try {//防止apprUrl错误造成崩溃
-                    ApkUpdateUtil apkUpdateUtil = new ApkUpdateUtil(mContext, appUrl);
+                    ApkUpdateUtil apkUpdateUtil = new ApkUpdateUtil(AboutActivity.this, appUrl);
                     apkUpdateUtil.startDown();
                 } catch (Exception e) {
                     e.printStackTrace();

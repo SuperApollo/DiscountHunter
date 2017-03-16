@@ -52,10 +52,9 @@
 
         <ImageView
             android:id="@+id/item_iv_point"
-            android:layout_width="10dp"
-            android:layout_height="10dp"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
             android:layout_marginTop="5dp"
             android:src="@drawable/red_port"
             android:visibility="gone" />

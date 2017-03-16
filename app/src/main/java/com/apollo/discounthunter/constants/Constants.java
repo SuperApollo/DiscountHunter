@@ -30,4 +30,12 @@ public interface Constants {
      * bundle传值标志
      */
     String BUNDLE_TAG = "bundle_tag";
+    /**
+     * github地址
+     */
+    String GITHUB_BASE_URL = "https://github.com/";
+    /**
+     * 测试下载
+     */
+    String TEST_DOWNLOAD_PIC = "";
 }

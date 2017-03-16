@@ -1,10 +1,9 @@
 package com.apollo.discounthunter.retrofit.requestinterface;
 
-import com.squareup.okhttp.ResponseBody;
-
-import retrofit.Call;
-import retrofit.http.GET;
-import retrofit.http.Query;
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Query;
 
 /**
  * 主页列表的服务器接口
@@ -47,9 +46,25 @@ public interface ApiService {
                                           @Query("eid") String eid,
                                           @Query("q") String q);
 
+    /**
+     * 检查更新，数据源应用宝
+     *
+     * @param id
+     * @param appid
+     * @return
+     */
     @GET("/")
     Call<ResponseBody> loadCheckUpdateRepo(@Query("id") String id,
+
                                            @Query("appid") String appid);
+
+    /**
+     * 检查更新，数据源github
+     *
+     * @return
+     */
     @GET("/")
     Call<ResponseBody> loadCheckUpdateGithubRepo();
+
+
 }
