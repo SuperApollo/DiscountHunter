@@ -37,5 +37,5 @@ public interface Constants {
     /**
      * 测试下载
      */
-    String TEST_DOWNLOAD_PIC = "";
+    String TEST_DOWNLOAD_PIC = "http://e.hiphotos.baidu.com/";
 }

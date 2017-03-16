@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,7 +35,6 @@ import retrofit2.Response;
  */
 
 public class ApkUpdateUtil {
-    private static final String savaPath = AppConfig.FILE_DOWNLOAD + "apk";
     private static final String apkName = "discounthunter.apk";
     private String apkUrl;
     private Context mContext;
@@ -41,6 +42,19 @@ public class ApkUpdateUtil {
     private Dialog dialog;
     private TextView textSize;
     private final String TAG = AppUtil.class.getSimpleName();
+    private final int UPDATE_PROGRESS = 1;
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case UPDATE_PROGRESS:
+                    long[] progress = (long[]) msg.obj;
+                    updatePress(progress[1], progress[0]);
+                    break;
+            }
+        }
+    };
 
     public ApkUpdateUtil(Context context, String apkUrl) {
         this.apkUrl = apkUrl;
@@ -65,11 +79,6 @@ public class ApkUpdateUtil {
         textSize.setText("正在更新" + (int) press + "%");
     }
 
-    private void updateProgress(int p) {
-        bar.setProgress(p);
-        textSize.setText("正在更新" + p + "%");
-    }
-
     /**
      * 开始下载
      */
@@ -81,7 +90,7 @@ public class ApkUpdateUtil {
 
         DownloadService downloadService = ServiceGenerator.createService(DownloadService.class);
         String[] strings = apkUrl.split("https://github.com/");
-        Call<ResponseBody> call = downloadService.downloadRepo(strings[0]);
+        Call<ResponseBody> call = downloadService.downloadRepo(strings[1]);
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -151,6 +160,11 @@ public class ApkUpdateUtil {
 
                     fileSizeDownloaded += read;
 
+                    Message message = new Message();
+                    message.what = UPDATE_PROGRESS;
+                    long[] progress = {fileSizeDownloaded, fileSize};
+                    message.obj = progress;
+                    mHandler.sendMessage(message);
                     Log.w("saveFile", "file download: " + fileSizeDownloaded + " of " + fileSize);
                 }
 
@@ -167,6 +181,9 @@ public class ApkUpdateUtil {
                 if (outputStream != null) {
                     outputStream.close();
                 }
+
+                mHandler.removeCallbacksAndMessages(null);
+
             }
         } catch (IOException e) {
             return false;
@@ -197,16 +214,10 @@ public class ApkUpdateUtil {
             return null;
         }
 
-        @Override
-        protected void onProgressUpdate(Object[] values) {
-            super.onProgressUpdate(values);
-            updateProgress((Integer) values[0]);
-        }
 
         @Override
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
-
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
