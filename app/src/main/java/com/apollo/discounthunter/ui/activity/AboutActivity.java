@@ -103,7 +103,6 @@ public class AboutActivity extends BaseActivity {
             int toUpdate = toUpdate(serverVersion, localVersion);
             switch (toUpdate) {
                 case HAS_UPDATE:
-                    mToastUtils.show(mContext, "新版本" + serverVersion);
                     chooseDialogShow(serverVersion, updateInfoModel.getAppUrl(), updateInfoModel.getAppSize(), updateInfoModel.getAppDescription());
                     break;
                 case NO_UPDATE:
