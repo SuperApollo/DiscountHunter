@@ -28,4 +28,19 @@
         <attr name="progress_reach_height" />
     </declare-styleable>
 
+    <!--圆形ProgressDialog消失动画-->
+    <style name="dialogWindowAnim" parent="android:Animation">
+        <item name="android:windowExitAnimation">@anim/dialog_out</item>
+    </style>
+
+    <!--圆形ProgressDialog样式-->
+    <style name="progress_circle_style">
+        <item name="android:indeterminateDrawable">@drawable/progressbar_circle</item>
+        <item name="android:indeterminateDuration">1200</item>
+        <item name="android:minWidth">25dp</item>
+        <item name="android:minHeight">25dp</item>
+        <item name="android:maxWidth">60dp</item>
+        <item name="android:maxHeight">60dp</item>
+    </style>
+
 </resources>

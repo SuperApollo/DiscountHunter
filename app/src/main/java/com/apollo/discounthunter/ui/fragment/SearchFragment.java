@@ -25,7 +25,6 @@ import com.apollo.discounthunter.ui.activity.GoodsDetailActivity;
 import com.apollo.discounthunter.ui.activity.MainActivity;
 import com.apollo.discounthunter.ui.activity.ShowWebActivity;
 import com.apollo.discounthunter.utils.IntentUtils;
-import com.apollo.discounthunter.utils.KeyBoardUtils;
 import com.apollo.discounthunter.utils.TimeUtils;
 import com.apollo.discounthunter.widgets.XListView;
 import com.google.gson.Gson;

@@ -112,7 +112,8 @@ public class ShowWebActivity extends BaseActivity {
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
-                    mHandler.sendEmptyMessage(END_LOAD);
+                    if (mHandler != null)
+                        mHandler.sendEmptyMessage(END_LOAD);
                 }
 
                 @Override

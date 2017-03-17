@@ -97,6 +97,11 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
         mHandler = null;
+        if (myPopUtil != null) {
+            myPopUtil.dismiss();
+            myPopUtil.destory();
+            System.gc();
+        }
     }
 
     public String getmEid() {

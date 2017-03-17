@@ -3,7 +3,6 @@ package com.apollo.discounthunter.widgets;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -40,6 +39,34 @@ public class ItemView extends LinearLayout {
     private SwitchButton toggleButton;
     private TextView tvRight;
     private ImageView ivPoint;
+
+    public View getTopLineView() {
+        return topLineView;
+    }
+
+    public View getBottomLineView() {
+        return bottomLineView;
+    }
+
+    public TextView getTvLef() {
+        return tvLef;
+    }
+
+    public ImageView getIvRight() {
+        return ivRight;
+    }
+
+    public RelativeLayout getBodyLayout() {
+        return bodyLayout;
+    }
+
+    public TextView getTvRight() {
+        return tvRight;
+    }
+
+    public ImageView getIvPoint() {
+        return ivPoint;
+    }
 
     public String getRightText() {
         return rightText;
@@ -122,15 +149,20 @@ public class ItemView extends LinearLayout {
     }
 
     public ItemView(Context context) {
-        this(context, null);
+        super(context);
     }
 
-    public ItemView(Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs, 0);
+    public ItemView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        init(context, attrs);
     }
 
-    public ItemView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ItemView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
+        init(context, attrs);
+    }
+
+    private void init(Context context, AttributeSet attrs) {
         //获取样式
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.ItemView);
         if (typedArray != null) {

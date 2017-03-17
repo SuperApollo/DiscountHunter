@@ -69,7 +69,7 @@ public class AboutActivity extends BaseActivity {
 
         boolean hasUpdate = SharedPreferencesUtils.getBoolean(AppConfig.HAS_UPDATE, false);
         if (hasUpdate) {
-            itemUpdate.setRedPoint(true);
+            itemUpdate.getIvPoint().setVisibility(View.VISIBLE);
         }
 
         itemSuggestion.setOnItemClickedListner(new ItemView.onItemClickedListner() {
