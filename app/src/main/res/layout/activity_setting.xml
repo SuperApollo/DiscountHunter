@@ -11,8 +11,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
         app:leftDrawable="@mipmap/ic_launcher"
-        app:leftText="@string/about"
-        app:redPoint="true" />
+        app:leftText="@string/about" />
 
     <com.apollo.discounthunter.widgets.ItemView
         android:id="@+id/item_setting_flash"

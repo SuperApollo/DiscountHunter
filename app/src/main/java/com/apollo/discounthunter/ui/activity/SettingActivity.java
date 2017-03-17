@@ -3,7 +3,9 @@ package com.apollo.discounthunter.ui.activity;
 import android.view.View;
 
 import com.apollo.discounthunter.R;
+import com.apollo.discounthunter.constants.AppConfig;
 import com.apollo.discounthunter.utils.IntentUtils;
+import com.apollo.discounthunter.utils.SharedPreferencesUtils;
 import com.apollo.discounthunter.widgets.ItemView;
 
 import butterknife.BindView;
@@ -17,6 +19,8 @@ public class SettingActivity extends BaseActivity {
     ItemView itemAbout;
     @BindView(R.id.item_setting_flash)
     ItemView itemFlash;
+    @BindView(R.id.item_setting_clear_cache)
+    ItemView itemClearCache;
 
     @Override
     protected int getLayoutId() {
@@ -43,5 +47,11 @@ public class SettingActivity extends BaseActivity {
                 mToastUtils.show(SettingActivity.this, on + "");
             }
         });
+
+        boolean hasUpdate = SharedPreferencesUtils.getBoolean(AppConfig.HAS_UPDATE, false);
+        if (hasUpdate) {
+            itemAbout.setRedPoint(true);
+        }
+
     }
 }

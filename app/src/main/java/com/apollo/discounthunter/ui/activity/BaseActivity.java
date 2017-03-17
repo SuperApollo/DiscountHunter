@@ -237,4 +237,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
         return false;
     }
 
+    protected <T extends View> T queryViewById(View parentView, int id) {
+        return (T) parentView.findViewById(id);
+    }
 }

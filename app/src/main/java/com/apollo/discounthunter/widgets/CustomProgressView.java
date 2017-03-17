@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.apollo.discounthunter.R;
 
+import java.lang.ref.WeakReference;
+
 
 /**
  * 自定义的加载框
@@ -24,6 +26,7 @@ public class CustomProgressView {
     private CustomProgress customProgress;
     private TextView tvLoadMsg;
     private ImageView imgProgress;
+    private WeakReference<Context> mContext;
 
     private DialogInterface.OnCancelListener cancelListener;
 
@@ -31,7 +34,8 @@ public class CustomProgressView {
 
 
     public CustomProgressView(Context context) {
-        customProgress = new CustomProgress(context);
+        mContext = new WeakReference<>(context);
+        customProgress = new CustomProgress(mContext.get());
     }
 
 
@@ -85,6 +89,7 @@ public class CustomProgressView {
         public CustomProgress(Context context) {
             this(context, R.style.CustomProgressDialog);
         }
+
         public CustomProgress(Context context, int theme) {
             super(context, R.style.CustomProgressDialog);
             init(context);

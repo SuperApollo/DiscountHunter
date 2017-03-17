@@ -41,6 +41,22 @@ public class ItemView extends LinearLayout {
     private TextView tvRight;
     private ImageView ivPoint;
 
+    public String getRightText() {
+        return rightText;
+    }
+
+    public void setRightText(String rightText) {
+        this.rightText = rightText;
+    }
+
+    public boolean isRedPoint() {
+        return redPoint;
+    }
+
+    public void setRedPoint(boolean redPoint) {
+        this.redPoint = redPoint;
+    }
+
     public void setToggleButtonChangeListner(OnToggleButtonChangeListner toggleButtonChangeListner) {
         this.toggleButtonChangeListner = toggleButtonChangeListner;
     }

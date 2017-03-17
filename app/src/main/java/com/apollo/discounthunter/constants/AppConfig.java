@@ -39,4 +39,8 @@ public class AppConfig {
      * 数据库名称
      */
     public static final String DB_NAME = "discount_hunter.db";
+    /**
+     * 是否有新版本
+     */
+    public static final String HAS_UPDATE = "has_update";
 }

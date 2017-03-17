@@ -1,30 +1,52 @@
 package com.apollo.discounthunter.ui.activity;
 
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
+import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.apollo.discounthunter.R;
+import com.apollo.discounthunter.constants.AppConfig;
+import com.apollo.discounthunter.constants.Constants;
+import com.apollo.discounthunter.retrofit.model.AppUpdateInfoModel;
 import com.apollo.discounthunter.ui.fragment.FragmentAdapter;
 import com.apollo.discounthunter.ui.fragment.HomeFragment;
 import com.apollo.discounthunter.ui.fragment.HotFragment;
 import com.apollo.discounthunter.ui.fragment.RecommendFragment;
 import com.apollo.discounthunter.ui.fragment.SearchFragment;
+import com.apollo.discounthunter.utils.ApkUpdateUtil;
+import com.apollo.discounthunter.utils.AppUtil;
 import com.apollo.discounthunter.utils.IntentUtils;
+import com.apollo.discounthunter.utils.MyPopUtil;
+import com.apollo.discounthunter.utils.SharedPreferencesUtils;
 import com.apollo.discounthunter.utils.ViewUtil;
+import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +74,30 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private FragmentAdapter mFragmentAdapter;
     private OnSearchListner onSearchListner;
     private String mEid = "0";//记录当前在那个fragment页面，告诉搜索页
+    private final int CHECK_UPDATE = 1;
+    private final int SERVER_VERSION_ERROR = 0x00010086;
+    private final int HAS_UPDATE = 0x00010087;
+    private final int NO_UPDATE = 0x00010088;
+    private MyPopUtil myPopUtil;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case CHECK_UPDATE:
+                    checkUpdate();
+                    break;
+            }
+
+        }
+    };
+    private View parent;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mHandler.removeCallbacksAndMessages(null);
+        mHandler = null;
+    }
 
     public String getmEid() {
         return mEid;
@@ -84,6 +130,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
     @Override
     protected void initView(View view) {
+        parent = view;
         //设置radiobutton上方图片的大小
         Drawable homeDrawable = getResources().getDrawable(R.drawable.selector_item_home);
         homeDrawable.setBounds(0, 0, ViewUtil.dp2px(mContext, 24), ViewUtil.dp2px(mContext, 24));
@@ -102,6 +149,10 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         mRbHome.setChecked(true);
 
         mActionBar.setDisplayHomeAsUpEnabled(false);
+        Message message = new Message();
+        message.what = CHECK_UPDATE;
+        myPopUtil = MyPopUtil.getInstance(this);
+        mHandler.sendMessageDelayed(message, 3000);
 
     }
 
@@ -269,4 +320,194 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         }
 
     }
+
+    /**
+     * 检查更新
+     */
+    private void checkUpdate() {
+        new CheckUpdateTask().execute();
+    }
+
+    private class CheckUpdateTask extends AsyncTask {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            showProgress();
+        }
+
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            String json = null;
+            try {
+                //从URL加载document对象
+                Document document = Jsoup.connect(Constants.CHECK_UPDATE_GITHUB_URL).get();
+                Element body = document.body();
+                json = body.text();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+
+            return json;
+        }
+
+        @Override
+        protected void onProgressUpdate(Object[] values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(Object o) {
+            super.onPostExecute(o);
+            parseData((String) o);
+            clearProgress();
+        }
+    }
+
+    private void parseData(String json) {
+        AppUpdateInfoModel updateInfoModel = null;
+        try {
+            Gson gson = new Gson();
+            if (json != null)
+                updateInfoModel = gson.fromJson(json, AppUpdateInfoModel.class);
+            String serverVersion = updateInfoModel.getAppVersion();
+            String localVersion = AppUtil.getAppVersionName(mContext);
+            int toUpdate = toUpdate(serverVersion, localVersion);
+            switch (toUpdate) {
+                case HAS_UPDATE:
+                    chooseDialogShow(serverVersion, updateInfoModel.getAppUrl(), updateInfoModel.getAppSize(), updateInfoModel.getAppDescription());
+                    SharedPreferencesUtils.putBoolean(AppConfig.HAS_UPDATE, true);
+                    break;
+                case NO_UPDATE:
+                    mToastUtils.show(mContext, "当前已是最新版本");
+                    SharedPreferencesUtils.putBoolean(AppConfig.HAS_UPDATE, false);
+                    break;
+                case SERVER_VERSION_ERROR:
+                    mToastUtils.show(mContext, "服务器版本号错误");
+                    SharedPreferencesUtils.putBoolean(AppConfig.HAS_UPDATE, false);
+                    break;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    /**
+     * 判断是否升级
+     *
+     * @param appVersion
+     * @return
+     */
+    private int toUpdate(String appVersion, String currentVersionName) {
+
+        if (!TextUtils.isEmpty(appVersion) && !TextUtils.isEmpty(currentVersionName)) {
+            String[] versionStr = new String[]{
+                    appVersion, currentVersionName
+            };
+            int[] versionInt = versionName2Int(versionStr);
+
+            if (versionInt[0] == -1) {
+                return SERVER_VERSION_ERROR;
+            } else if (versionInt[0] > versionInt[1]) {
+                return HAS_UPDATE;
+            } else {
+                return NO_UPDATE;
+            }
+        }
+        return NO_UPDATE;
+    }
+
+    /**
+     * 版本号转换为int，便于比较
+     *
+     * @param versions
+     * @return
+     */
+    private int[] versionName2Int(String[] versions) {
+        StringBuilder sb = new StringBuilder();
+        StringBuilder sb1 = new StringBuilder();
+        String[] s = versions[0].split("\\.");
+        String[] s1 = versions[1].split("\\.");
+        for (String ss : s) {
+            sb.append(ss);
+        }
+        for (String ss1 : s1) {
+            sb1.append(ss1);
+        }
+        int var = sb.length() - sb1.length();
+        if (var > 0) {
+            for (int i = 0; i < var; i++) {
+                sb1.append("0");
+            }
+        } else if (var < 0) {
+            for (int i = 0; i < -var; i++) {
+                sb.append("0");
+            }
+        }
+
+        int versino1 = -1;
+        int version2 = -1;
+        try {
+            versino1 = Integer.parseInt(sb.toString());
+            version2 = Integer.parseInt(sb1.toString());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+        int[] versionsInt = new int[]{versino1, version2};
+
+        return versionsInt;
+    }
+
+    /**
+     * 是否升级弹框
+     *
+     * @param curVersion
+     * @param appUrl
+     * @param appSize
+     * @param appDescription
+     */
+    private void chooseDialogShow(String curVersion, final String appUrl, String appSize, String appDescription) {
+        myPopUtil.initView(R.layout.new_update_pop, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
+                R.style.add_pop_tv_style);
+        if (parent == null)
+            return;
+        myPopUtil.showAtLoacation(parent, Gravity.CENTER, 0, 0);
+        TextView tv_new_update_num = queryViewById(myPopUtil.getmPopView(), R.id.tv_new_update_num);
+        tv_new_update_num.setText("版本号：" + curVersion);
+        TextView tvDescription = queryViewById(myPopUtil.getmPopView(), R.id.tv_new_update_description);
+        tvDescription.setMovementMethod(ScrollingMovementMethod.getInstance());
+        LinearLayout ll_new_update_description = queryViewById(myPopUtil.getmPopView(), R.id.ll_new_update_description);
+        if (!TextUtils.isEmpty(appDescription)) {
+            tvDescription.setText(appDescription + "\n【更新包大小】" + appSize);
+            ll_new_update_description.setVisibility(View.VISIBLE);
+        }
+
+        TextView tv_cancel = queryViewById(myPopUtil.getmPopView(), R.id.tv_new_update_pop_cancel);
+        TextView tv_ok = queryViewById(myPopUtil.getmPopView(), R.id.tv_new_update_pop_ok);
+        tv_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myPopUtil.dismiss();
+            }
+        });
+        tv_ok.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myPopUtil.dismiss();
+                try {//防止apprUrl错误造成崩溃
+                    ApkUpdateUtil apkUpdateUtil = new ApkUpdateUtil(MainActivity.this, appUrl);
+                    apkUpdateUtil.startDown();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    mToastUtils.show(mContext, e.getMessage());
+                }
+            }
+        });
+    }
+
+
 }

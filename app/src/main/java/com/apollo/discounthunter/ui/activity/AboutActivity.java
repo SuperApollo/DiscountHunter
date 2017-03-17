@@ -10,11 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.apollo.discounthunter.R;
+import com.apollo.discounthunter.constants.AppConfig;
 import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.retrofit.model.AppUpdateInfoModel;
 import com.apollo.discounthunter.utils.ApkUpdateUtil;
 import com.apollo.discounthunter.utils.AppUtil;
 import com.apollo.discounthunter.utils.MyPopUtil;
+import com.apollo.discounthunter.utils.SharedPreferencesUtils;
 import com.apollo.discounthunter.widgets.ItemView;
 import com.google.gson.Gson;
 
@@ -65,6 +67,11 @@ public class AboutActivity extends BaseActivity {
             }
         });
 
+        boolean hasUpdate = SharedPreferencesUtils.getBoolean(AppConfig.HAS_UPDATE, false);
+        if (hasUpdate) {
+            itemUpdate.setRedPoint(true);
+        }
+
         itemSuggestion.setOnItemClickedListner(new ItemView.onItemClickedListner() {
             @Override
             public void onClick() {
@@ -105,12 +112,15 @@ public class AboutActivity extends BaseActivity {
             switch (toUpdate) {
                 case HAS_UPDATE:
                     chooseDialogShow(serverVersion, updateInfoModel.getAppUrl(), updateInfoModel.getAppSize(), updateInfoModel.getAppDescription());
+                    SharedPreferencesUtils.putBoolean(AppConfig.HAS_UPDATE, true);
                     break;
                 case NO_UPDATE:
                     mToastUtils.show(mContext, "当前已是最新版本");
+                    SharedPreferencesUtils.putBoolean(AppConfig.HAS_UPDATE, false);
                     break;
                 case SERVER_VERSION_ERROR:
                     mToastUtils.show(mContext, "服务器版本号错误");
+                    SharedPreferencesUtils.putBoolean(AppConfig.HAS_UPDATE, false);
                     break;
             }
 
@@ -271,7 +281,4 @@ public class AboutActivity extends BaseActivity {
         });
     }
 
-    private <T extends View> T queryViewById(View parentView, int id) {
-        return (T) parentView.findViewById(id);
-    }
 }
