@@ -23,7 +23,6 @@ import android.widget.SearchView;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.base.BaseApplication;
-import com.apollo.discounthunter.utils.ActivityManager;
 import com.apollo.discounthunter.utils.ToastUtils;
 import com.apollo.discounthunter.widgets.CustomProgressView;
 import com.umeng.analytics.MobclickAgent;
@@ -56,7 +55,8 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(getLayoutId());
+        View view = LayoutInflater.from(this).inflate(getLayoutId(), null);
+        setContentView(view);
         ButterKnife.bind(this);
         setOverflowShowingAlways();
         mContext = BaseApplication.getContext();
@@ -64,7 +64,6 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
         mActionBar = getActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeAsUpIndicator(R.mipmap.icon_arrow_left);
-        View view = LayoutInflater.from(this).inflate(getLayoutId(), null);
         initView(view);
         WeakReference<Activity> activityWeakReference = new WeakReference<Activity>(BaseActivity.this);
 //        ActivityManager.getInstance().addActivity(activityWeakReference.get());

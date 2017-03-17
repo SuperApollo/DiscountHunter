@@ -35,6 +35,7 @@ public class MyPopUtil {
 
 
     private MyPopUtil(Context context) {
+
         this.mContext = new WeakReference<>(context);
     }
 
@@ -53,8 +54,8 @@ public class MyPopUtil {
     public View initView(int layoutId, int width, int height, int anim) {
         View popView = LayoutInflater.from(mContext.get()).inflate(layoutId, null);
         if (mMyPopupWindow == null)
-            mMyPopupWindow = new PopupWindow();
-        mMyPopupWindow.setContentView(popView);
+        mMyPopupWindow = new PopupWindow(popView);
+//        mMyPopupWindow.setContentView(popView);
         mMyPopupWindow.setWidth(width);
         mMyPopupWindow.setHeight(height);
         mMyPopupWindow.setOutsideTouchable(true);
@@ -84,8 +85,8 @@ public class MyPopUtil {
     public void showAtLoacation(View parent, int gravity, int x, int y) {
         if (mMyPopupWindow != null) {
             this.mContext = new WeakReference<>(parent.getContext());//确保当前context引用指向最新的activity，防止半透明不生效
-            backgroundAlpha(0.5f);
             mMyPopupWindow.showAtLocation(parent, gravity, x, y);
+            backgroundAlpha(0.5f);
         }
     }
 
@@ -98,14 +99,16 @@ public class MyPopUtil {
      */
     public void showAsDropDown(View anchor, int x, int y) {
         if (mMyPopupWindow != null) {
-            backgroundAlpha(0.5f);
             mMyPopupWindow.showAsDropDown(anchor, x, y);
+            backgroundAlpha(0.5f);
         }
     }
 
     public void dismiss() {
         if (mMyPopupWindow != null) {
-            mMyPopupWindow.dismiss();
+            if (mMyPopupWindow.isShowing())
+                mMyPopupWindow.dismiss();
+            mMyPopupWindow = null;
         }
 
     }

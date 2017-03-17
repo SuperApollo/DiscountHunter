@@ -79,9 +79,8 @@ public class AboutActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (myPopUtil != null) {
-            myPopUtil = null;
+            myPopUtil.dismiss();
         }
-
     }
 
     /**
@@ -234,6 +233,8 @@ public class AboutActivity extends BaseActivity {
     private void chooseDialogShow(String curVersion, final String appUrl, String appSize, String appDescription) {
         myPopUtil.initView(R.layout.new_update_pop, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
                 R.style.add_pop_tv_style);
+        if (parent == null)
+            return;
         myPopUtil.showAtLoacation(parent, Gravity.CENTER, 0, 0);
         TextView tv_new_update_num = queryViewById(myPopUtil.getmPopView(), R.id.tv_new_update_num);
         tv_new_update_num.setText("版本号：" + curVersion);
