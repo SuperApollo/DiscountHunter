@@ -1,6 +1,7 @@
 package com.apollo.discounthunter.ui.activity;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
@@ -27,6 +28,7 @@ import com.apollo.discounthunter.utils.ToastUtils;
 import com.apollo.discounthunter.widgets.CustomProgressView;
 import com.umeng.analytics.MobclickAgent;
 
+import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
@@ -62,9 +64,10 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
         mActionBar = getActionBar();
         mActionBar.setDisplayHomeAsUpEnabled(true);
         mActionBar.setHomeAsUpIndicator(R.mipmap.icon_arrow_left);
-        View view = LayoutInflater.from(this).inflate(getLayoutId(),null);
+        View view = LayoutInflater.from(this).inflate(getLayoutId(), null);
         initView(view);
-        ActivityManager.getInstance().addActivity(BaseActivity.this);
+        WeakReference<Activity> activityWeakReference = new WeakReference<Activity>(BaseActivity.this);
+//        ActivityManager.getInstance().addActivity(activityWeakReference.get());
     }
 
     @Override
@@ -161,6 +164,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
 
     /**
      * 初始化view
+     *
      * @param view
      */
     protected abstract void initView(View view);

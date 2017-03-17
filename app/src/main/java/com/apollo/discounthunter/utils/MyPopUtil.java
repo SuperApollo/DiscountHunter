@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 
+import java.lang.ref.WeakReference;
+
 /**
  * 弹框工具类
  * Created by apollo on 17-3-15.
@@ -15,7 +17,7 @@ import android.widget.PopupWindow;
 
 public class MyPopUtil {
     private volatile static MyPopUtil mMyPopUtil = null;
-    private Context mContext;//必须是activity
+    private WeakReference<Context> mContext;//必须是activity
     private int mLayoutId;//填充布局id
     private int mWidth;//显示位置
     private int mHeight;//显示位置
@@ -33,7 +35,7 @@ public class MyPopUtil {
 
 
     private MyPopUtil(Context context) {
-        this.mContext = context;
+        this.mContext = new WeakReference<>(context);
     }
 
 
@@ -49,7 +51,7 @@ public class MyPopUtil {
     }
 
     public View initView(int layoutId, int width, int height, int anim) {
-        View popView = LayoutInflater.from(mContext).inflate(layoutId, null);
+        View popView = LayoutInflater.from(mContext.get()).inflate(layoutId, null);
         if (mMyPopupWindow == null)
             mMyPopupWindow = new PopupWindow();
         mMyPopupWindow.setContentView(popView);
@@ -81,7 +83,7 @@ public class MyPopUtil {
      */
     public void showAtLoacation(View parent, int gravity, int x, int y) {
         if (mMyPopupWindow != null) {
-            this.mContext = parent.getContext();//确保当前context引用指向最新的activity，防止半透明不生效
+            this.mContext = new WeakReference<>(parent.getContext());//确保当前context引用指向最新的activity，防止半透明不生效
             backgroundAlpha(0.5f);
             mMyPopupWindow.showAtLocation(parent, gravity, x, y);
         }
@@ -118,7 +120,7 @@ public class MyPopUtil {
      * @param bgAlpha
      */
     private void backgroundAlpha(float bgAlpha) {
-        Activity activity = (Activity) mContext;
+        Activity activity = (Activity) mContext.get();
         WindowManager.LayoutParams lp = activity.getWindow().getAttributes();
         lp.alpha = bgAlpha;
         if (bgAlpha == 1) {

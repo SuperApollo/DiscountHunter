@@ -106,7 +106,7 @@ public class AboutActivity extends BaseActivity {
                     chooseDialogShow(serverVersion, updateInfoModel.getAppUrl(), updateInfoModel.getAppSize(), updateInfoModel.getAppDescription());
                     break;
                 case NO_UPDATE:
-                    mToastUtils.show(mContext, "当前是最新版本");
+                    mToastUtils.show(mContext, "当前已是最新版本");
                     break;
                 case SERVER_VERSION_ERROR:
                     mToastUtils.show(mContext, "服务器版本号错误");
