@@ -80,6 +80,8 @@ public class AboutActivity extends BaseActivity {
         super.onDestroy();
         if (myPopUtil != null) {
             myPopUtil.dismiss();
+            myPopUtil.destory();
+            System.gc();
         }
     }
 

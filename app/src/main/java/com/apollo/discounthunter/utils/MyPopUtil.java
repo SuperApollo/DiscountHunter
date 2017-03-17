@@ -54,7 +54,7 @@ public class MyPopUtil {
     public View initView(int layoutId, int width, int height, int anim) {
         View popView = LayoutInflater.from(mContext.get()).inflate(layoutId, null);
         if (mMyPopupWindow == null)
-        mMyPopupWindow = new PopupWindow(popView);
+            mMyPopupWindow = new PopupWindow(popView);
 //        mMyPopupWindow.setContentView(popView);
         mMyPopupWindow.setWidth(width);
         mMyPopupWindow.setHeight(height);
@@ -108,9 +108,16 @@ public class MyPopUtil {
         if (mMyPopupWindow != null) {
             if (mMyPopupWindow.isShowing())
                 mMyPopupWindow.dismiss();
-            mMyPopupWindow = null;
         }
+    }
 
+    public void destory() {
+        if (mContext != null)
+            mContext = null;
+        if (mMyPopupWindow != null)
+            mMyPopupWindow = null;
+        if (mMyPopUtil != null)
+            mMyPopUtil = null;
     }
 
     public void goneItem() {
