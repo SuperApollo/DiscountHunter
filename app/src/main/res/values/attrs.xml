@@ -28,6 +28,12 @@
         <attr name="progress_reach_height" />
     </declare-styleable>
 
+    <!--圆形ProgressDialog去掉左右空白样式-->
+    <style name="NoWhiteDialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <!--圆形ProgressDialog消失动画-->
     <style name="dialogWindowAnim" parent="android:Animation">
         <item name="android:windowExitAnimation">@anim/dialog_out</item>

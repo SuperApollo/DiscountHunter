@@ -25,6 +25,14 @@ public class MyPopUtil {
     private View mPopView;//填充的布局
     private PopupWindow mMyPopupWindow;
 
+    public Context getmContext() {
+        return mContext.get();
+    }
+
+    public void updateContext(Context mContext) {
+        this.mContext = new WeakReference<>(mContext);
+    }
+
     public View getmPopView() {
         return mPopView;
     }
@@ -55,7 +63,7 @@ public class MyPopUtil {
         View popView = LayoutInflater.from(mContext.get()).inflate(layoutId, null);
         if (mMyPopupWindow == null)
             mMyPopupWindow = new PopupWindow(popView);
-//        mMyPopupWindow.setContentView(popView);
+        mMyPopupWindow.setContentView(popView);//确保最新的popview
         mMyPopupWindow.setWidth(width);
         mMyPopupWindow.setHeight(height);
         mMyPopupWindow.setOutsideTouchable(true);
@@ -112,12 +120,18 @@ public class MyPopUtil {
     }
 
     public void destory() {
-        if (mContext != null)
-            mContext = null;
-        if (mMyPopupWindow != null)
+//        if (mContext != null) {
+//            mContext.clear();
+//        }
+
+        if (mMyPopupWindow != null) {
             mMyPopupWindow = null;
-        if (mMyPopUtil != null)
+        }
+
+        if (mMyPopUtil != null) {
             mMyPopUtil = null;
+        }
+
     }
 
     public void goneItem() {

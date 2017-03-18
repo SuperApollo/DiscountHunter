@@ -79,7 +79,6 @@ public class AboutActivity extends BaseActivity {
             }
         });
 
-        myPopUtil = MyPopUtil.getInstance(this);
     }
 
     @Override
@@ -90,6 +89,13 @@ public class AboutActivity extends BaseActivity {
             myPopUtil.destory();
             System.gc();
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        myPopUtil = MyPopUtil.getInstance(AboutActivity.this);
+//        myPopUtil.updateContext(AboutActivity.this);
     }
 
     /**
