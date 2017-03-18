@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apollo.discounthunter.R;
+import com.apollo.discounthunter.base.BaseApplication;
 
 
 /****
@@ -44,6 +45,10 @@ public class ToastUtils {
 
     public static void show(Context context, CharSequence text) {
         show(context, text, Toast.LENGTH_SHORT);
+    }
+
+    public static void show(CharSequence text) {
+        show(BaseApplication.getContext(), text);
     }
 
     public static void show(Context context, CharSequence text, int duration) {

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -15,6 +16,8 @@ import android.view.ViewGroup;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.constants.AppConfig;
+import com.apollo.discounthunter.flash.Flash;
+import com.apollo.discounthunter.flash.FlashLightManager;
 import com.apollo.discounthunter.utils.DataCleanUtil;
 import com.apollo.discounthunter.utils.ImageLoaderUtils;
 import com.apollo.discounthunter.utils.IntentUtils;
@@ -52,6 +55,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private final int CLEAR_SUCCESS = 0x0001;
     private final int DISMISS_DIALOG = 0x0002;
     private final int REQUEST_CODE_SCAN = 1;
+    private boolean mUpper;
+    private FlashLightManager mFlashLightManager;
+    private Flash mFlash;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -117,7 +123,11 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         itemFlash.setToggleButtonChangeListner(new ItemView.OnToggleButtonChangeListner() {
             @Override
             public void onToggleChanged(boolean on) {
-                mToastUtils.show(SettingActivity.this, on + "");
+                if (mUpper) {
+                    mFlashLightManager.setFlashlight(on);
+                } else {
+                    mFlash.setLight(on);
+                }
             }
         });
 
@@ -159,6 +169,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         });
 
         getCahceSize();
+
+        initFlash();
 
     }
 
@@ -250,6 +262,30 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 mMyPopUtil.dismiss();
                 break;
         }
+    }
+
+    /**
+     * 闪光灯初始化
+     */
+    private void initFlash() {
+
+        mUpper = isVersion21Upper();
+        if (mUpper) {
+            mFlashLightManager = new FlashLightManager(mContext);
+        } else {
+            mFlash = Flash.getInstance();
+            mFlash.open();
+        }
+
+    }
+
+    //判断版本是否是5.0以上
+    private boolean isVersion21Upper() {
+        int version = Build.VERSION.SDK_INT;
+        if (version >= 21) {
+            return true;
+        }
+        return false;
     }
 
 }
