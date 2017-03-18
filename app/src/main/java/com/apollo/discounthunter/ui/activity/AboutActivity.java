@@ -115,6 +115,7 @@ public class AboutActivity extends BaseActivity {
                 updateInfoModel = gson.fromJson(json, AppUpdateInfoModel.class);
             String serverVersion = updateInfoModel.getAppVersion();
             String localVersion = AppUtil.getAppVersionName(mContext);
+            SharedPreferencesUtils.putString(AppConfig.APK_URL, updateInfoModel.getAppUrl());
             int toUpdate = toUpdate(serverVersion, localVersion);
             switch (toUpdate) {
                 case HAS_UPDATE:

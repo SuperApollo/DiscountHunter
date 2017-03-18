@@ -16,6 +16,7 @@ import android.webkit.WebViewClient;
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.retrofit.model.Model;
+import com.apollo.discounthunter.utils.ApkUpdateUtil;
 import com.apollo.discounthunter.utils.AppUtil;
 import com.apollo.discounthunter.utils.LogUtil;
 
@@ -133,7 +134,12 @@ public class ShowWebActivity extends BaseActivity {
                     mWebView.loadUrl(homeModel.getApp_url());
             }
             if (!TextUtils.isEmpty(codeUrl)) {
-                mWebView.loadUrl(codeUrl);
+                if (codeUrl.endsWith(".apk")) {
+                    //下载
+                    ApkUpdateUtil apkUpdateUtil = new ApkUpdateUtil(ShowWebActivity.this, codeUrl);
+                    apkUpdateUtil.startDown();
+                } else
+                    mWebView.loadUrl(codeUrl);
             }
 
         }

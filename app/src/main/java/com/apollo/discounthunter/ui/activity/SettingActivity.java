@@ -168,7 +168,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         if (resultCode == RESULT_OK) { //RESULT_OK = -1
             Bundle bundle = data.getExtras();
             String scanResult = bundle.getString("result");
-            mToastUtils.show(mContext, scanResult);
             // TODO: 2017/2/28 进webview
             IntentUtils.sendIntent(SettingActivity.this, ShowWebActivity.class, bundle);
 

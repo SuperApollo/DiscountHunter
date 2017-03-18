@@ -43,4 +43,8 @@ public class AppConfig {
      * 是否有新版本
      */
     public static final String HAS_UPDATE = "has_update";
+    /**
+     * 新版本apk下载地址
+     */
+    public static final String APK_URL = "apk_url";
 }

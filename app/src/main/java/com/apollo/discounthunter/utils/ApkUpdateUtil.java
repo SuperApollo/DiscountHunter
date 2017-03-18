@@ -76,7 +76,7 @@ public class ApkUpdateUtil {
         }
         double press = ((current * 0.1d) / (total * 0.1d)) * 100;
         bar.setProgress((int) press);
-        textSize.setText("正在更新" + (int) press + "%");
+        textSize.setText("下载进度" + (int) press + "%");
     }
 
     /**

@@ -2,10 +2,13 @@ package com.apollo.discounthunter.ui.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.apollo.discounthunter.R;
+import com.apollo.discounthunter.constants.AppConfig;
+import com.apollo.discounthunter.utils.SharedPreferencesUtils;
 import com.apollo.discounthunter.zxing.encoding.EncodingHandler;
 
 import butterknife.BindView;
@@ -34,8 +37,9 @@ public class ShowCodeActivity extends BaseActivity {
         try {
 //                    Bitmap mBitmap = EncodingHandler.createQRCode("www.baidu.com", 300);
 //                    qrcodeImg.setImageBitmap(mBitmap);
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-            Bitmap www = EncodingHandler.createQRCode("www.baidu.com", 600, 600, bitmap);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_logo);
+            String url = SharedPreferencesUtils.getString(AppConfig.APK_URL);
+            Bitmap www = EncodingHandler.createQRCode(url, 600, 600, bitmap);
             ivShowCode.setImageBitmap(www);
         } catch (Exception e) {
             e.printStackTrace();
