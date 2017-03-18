@@ -10,14 +10,14 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
-        app:leftDrawable="@mipmap/ic_launcher"
+        app:leftDrawable="@mipmap/icon_about"
         app:leftText="@string/about" />
 
     <com.apollo.discounthunter.widgets.ItemView
         android:id="@+id/item_setting_flash"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:leftDrawable="@mipmap/ic_launcher"
+        app:leftDrawable="@mipmap/icon_flash"
         app:leftText="@string/flash"
         app:showType="2"
         app:topLine="true" />
@@ -26,7 +26,7 @@
         android:id="@+id/item_setting_clear_cache"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:leftDrawable="@mipmap/ic_launcher"
+        app:leftDrawable="@mipmap/icon_clear"
         app:leftText="@string/clear_cache"
         app:rightText="30M"
         app:topLine="true" />
@@ -36,14 +36,14 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
-        app:leftDrawable="@mipmap/ic_launcher"
+        app:leftDrawable="@mipmap/icon_code"
         app:leftText="@string/my_code" />
 
     <com.apollo.discounthunter.widgets.ItemView
         android:id="@+id/item_setting_scan"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        app:leftDrawable="@mipmap/ic_launcher"
+        app:leftDrawable="@mipmap/icon_scan"
         app:leftText="@string/scan"
         app:topLine="true" />
 

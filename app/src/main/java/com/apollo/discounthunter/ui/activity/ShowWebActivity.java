@@ -136,6 +136,7 @@ public class ShowWebActivity extends BaseActivity {
             if (!TextUtils.isEmpty(codeUrl)) {
                 if (codeUrl.endsWith(".apk")) {
                     //下载
+                    mToastUtils.show(mContext, "请稍后");
                     ApkUpdateUtil apkUpdateUtil = new ApkUpdateUtil(ShowWebActivity.this, codeUrl);
                     apkUpdateUtil.startDown();
                 } else

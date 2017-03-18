@@ -24,6 +24,7 @@
             android:id="@+id/item_tv_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:drawableLeft="@mipmap/ic_launcher"
             android:drawablePadding="10dp"
             android:gravity="center_vertical"

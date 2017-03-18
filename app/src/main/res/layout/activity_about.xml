@@ -25,12 +25,14 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="100dp"
+        app:leftDrawable="@mipmap/icon_update"
         app:leftText="检查更新" />
 
     <com.apollo.discounthunter.widgets.ItemView
         android:id="@+id/item_about_suggestion"
         android:layout_width="match_parent"
         android:layout_height="48dp"
+        app:leftDrawable="@mipmap/icon_feedback"
         app:leftText="意见反馈"
         app:topLine="true" />
 

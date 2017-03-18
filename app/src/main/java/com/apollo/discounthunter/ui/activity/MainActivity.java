@@ -1,5 +1,7 @@
 package com.apollo.discounthunter.ui.activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -8,9 +10,11 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
@@ -75,6 +79,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private OnSearchListner onSearchListner;
     private String mEid = "0";//记录当前在那个fragment页面，告诉搜索页
     private final int CHECK_UPDATE = 1;
+    private final int MY_PERMISSIONS_REQUEST = 2;
     private final int SERVER_VERSION_ERROR = 0x00010086;
     private final int HAS_UPDATE = 0x00010087;
     private final int NO_UPDATE = 0x00010088;
@@ -159,6 +164,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         myPopUtil = MyPopUtil.getInstance(this);
         mHandler.sendMessageDelayed(message, 1000);
 
+        checkPermission();
     }
 
     /**
@@ -337,7 +343,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            showProgress();
+//            showProgress();
         }
 
         @Override
@@ -382,8 +388,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             int toUpdate = toUpdate(serverVersion, localVersion);
             switch (toUpdate) {
                 case HAS_UPDATE:
-                    chooseDialogShow(serverVersion, updateInfoModel.getAppUrl(), updateInfoModel.getAppSize(), updateInfoModel.getAppDescription());
+//                    chooseDialogShow(serverVersion, updateInfoModel.getAppUrl(), updateInfoModel.getAppSize(), updateInfoModel.getAppDescription());
                     SharedPreferencesUtils.putBoolean(AppConfig.HAS_UPDATE, true);
+                    mToastUtils.show(mContext, "发现新版本");
                     break;
                 case NO_UPDATE:
                     mToastUtils.show(mContext, "当前已是最新版本");
@@ -515,5 +522,19 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         });
     }
 
+    /**
+     * 权限检查
+     */
+    private void checkPermission() {
+
+        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO//麦克风权限
+                    , Manifest.permission.CAMERA//摄像头权限
+                    , Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST);//读写sd卡权限
+        }
+
+    }
 
 }

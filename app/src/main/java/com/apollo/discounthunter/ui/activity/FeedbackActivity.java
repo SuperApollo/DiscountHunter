@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.apollo.discounthunter.R;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * 意见反馈
@@ -47,6 +48,8 @@ public class FeedbackActivity extends BaseActivity {
     }
 
     private void doFeedBack(String feedback) {
-
+        feedback += "意见反馈：\n";
+        //提交到友盟
+        MobclickAgent.reportError(mContext, feedback);
     }
 }
