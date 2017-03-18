@@ -183,11 +183,16 @@ public class HomeFragment extends BaseFragment {
             Gson gson = new Gson();
             datas = gson.fromJson(json, new TypeToken<List<Model>>() {
             }.getType());
-            if (datas != null)
+            if (datas != null) {
                 mHomeModels.addAll(datas);
-            mAdapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged();
+            } else {
+                mToastUtils.show(mContext, "客官，没有更多了");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
+            mToastUtils.show(mContext, "客官，没有更多了");
         }
 
     }

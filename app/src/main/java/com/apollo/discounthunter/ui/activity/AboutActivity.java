@@ -43,7 +43,6 @@ public class AboutActivity extends BaseActivity {
     ItemView itemSuggestion;
     @BindView(R.id.tv_about_version)
     TextView tvVersion;
-    private MyPopUtil myPopUtil;
     private View parent;
 
     @Override
@@ -82,23 +81,6 @@ public class AboutActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (myPopUtil != null) {
-            myPopUtil.dismiss();
-            myPopUtil.destory();
-            System.gc();
-        }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        myPopUtil = MyPopUtil.getInstance(AboutActivity.this);
-//        myPopUtil.updateContext(AboutActivity.this);
-    }
-
     /**
      * 检查更新
      */
@@ -113,6 +95,10 @@ public class AboutActivity extends BaseActivity {
             Gson gson = new Gson();
             if (json != null)
                 updateInfoModel = gson.fromJson(json, AppUpdateInfoModel.class);
+            if (updateInfoModel == null) {
+                mToastUtils.show(mContext, "服务器开小差");
+                return;
+            }
             String serverVersion = updateInfoModel.getAppVersion();
             String localVersion = AppUtil.getAppVersionName(mContext);
             SharedPreferencesUtils.putString(AppConfig.APK_URL, updateInfoModel.getAppUrl());
@@ -251,6 +237,7 @@ public class AboutActivity extends BaseActivity {
      * @param appDescription
      */
     private void chooseDialogShow(String curVersion, final String appUrl, String appSize, String appDescription) {
+        MyPopUtil myPopUtil = MyPopUtil.getInstance(this);
         myPopUtil.initView(R.layout.new_update_pop, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
                 R.style.add_pop_tv_style);
         if (parent == null)
@@ -271,13 +258,13 @@ public class AboutActivity extends BaseActivity {
         tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myPopUtil.dismiss();
+                MyPopUtil.getInstance(AboutActivity.this).dismiss();
             }
         });
         tv_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myPopUtil.dismiss();
+                MyPopUtil.getInstance(AboutActivity.this).dismiss();
                 try {//防止apprUrl错误造成崩溃
                     ApkUpdateUtil apkUpdateUtil = new ApkUpdateUtil(AboutActivity.this, appUrl);
                     apkUpdateUtil.startDown();

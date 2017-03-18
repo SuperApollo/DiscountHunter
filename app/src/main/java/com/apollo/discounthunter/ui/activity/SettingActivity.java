@@ -50,7 +50,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.item_setting_scan)
     ItemView itemScan;
 
-    private MyPopUtil mMyPopUtil;
     private MyProgressDialog clearProgressDialog;
     private final int CLEAR_SUCCESS = 0x0001;
     private final int DISMISS_DIALOG = 0x0002;
@@ -86,20 +85,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             mHandler = null;
         }
 
-        if (mMyPopUtil != null) {
-            mMyPopUtil.dismiss();
-            mMyPopUtil.destory();
-            System.gc();
-        }
-
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mMyPopUtil = MyPopUtil.getInstance(SettingActivity.this);
-//        mMyPopUtil.updateContext(SettingActivity.this);
-    }
 
     @Override
     protected int getLayoutId() {
@@ -135,11 +122,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onClick() {
                 if (!TextUtils.equals("0KB", itemClearCache.getTvRight().getText())) {
-                    mMyPopUtil.initView(R.layout.clear_cache_pop, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
+                    MyPopUtil myPopUtil = MyPopUtil.getInstance(SettingActivity.this);
+                    myPopUtil.initView(R.layout.clear_cache_pop, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
                             R.style.add_pop_tv_style);
-                    mMyPopUtil.showAtLoacation(view, Gravity.CENTER, 0, 0);
-                    mMyPopUtil.getmPopView().findViewById(R.id.tv_clear_cache_pop_cancel).setOnClickListener(SettingActivity.this);
-                    mMyPopUtil.getmPopView().findViewById(R.id.tv_clear_cache_pop_ok).setOnClickListener(SettingActivity.this);
+                    myPopUtil.showAtLoacation(view, Gravity.CENTER, 0, 0);
+                    myPopUtil.getmPopView().findViewById(R.id.tv_clear_cache_pop_cancel).setOnClickListener(SettingActivity.this);
+                    myPopUtil.getmPopView().findViewById(R.id.tv_clear_cache_pop_ok).setOnClickListener(SettingActivity.this);
                 } else {//没有缓存
                     clearProgressDialog = new MyProgressDialog(SettingActivity.this, R.style.NoWhiteDialog, R.layout.load_dialog_done);
                     clearProgressDialog.show();
@@ -239,7 +227,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_clear_cache_pop_cancel:
-                mMyPopUtil.dismiss();
+                MyPopUtil.getInstance(SettingActivity.this).dismiss();
                 break;
             case R.id.tv_clear_cache_pop_ok:
                 clearProgressDialog = new MyProgressDialog(this, R.style.NoWhiteDialog);
@@ -259,7 +247,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     }
                 }.execute();
 
-                mMyPopUtil.dismiss();
+                MyPopUtil.getInstance(SettingActivity.this).dismiss();
                 break;
         }
     }

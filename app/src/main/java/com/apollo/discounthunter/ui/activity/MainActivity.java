@@ -83,7 +83,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private final int SERVER_VERSION_ERROR = 0x00010086;
     private final int HAS_UPDATE = 0x00010087;
     private final int NO_UPDATE = 0x00010088;
-    private MyPopUtil myPopUtil;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -102,11 +101,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
         mHandler = null;
-        if (myPopUtil != null) {
-            myPopUtil.dismiss();
-            myPopUtil.destory();
-            System.gc();
-        }
     }
 
     public String getmEid() {
@@ -161,7 +155,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         mActionBar.setDisplayHomeAsUpEnabled(false);
         Message message = new Message();
         message.what = CHECK_UPDATE;
-        myPopUtil = MyPopUtil.getInstance(this);
         mHandler.sendMessageDelayed(message, 1000);
 
         checkPermission();
@@ -388,9 +381,8 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             int toUpdate = toUpdate(serverVersion, localVersion);
             switch (toUpdate) {
                 case HAS_UPDATE:
-//                    chooseDialogShow(serverVersion, updateInfoModel.getAppUrl(), updateInfoModel.getAppSize(), updateInfoModel.getAppDescription());
+                    chooseDialogShow(serverVersion, updateInfoModel.getAppUrl(), updateInfoModel.getAppSize(), updateInfoModel.getAppDescription());
                     SharedPreferencesUtils.putBoolean(AppConfig.HAS_UPDATE, true);
-                    mToastUtils.show(mContext, "发现新版本");
                     break;
                 case NO_UPDATE:
                     mToastUtils.show(mContext, "当前已是最新版本");
@@ -484,6 +476,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
      * @param appDescription
      */
     private void chooseDialogShow(String curVersion, final String appUrl, String appSize, String appDescription) {
+        MyPopUtil myPopUtil = MyPopUtil.getInstance(MainActivity.this);
         myPopUtil.initView(R.layout.new_update_pop, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
                 R.style.add_pop_tv_style);
         if (parent == null)
@@ -504,13 +497,13 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         tv_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myPopUtil.dismiss();
+                MyPopUtil.getInstance(MainActivity.this).dismiss();
             }
         });
         tv_ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myPopUtil.dismiss();
+                MyPopUtil.getInstance(MainActivity.this).dismiss();
                 try {//防止apprUrl错误造成崩溃
                     ApkUpdateUtil apkUpdateUtil = new ApkUpdateUtil(MainActivity.this, appUrl);
                     apkUpdateUtil.startDown();

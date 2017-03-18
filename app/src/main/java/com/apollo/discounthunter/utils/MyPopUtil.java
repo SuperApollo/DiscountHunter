@@ -3,6 +3,7 @@ package com.apollo.discounthunter.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.BitmapDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -24,12 +25,13 @@ public class MyPopUtil {
     private int mAnim;//显示的动画效果
     private View mPopView;//填充的布局
     private PopupWindow mMyPopupWindow;
+    private final String TAG = MyPopUtil.this.getClass().getSimpleName();
 
     public Context getmContext() {
         return mContext.get();
     }
 
-    public void updateContext(Context mContext) {
+    public void setContext(Context mContext) {
         this.mContext = new WeakReference<>(mContext);
     }
 
@@ -116,26 +118,9 @@ public class MyPopUtil {
         if (mMyPopupWindow != null) {
             if (mMyPopupWindow.isShowing())
                 mMyPopupWindow.dismiss();
+            System.gc();
+            Log.i(TAG, String.valueOf(mContext.get() == null));
         }
-    }
-
-    public void destory() {
-//        if (mContext != null) {
-//            mContext.clear();
-//        }
-
-        if (mMyPopupWindow != null) {
-            mMyPopupWindow = null;
-        }
-
-        if (mMyPopUtil != null) {
-            mMyPopUtil = null;
-        }
-
-    }
-
-    public void goneItem() {
-
     }
 
     /**

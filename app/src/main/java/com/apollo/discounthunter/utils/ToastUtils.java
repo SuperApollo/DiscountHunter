@@ -18,7 +18,7 @@ import com.apollo.discounthunter.base.BaseApplication;
  */
 public class ToastUtils {
 
-    private static ToastUtils mToastUtils;
+    private volatile static ToastUtils mToastUtils;
     private static Toast mToast;
 
     private ToastUtils() {

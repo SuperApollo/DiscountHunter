@@ -19,6 +19,7 @@ import com.apollo.discounthunter.utils.IntentUtils;
 import com.apollo.discounthunter.widgets.XListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -178,11 +179,16 @@ public class HotFragment extends BaseFragment {
             Gson gson = new Gson();
             datas = gson.fromJson(json, new TypeToken<List<Model>>() {
             }.getType());
-            if (datas != null)
+            if (datas != null) {
                 mHotModels.addAll(datas);
-            mAdapter.notifyDataSetChanged();
+                mAdapter.notifyDataSetChanged();
+            } else {
+                mToastUtils.show(mContext, "客官，没有更多了");
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
+            mToastUtils.show(mContext, "客官，没有更多了");
         }
 
     }
