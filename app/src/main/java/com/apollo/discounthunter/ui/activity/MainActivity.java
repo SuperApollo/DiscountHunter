@@ -157,7 +157,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         Message message = new Message();
         message.what = CHECK_UPDATE;
         myPopUtil = MyPopUtil.getInstance(this);
-        mHandler.sendMessageDelayed(message, 3000);
+        mHandler.sendMessageDelayed(message, 1000);
 
     }
 

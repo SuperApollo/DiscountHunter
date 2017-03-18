@@ -92,6 +92,7 @@ public class ShowWebActivity extends BaseActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
             Model homeModel = bundle.getParcelable(Constants.GOODS_INFO);
+            String codeUrl = bundle.getString("result");
             mWebView.setWebViewClient(new WebViewClient() {//打开网页时不调用系统浏览器， 而是在本WebView中显示
                 @Override
                 public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -122,13 +123,19 @@ public class ShowWebActivity extends BaseActivity {
                     mHandler.sendEmptyMessage(START_LOAD);
                 }
             });
-            String tag = bundle.getString(Constants.BUNDLE_TAG);
-            if (TextUtils.equals("HomeFragment", tag))//显示weburl内容
-                mWebView.loadUrl(homeModel.getWeb_url());
-            else if (TextUtils.equals("GoodsDetailActivity_quan", tag))//去领券
-                mWebView.loadUrl(homeModel.getQuan_link());
-            else if (TextUtils.equals("GoodsDetailActivity_buy", tag))//去下单
-                mWebView.loadUrl(homeModel.getApp_url());
+            if (homeModel != null) {
+                String tag = bundle.getString(Constants.BUNDLE_TAG);
+                if (TextUtils.equals("HomeFragment", tag))//显示weburl内容
+                    mWebView.loadUrl(homeModel.getWeb_url());
+                else if (TextUtils.equals("GoodsDetailActivity_quan", tag))//去领券
+                    mWebView.loadUrl(homeModel.getQuan_link());
+                else if (TextUtils.equals("GoodsDetailActivity_buy", tag))//去下单
+                    mWebView.loadUrl(homeModel.getApp_url());
+            }
+            if (!TextUtils.isEmpty(codeUrl)) {
+                mWebView.loadUrl(codeUrl);
+            }
+
         }
     }
 

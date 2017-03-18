@@ -15,6 +15,7 @@ import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.retrofit.model.AppUpdateInfoModel;
 import com.apollo.discounthunter.utils.ApkUpdateUtil;
 import com.apollo.discounthunter.utils.AppUtil;
+import com.apollo.discounthunter.utils.IntentUtils;
 import com.apollo.discounthunter.utils.MyPopUtil;
 import com.apollo.discounthunter.utils.SharedPreferencesUtils;
 import com.apollo.discounthunter.widgets.ItemView;
@@ -75,7 +76,7 @@ public class AboutActivity extends BaseActivity {
         itemSuggestion.setOnItemClickedListner(new ItemView.onItemClickedListner() {
             @Override
             public void onClick() {
-                mToastUtils.show(mContext, "意见反馈");
+                IntentUtils.sendIntent(AboutActivity.this, FeedbackActivity.class);
             }
         });
 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:viewfinderview="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="true"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <SurfaceView
+            android:id="@+id/scanner_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+        <com.apollo.discounthunter.zxing.view.ViewfinderView
+            android:id="@+id/viewfinder_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            viewfinderview:corner_color="@color/corner_color"
+            viewfinderview:frame_color="@color/viewfinder_frame"
+            viewfinderview:label_text="二维码扫描"
+            viewfinderview:label_text_color="@color/appColor"
+            viewfinderview:laser_color="@color/laser_color"
+            viewfinderview:mask_color="@color/viewfinder_mask"
+            viewfinderview:result_color="@color/result_view"
+            viewfinderview:result_point_color="@color/result_point_color" />
+
+    </FrameLayout>
+
+</LinearLayout>

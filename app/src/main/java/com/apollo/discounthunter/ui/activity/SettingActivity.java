@@ -1,6 +1,10 @@
 package com.apollo.discounthunter.ui.activity;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
@@ -18,6 +22,8 @@ import com.apollo.discounthunter.utils.MyPopUtil;
 import com.apollo.discounthunter.utils.SharedPreferencesUtils;
 import com.apollo.discounthunter.widgets.ItemView;
 import com.apollo.discounthunter.widgets.MyProgressDialog;
+import com.apollo.discounthunter.zxing.activity.CaptureActivity;
+import com.apollo.discounthunter.zxing.encoding.EncodingHandler;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -36,10 +42,16 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     ItemView itemFlash;
     @BindView(R.id.item_setting_clear_cache)
     ItemView itemClearCache;
+    @BindView(R.id.item_setting_my_code)
+    ItemView itemMyCode;
+    @BindView(R.id.item_setting_scan)
+    ItemView itemScan;
+
     private MyPopUtil mMyPopUtil;
     private MyProgressDialog clearProgressDialog;
     private final int CLEAR_SUCCESS = 0x0001;
     private final int DISMISS_DIALOG = 0x0002;
+    private final int REQUEST_CODE_SCAN = 1;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -131,8 +143,36 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             itemAbout.getIvPoint().setVisibility(View.VISIBLE);
         }
 
+        itemMyCode.setOnItemClickedListner(new ItemView.onItemClickedListner() {
+            @Override
+            public void onClick() {
+                IntentUtils.sendIntent(SettingActivity.this, ShowCodeActivity.class);
+            }
+        });
+
+        itemScan.setOnItemClickedListner(new ItemView.onItemClickedListner() {
+            @Override
+            public void onClick() {
+                Intent intent = new Intent(SettingActivity.this, CaptureActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_SCAN);
+            }
+        });
+
         getCahceSize();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) { //RESULT_OK = -1
+            Bundle bundle = data.getExtras();
+            String scanResult = bundle.getString("result");
+            mToastUtils.show(mContext, scanResult);
+            // TODO: 2017/2/28 进webview
+            IntentUtils.sendIntent(SettingActivity.this, ShowWebActivity.class, bundle);
+
+        }
     }
 
     /**
