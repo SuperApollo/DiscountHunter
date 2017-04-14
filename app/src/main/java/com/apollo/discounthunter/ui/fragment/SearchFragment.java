@@ -8,6 +8,8 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,6 +63,7 @@ public class SearchFragment extends BaseFragment {
     private int mOffset = 0;
     private static final int STOP_REFRESH = 1;
     private static final int STOP_LOADMORE = 2;
+    private final int TOP_BTN_GONE = 3;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -72,6 +75,17 @@ public class SearchFragment extends BaseFragment {
                 case STOP_LOADMORE:
                     mXlvSearch.stopLoadMore();
                     break;
+                case TOP_BTN_GONE:
+                    if (mBtnToTop.getVisibility() == View.VISIBLE) {
+                        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0);
+                        alphaAnimation.setDuration(1000);
+                        mBtnToTop.startAnimation(alphaAnimation);
+                        mBtnToBottom.startAnimation(alphaAnimation);
+                        mBtnToTop.setVisibility(View.GONE);
+                        mBtnToBottom.setVisibility(View.GONE);
+                    }
+
+                    break;
             }
         }
     };
@@ -80,6 +94,8 @@ public class SearchFragment extends BaseFragment {
     private boolean isHistory;//当前展示的是否是搜索历史的adapter内容
     private String eId;
     private boolean searchChange;
+    private Button mBtnToTop;
+    private Button mBtnToBottom;
 
     //此方法在懒加载中不走
     @Override
@@ -92,6 +108,12 @@ public class SearchFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         searchHistory();
         MainActivity activity = (MainActivity) getActivity();
+        mBtnToTop = activity.getmBtnToTop();
+        mBtnToBottom = activity.getmBtnToBottom();
+        if (mSearchModels == null || mSearchModels.size() < 1) {
+            mBtnToTop.setVisibility(View.GONE);
+            mBtnToBottom.setVisibility(View.GONE);
+        }
         eId = activity.getmEid();
         activity.setOnSearchListner(new MainActivity.OnSearchListner() {
             @Override
@@ -156,6 +178,39 @@ public class SearchFragment extends BaseFragment {
             }
         });
 
+        mXlvSearch.setOnScrollListener(new XListView.OnXScrollListener() {
+            @Override
+            public void onXScrolling(View view) {
+
+            }
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+                if (i == 0) {//停止滑动
+
+                } else if (i == 1) {//拖动
+
+                } else if (i == 2) {//惯性
+                    if (mBtnToTop.getVisibility() == View.GONE) {
+                        mBtnToTop.setVisibility(View.VISIBLE);
+                        mBtnToBottom.setVisibility(View.VISIBLE);
+                        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+                        alphaAnimation.setDuration(100);
+                        mBtnToTop.startAnimation(alphaAnimation);
+                        mBtnToBottom.startAnimation(alphaAnimation);
+                        Message message = new Message();
+                        message.what = TOP_BTN_GONE;
+                        mHandler.sendMessageDelayed(message, 5000);
+                    }
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+
+            }
+        });
+
         mBtnClear.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -179,6 +234,21 @@ public class SearchFragment extends BaseFragment {
                             }
                         });
                 builder.create().show();
+            }
+        });
+
+        mBtnToTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mXlvSearch.smoothScrollToPosition(1);
+            }
+        });
+
+        mBtnToBottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mSearchModels != null && mSearchModels.size() > 0)
+                    mXlvSearch.smoothScrollToPosition(mSearchModels.size() - 1);
             }
         });
     }

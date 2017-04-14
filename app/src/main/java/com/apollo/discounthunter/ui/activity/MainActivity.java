@@ -75,9 +75,15 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     FrameLayout mFlContainer;
     @BindView(R.id.btn_main_to_top)
     Button mBtnToTop;
+    @BindView(R.id.btn_main_to_bottom)
+    Button mBtnToBottom;
 
     public Button getmBtnToTop() {
         return mBtnToTop;
+    }
+
+    public Button getmBtnToBottom() {
+        return mBtnToBottom;
     }
 
     private long mExitTime;
@@ -143,9 +149,6 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     protected void initView(View view) {
         parent = view;
-        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
-        alphaAnimation.setDuration(500);
-        mBtnToTop.setAnimation(alphaAnimation);
         //设置radiobutton上方图片的大小
         Drawable homeDrawable = getResources().getDrawable(R.drawable.selector_item_home);
         homeDrawable.setBounds(0, 0, ViewUtil.dp2px(mContext, 24), ViewUtil.dp2px(mContext, 24));

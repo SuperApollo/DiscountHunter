@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -46,6 +47,9 @@ public class HomeFragment extends BaseFragment {
     private HomeListAdapter mAdapter;
     private static final int STOP_REFRESH = 1;
     private static final int STOP_LOADMORE = 2;
+    private int firstVisiblePosition;
+    private Button mBtnToTop;
+    private final int TOP_BTN_GONE = 3;
     private int mOffset = 0;
     private boolean firstEnter = true;//首次进入加载一页数据
 
@@ -59,16 +63,27 @@ public class HomeFragment extends BaseFragment {
                 case STOP_LOADMORE:
                     mXlvHome.stopLoadMore();
                     break;
+                case TOP_BTN_GONE:
+                    if (mBtnToTop.getVisibility() == View.VISIBLE) {
+                        AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
+                        alphaAnimation.setDuration(1000);
+                        mBtnToTop.startAnimation(alphaAnimation);
+                        mBtnToBottom.startAnimation(alphaAnimation);
+                        mBtnToTop.setVisibility(View.GONE);
+                        mBtnToBottom.setVisibility(View.GONE);
+                    }
+
+                    break;
             }
         }
     };
-    private int firstVisiblePosition;
-    private Button mBtnToTop;
+    private Button mBtnToBottom;
 
     @Override
     protected void init() {
         MainActivity activity = (MainActivity) getActivity();
         mBtnToTop = activity.getmBtnToTop();
+        mBtnToBottom = activity.getmBtnToBottom();
         mXlvHome.setVerticalScrollBarEnabled(false);
         mXlvHome.setPullLoadEnable(true);
         mXlvHome.setPullRefreshEnable(true);
@@ -114,6 +129,23 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
                 firstVisiblePosition = mXlvHome.getFirstVisiblePosition();
+                if (i == 0) {//停止滑动
+
+                } else if (i == 1) {//拖动
+
+                } else if (i == 2) {//惯性
+                    if (mBtnToTop.getVisibility() == View.GONE) {
+                        mBtnToTop.setVisibility(View.VISIBLE);
+                        mBtnToBottom.setVisibility(View.VISIBLE);
+                        AlphaAnimation alphaAnimation = new AlphaAnimation(0f, 1f);
+                        alphaAnimation.setDuration(100);
+                        mBtnToTop.startAnimation(alphaAnimation);
+                        mBtnToBottom.startAnimation(alphaAnimation);
+                        Message message = new Message();
+                        message.what = TOP_BTN_GONE;
+                        mHandler.sendMessageDelayed(message, 5000);
+                    }
+                }
             }
 
             @Override
@@ -129,27 +161,18 @@ public class HomeFragment extends BaseFragment {
             firstEnter = false;
         }
 
-        mXlvHome.setOnScrollListener(new XListView.OnXScrollListener() {
-            @Override
-            public void onXScrolling(View view) {
-                mBtnToTop.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onScrollStateChanged(AbsListView absListView, int i) {
-
-            }
-
-            @Override
-            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
-
-            }
-        });
-
         mBtnToTop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mXlvHome.smoothScrollToPosition(1);
+            }
+        });
+
+        mBtnToBottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mHomeModels != null && mHomeModels.size() > 0)
+                    mXlvHome.smoothScrollToPosition(mHomeModels.size() - 1);
             }
         });
 

@@ -23,18 +23,37 @@
 
         <Button
             android:id="@+id/btn_main_to_top"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentBottom="true"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_above="@+id/btn_main_to_bottom"
             android:layout_alignParentRight="true"
             android:layout_margin="16dp"
+            android:alpha="1"
             android:background="@drawable/bg_fab"
             android:elevation="10dp"
             android:gravity="center"
-            android:text="电梯"
+            android:text="@string/to_top"
             android:textColor="@color/white"
-            android:textSize="10sp"
-            android:textStyle="bold" />
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <Button
+            android:id="@+id/btn_main_to_bottom"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_margin="16dp"
+            android:alpha="1"
+            android:background="@drawable/bg_fab"
+            android:elevation="10dp"
+            android:gravity="center"
+            android:text="@string/to_bottom"
+            android:textColor="@color/white"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

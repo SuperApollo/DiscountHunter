@@ -5,8 +5,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.adapter.HomeListAdapter;
@@ -14,6 +16,7 @@ import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.retrofit.model.Model;
 import com.apollo.discounthunter.retrofit.requestinterface.ApiService;
 import com.apollo.discounthunter.ui.activity.GoodsDetailActivity;
+import com.apollo.discounthunter.ui.activity.MainActivity;
 import com.apollo.discounthunter.ui.activity.ShowWebActivity;
 import com.apollo.discounthunter.utils.IntentUtils;
 import com.apollo.discounthunter.widgets.XListView;
@@ -44,6 +47,7 @@ public class HotFragment extends BaseFragment {
     private HomeListAdapter mAdapter;
     private static final int STOP_REFRESH = 1;
     private static final int STOP_LOADMORE = 2;
+    private final int TOP_BTN_GONE = 3;
     private int mOffset = 0;
     private boolean firstEnter = true;//首次进入加载一页数据
 
@@ -57,13 +61,28 @@ public class HotFragment extends BaseFragment {
                 case STOP_LOADMORE:
                     mXlvHot.stopLoadMore();
                     break;
+                case TOP_BTN_GONE:
+                    if (mBtnToTop.getVisibility() == View.VISIBLE) {
+                        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0);
+                        alphaAnimation.setDuration(1000);
+                        mBtnToTop.startAnimation(alphaAnimation);
+                        mBtnToBottom.startAnimation(alphaAnimation);
+                        mBtnToTop.setVisibility(View.GONE);
+                        mBtnToBottom.setVisibility(View.GONE);
+                    }
+                    break;
             }
         }
     };
     private int firstVisiblePosition;
+    private Button mBtnToTop;
+    private Button mBtnToBottom;
 
     @Override
     protected void init() {
+        MainActivity activity = (MainActivity) getActivity();
+        mBtnToTop = activity.getmBtnToTop();
+        mBtnToBottom = activity.getmBtnToBottom();
         mXlvHot.setVerticalScrollBarEnabled(false);
         mXlvHot.setPullLoadEnable(true);
         mXlvHot.setPullRefreshEnable(true);
@@ -108,6 +127,23 @@ public class HotFragment extends BaseFragment {
             @Override
             public void onScrollStateChanged(AbsListView absListView, int i) {
                 firstVisiblePosition = mXlvHot.getFirstVisiblePosition();
+                if (i == 0) {//停止滑动
+
+                } else if (i == 1) {//拖动
+
+                } else if (i == 2) {//惯性
+                    if (mBtnToTop.getVisibility() == View.GONE) {
+                        mBtnToTop.setVisibility(View.VISIBLE);
+                        mBtnToBottom.setVisibility(View.VISIBLE);
+                        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+                        alphaAnimation.setDuration(100);
+                        mBtnToTop.startAnimation(alphaAnimation);
+                        mBtnToBottom.startAnimation(alphaAnimation);
+                        Message message = new Message();
+                        message.what = TOP_BTN_GONE;
+                        mHandler.sendMessageDelayed(message, 5000);
+                    }
+                }
             }
 
             @Override
@@ -122,6 +158,19 @@ public class HotFragment extends BaseFragment {
             requestData();
             firstEnter = false;
         }
+        mBtnToTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mXlvHot.smoothScrollToPosition(1);
+            }
+        });
+        mBtnToBottom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mHotModels != null && mHotModels.size() > 0)
+                    mXlvHot.smoothScrollToPosition(mHotModels.size() - 1);
+            }
+        });
     }
 
     @Override
