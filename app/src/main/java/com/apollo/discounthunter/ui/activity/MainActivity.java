@@ -22,6 +22,8 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -71,6 +73,12 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     ViewPager mVpContainer;
     @BindView(R.id.fl_main_container)
     FrameLayout mFlContainer;
+    @BindView(R.id.btn_main_to_top)
+    Button mBtnToTop;
+
+    public Button getmBtnToTop() {
+        return mBtnToTop;
+    }
 
     private long mExitTime;
     private List<Fragment> mFragments;
@@ -135,6 +143,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     protected void initView(View view) {
         parent = view;
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+        alphaAnimation.setDuration(500);
+        mBtnToTop.setAnimation(alphaAnimation);
         //设置radiobutton上方图片的大小
         Drawable homeDrawable = getResources().getDrawable(R.drawable.selector_item_home);
         homeDrawable.setBounds(0, 0, ViewUtil.dp2px(mContext, 24), ViewUtil.dp2px(mContext, 24));
@@ -522,10 +533,12 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
 
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO//麦克风权限
                     , Manifest.permission.CAMERA//摄像头权限
-                    , Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST);//读写sd卡权限
+                    , Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    , Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST);//读写sd卡权限
         }
 
     }

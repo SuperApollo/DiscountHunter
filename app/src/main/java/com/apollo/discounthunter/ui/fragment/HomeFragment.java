@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.Button;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.adapter.HomeListAdapter;
@@ -14,6 +15,7 @@ import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.retrofit.model.Model;
 import com.apollo.discounthunter.retrofit.requestinterface.ApiService;
 import com.apollo.discounthunter.ui.activity.GoodsDetailActivity;
+import com.apollo.discounthunter.ui.activity.MainActivity;
 import com.apollo.discounthunter.ui.activity.ShowWebActivity;
 import com.apollo.discounthunter.utils.IntentUtils;
 import com.apollo.discounthunter.widgets.XListView;
@@ -61,9 +63,12 @@ public class HomeFragment extends BaseFragment {
         }
     };
     private int firstVisiblePosition;
+    private Button mBtnToTop;
 
     @Override
     protected void init() {
+        MainActivity activity = (MainActivity) getActivity();
+        mBtnToTop = activity.getmBtnToTop();
         mXlvHome.setVerticalScrollBarEnabled(false);
         mXlvHome.setPullLoadEnable(true);
         mXlvHome.setPullRefreshEnable(true);
@@ -124,6 +129,29 @@ public class HomeFragment extends BaseFragment {
             firstEnter = false;
         }
 
+        mXlvHome.setOnScrollListener(new XListView.OnXScrollListener() {
+            @Override
+            public void onXScrolling(View view) {
+                mBtnToTop.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
+
+            }
+        });
+
+        mBtnToTop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mXlvHome.smoothScrollToPosition(1);
+            }
+        });
 
     }
 
@@ -147,7 +175,8 @@ public class HomeFragment extends BaseFragment {
 
         ApiService service = retrofit.create(ApiService.class);
         Call<ResponseBody> modelCall = service.loadHomeListRepo("API", "app_items", mOffset + "", "10", "0");
-//        showProgress();
+        if (mHomeModels.size() < 1)
+            showProgress();
         modelCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

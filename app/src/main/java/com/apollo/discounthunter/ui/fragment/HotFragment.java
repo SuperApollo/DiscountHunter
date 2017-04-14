@@ -143,7 +143,8 @@ public class HotFragment extends BaseFragment {
 
         ApiService service = retrofit.create(ApiService.class);
         Call<ResponseBody> modelCall = service.loadHomeListRepo("API", "app_items", mOffset + "", "10", "6");
-//        showProgress();
+        if (mHotModels.size() < 1)
+            showProgress();
         modelCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

@@ -143,7 +143,8 @@ public class RecommendFragment extends BaseFragment {
 
         ApiService service = retrofit.create(ApiService.class);
         Call<ResponseBody> modelCall = service.loadHomeListRepo("API", "app_items", mOffset + "", "10", "2");
-//        showProgress();
+        if (mRecommendModels.size() < 1)
+            showProgress();
         modelCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -179,16 +180,16 @@ public class RecommendFragment extends BaseFragment {
             Gson gson = new Gson();
             datas = gson.fromJson(json, new TypeToken<List<Model>>() {
             }.getType());
-            if (datas != null){
+            if (datas != null) {
                 mRecommendModels.addAll(datas);
                 mAdapter.notifyDataSetChanged();
-            }else {
-                mToastUtils.show(mContext,"客官，没有更多了");
+            } else {
+                mToastUtils.show(mContext, "客官，没有更多了");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            mToastUtils.show(mContext,"客官，没有更多了");
+            mToastUtils.show(mContext, "客官，没有更多了");
         }
 
     }
