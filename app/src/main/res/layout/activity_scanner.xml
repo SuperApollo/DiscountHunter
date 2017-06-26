@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             viewfinderview:corner_color="@color/corner_color"
             viewfinderview:frame_color="@color/viewfinder_frame"
-            viewfinderview:label_text="二维码扫描"
+            viewfinderview:label_text="将二维码置于框中"
             viewfinderview:label_text_color="@color/appColor"
             viewfinderview:laser_color="@color/laser_color"
             viewfinderview:mask_color="@color/viewfinder_mask"
