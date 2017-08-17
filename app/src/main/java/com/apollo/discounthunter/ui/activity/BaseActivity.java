@@ -4,6 +4,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -96,6 +97,17 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
                 mSearchView.setOnQueryTextListener(this);
                 int viewId = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
                 mSearchEditText = (EditText) mSearchView.findViewById(viewId);
+                //去掉edittext下划线
+                try {
+                    Class argClass = mSearchView.getClass();
+                    // mSearchPlate是SearchView父布局的名字
+                    Field ownField = argClass.getDeclaredField("mSearchPlate");
+                    ownField.setAccessible(true);
+                    View mView = (View) ownField.get(mSearchView);
+                    mView.setBackgroundColor(Color.TRANSPARENT);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
 
             return true;
