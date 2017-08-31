@@ -10,7 +10,7 @@
         android:layout_height="100dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="50dp"
-        android:src="@mipmap/icon_logo" />
+        android:src="@mipmap/icon_logo_trans" />
 
     <TextView
         android:id="@+id/tv_about_version"

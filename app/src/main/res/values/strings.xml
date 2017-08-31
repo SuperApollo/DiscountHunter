@@ -28,6 +28,6 @@
     <string name="feedback_hint">请输入您的宝贵意见或建议</string>
     <string name="to_top">↑</string>
     <string name="to_bottom">↓</string>
-
+    <string name="welcome">今天你剁手了吗</string>
 
 </resources>
