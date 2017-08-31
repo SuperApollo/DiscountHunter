@@ -36,7 +36,7 @@ public class WelcomeActivity extends BaseActivity {
 
     @Override
     protected void initView(View view) {
-        mHandler.sendEmptyMessageDelayed(0,3000);
+        mHandler.sendEmptyMessageDelayed(0, 3000);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR2)

@@ -5,4 +5,5 @@ package com.apollo.discounthunter.collection.view;
  */
 
 public interface ICollectionView {
+
 }
