@@ -1,8 +1,6 @@
 package com.apollo.discounthunter.ui.activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.apollo.discounthunter.R;
-import com.apollo.discounthunter.collection.view.CollectionActivity;
+import com.apollo.discounthunter.collection.view.MyCollectionActivity;
 import com.apollo.discounthunter.constants.AppConfig;
 import com.apollo.discounthunter.flash.Flash;
 import com.apollo.discounthunter.flash.FlashLightManager;
@@ -27,7 +25,6 @@ import com.apollo.discounthunter.utils.SharedPreferencesUtils;
 import com.apollo.discounthunter.widgets.ItemView;
 import com.apollo.discounthunter.widgets.MyProgressDialog;
 import com.apollo.discounthunter.zxing.activity.CaptureActivity;
-import com.apollo.discounthunter.zxing.encoding.EncodingHandler;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -109,7 +106,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         itemCollection.setOnItemClickedListner(new ItemView.onItemClickedListner() {
             @Override
             public void onClick() {
-                IntentUtils.sendIntent(SettingActivity.this, CollectionActivity.class);
+                IntentUtils.sendIntent(SettingActivity.this, MyCollectionActivity.class);
             }
         });
         itemAbout.setOnItemClickedListner(new ItemView.onItemClickedListner() {

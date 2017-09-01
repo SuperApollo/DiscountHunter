@@ -40,7 +40,7 @@ import butterknife.ButterKnife;
 
 public abstract class BaseActivity extends FragmentActivity implements MenuItem.OnActionExpandListener, SearchView.OnQueryTextListener {
     protected ToastUtils mToastUtils;
-    Context mContext;
+    public Context mContext;
     protected CustomProgressView customProgressView;
     protected MenuItem mSearchItem;//顶部搜索
     protected final String TAG = getClass().getSimpleName();

@@ -18,6 +18,7 @@ import com.apollo.discounthunter.greendao.daohelper.MyCollectionDaoHelper;
 import com.apollo.discounthunter.retrofit.model.Model;
 import com.apollo.discounthunter.utils.ImageLoaderUtils;
 import com.apollo.discounthunter.utils.IntentUtils;
+import com.google.gson.Gson;
 
 import butterknife.BindView;
 
@@ -110,30 +111,14 @@ public class GoodsDetailActivity extends BaseActivity {
         mBtnCollection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MyCollection myCollection = new MyCollection(mHomeModel.getId(),
-                        mHomeModel.getWeb_url(),
-                        mHomeModel.getApp_url(),
-                        mHomeModel.getPic(),
-                        mHomeModel.getTitle(),
-                        mHomeModel.getReason(),
-                        mHomeModel.getPrice(),
-                        mHomeModel.getSoldcount(),
-                        mHomeModel.getCommission(),
-                        mHomeModel.getItem_cat_id(),
-                        mHomeModel.getNum_iid(),
-                        mHomeModel.getPlatform_id(),
-                        mHomeModel.getEnd_time(),
-                        mHomeModel.getRelease_time(),
-                        mHomeModel.getEventid(),
-                        mHomeModel.getAddtime(),
-                        mHomeModel.getSeller_id(),
-                        mHomeModel.getQuan_id(),
-                        mHomeModel.getQuan_price(),
-                        mHomeModel.getQuan_link(),
-                        mHomeModel.getFlag(),
-                        mHomeModel.getTotalCount(),
-                        mHomeModel.getAppliedCount()
-                );
+                MyCollection myCollectionById = MyCollectionDaoHelper.getMyCollectionDaoHelper().getMyCollectionById(mHomeModel.getId());
+                if (myCollectionById != null) {
+                    mToastUtils.show(mContext, "您已经收藏过该宝贝!");
+                    return;
+                }
+                Gson gson = new Gson();
+                String json = gson.toJson(mHomeModel);
+                MyCollection myCollection = gson.fromJson(json, MyCollection.class);
                 long result = MyCollectionDaoHelper.getMyCollectionDaoHelper().insertOrReplace(myCollection);
                 if (result == -1) {
                     mToastUtils.show(mContext, "收藏失败!");

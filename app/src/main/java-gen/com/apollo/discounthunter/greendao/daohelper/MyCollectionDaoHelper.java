@@ -48,12 +48,29 @@ public class MyCollectionDaoHelper {
         return myCollections;
     }
 
+    public MyCollection getMyCollectionById(String id) {
+        try {
+            return myCollectionDao.queryBuilder().where(MyCollectionDao.Properties.Id.eq(id)).unique();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     /**
      * 删
      */
-    public void deleteAllMycollection() {
+    public void deleteAllMyCollection() {
         try {
             myCollectionDao.deleteAll();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteMyCollection(MyCollection myCollection) {
+        try {
+            myCollectionDao.delete(myCollection);
         } catch (Exception e) {
             e.printStackTrace();
         }
