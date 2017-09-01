@@ -24,6 +24,7 @@
     <!--按钮-->
     <string name="buy">去下单</string>
     <string name="quan">去领券</string>
+    <string name="collection">收藏</string>
     <string name="unusable">已失效</string>
     <string name="feedback_hint">请输入您的宝贵意见或建议</string>
     <string name="to_top">↑</string>

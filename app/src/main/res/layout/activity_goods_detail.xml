@@ -84,10 +84,21 @@
                     android:id="@+id/btn_goods_detail_buy"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_toLeftOf="@+id/btn_goods_detail_collection"
+                    android:background="@drawable/bg_buy"
+                    android:text="@string/buy"
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/btn_goods_detail_collection"
+                    android:layout_width="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="5dp"
                     android:background="@drawable/bg_buy"
-                    android:text="@string/buy"
+                    android:text="@string/collection"
                     android:textColor="@color/white"
                     android:textSize="16sp" />
             </RelativeLayout>

@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.constants.Constants;
+import com.apollo.discounthunter.greendao.bean.MyCollection;
+import com.apollo.discounthunter.greendao.daohelper.MyCollectionDaoHelper;
 import com.apollo.discounthunter.retrofit.model.Model;
 import com.apollo.discounthunter.utils.ImageLoaderUtils;
 import com.apollo.discounthunter.utils.IntentUtils;
@@ -37,6 +39,8 @@ public class GoodsDetailActivity extends BaseActivity {
     Button mBtnQuan;
     @BindView(R.id.btn_goods_detail_buy)
     Button mBtnBuy;
+    @BindView(R.id.btn_goods_detail_collection)
+    Button mBtnCollection;
 
     private Model mHomeModel;
     private ImageLoaderUtils mImageLoader;
@@ -100,6 +104,43 @@ public class GoodsDetailActivity extends BaseActivity {
                     bundle.putString(Constants.BUNDLE_TAG, TAG + "_buy");
                     IntentUtils.sendIntent(GoodsDetailActivity.this, ShowWebActivity.class, bundle);
                 }
+
+            }
+        });
+        mBtnCollection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MyCollection myCollection = new MyCollection(mHomeModel.getId(),
+                        mHomeModel.getWeb_url(),
+                        mHomeModel.getApp_url(),
+                        mHomeModel.getPic(),
+                        mHomeModel.getTitle(),
+                        mHomeModel.getReason(),
+                        mHomeModel.getPrice(),
+                        mHomeModel.getSoldcount(),
+                        mHomeModel.getCommission(),
+                        mHomeModel.getItem_cat_id(),
+                        mHomeModel.getNum_iid(),
+                        mHomeModel.getPlatform_id(),
+                        mHomeModel.getEnd_time(),
+                        mHomeModel.getRelease_time(),
+                        mHomeModel.getEventid(),
+                        mHomeModel.getAddtime(),
+                        mHomeModel.getSeller_id(),
+                        mHomeModel.getQuan_id(),
+                        mHomeModel.getQuan_price(),
+                        mHomeModel.getQuan_link(),
+                        mHomeModel.getFlag(),
+                        mHomeModel.getTotalCount(),
+                        mHomeModel.getAppliedCount()
+                );
+                long result = MyCollectionDaoHelper.getMyCollectionDaoHelper().insertOrReplace(myCollection);
+                if (result == -1) {
+                    mToastUtils.show(mContext, "收藏失败!");
+                } else {
+                    mToastUtils.show(mContext, "收藏成功!");
+                }
+
 
             }
         });
