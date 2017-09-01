@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.apollo.discounthunter.R;
+import com.apollo.discounthunter.collection.view.CollectionActivity;
 import com.apollo.discounthunter.constants.AppConfig;
 import com.apollo.discounthunter.flash.Flash;
 import com.apollo.discounthunter.flash.FlashLightManager;
@@ -108,7 +109,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         itemCollection.setOnItemClickedListner(new ItemView.onItemClickedListner() {
             @Override
             public void onClick() {
-                mToastUtils.show(mContext, "我的收藏");
+                IntentUtils.sendIntent(SettingActivity.this, CollectionActivity.class);
             }
         });
         itemAbout.setOnItemClickedListner(new ItemView.onItemClickedListner() {
