@@ -13,7 +13,9 @@
     <string name="flash">手电筒</string>
     <string name="clear_cache">清理缓存</string>
     <string name="my_code">扫我下载</string>
+    <string name="my_collection">我的收藏</string>
     <string name="scan">扫一扫</string>
+    <string name="share">分享给朋友</string>
     <!--xlistview-->
     <string name="xlistview_header_hint_normal">下拉刷新</string>
     <string name="xlistview_header_hint_ready">松开刷新数据</string>

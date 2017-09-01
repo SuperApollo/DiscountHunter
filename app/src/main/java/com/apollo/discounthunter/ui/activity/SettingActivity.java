@@ -39,6 +39,8 @@ import butterknife.BindView;
  */
 
 public class SettingActivity extends BaseActivity implements View.OnClickListener {
+    @BindView(R.id.item_setting_my_collection)
+    ItemView itemCollection;
     @BindView(R.id.item_setting_about)
     ItemView itemAbout;
     @BindView(R.id.item_setting_flash)
@@ -49,6 +51,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     ItemView itemMyCode;
     @BindView(R.id.item_setting_scan)
     ItemView itemScan;
+    @BindView(R.id.item_setting_share)
+    ItemView itemShare;
 
     private MyProgressDialog clearProgressDialog;
     private final int CLEAR_SUCCESS = 0x0001;
@@ -101,6 +105,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void initView(final View view) {
         setTitle("我的设置");
+        itemCollection.setOnItemClickedListner(new ItemView.onItemClickedListner() {
+            @Override
+            public void onClick() {
+                mToastUtils.show(mContext, "我的收藏");
+            }
+        });
         itemAbout.setOnItemClickedListner(new ItemView.onItemClickedListner() {
             @Override
             public void onClick() {
@@ -153,6 +163,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             public void onClick() {
                 Intent intent = new Intent(SettingActivity.this, CaptureActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_SCAN);
+            }
+        });
+        itemShare.setOnItemClickedListner(new ItemView.onItemClickedListner() {
+            @Override
+            public void onClick() {
+                mToastUtils.show(mContext, "分享");
             }
         });
 

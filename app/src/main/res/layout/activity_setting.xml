@@ -6,12 +6,20 @@
     android:orientation="vertical">
 
     <com.apollo.discounthunter.widgets.ItemView
-        android:id="@+id/item_setting_about"
+        android:id="@+id/item_setting_my_collection"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
+        app:leftDrawable="@mipmap/icon_collection"
+        app:leftText="@string/my_collection" />
+
+    <com.apollo.discounthunter.widgets.ItemView
+        android:id="@+id/item_setting_about"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
         app:leftDrawable="@mipmap/icon_about"
-        app:leftText="@string/about" />
+        app:leftText="@string/about"
+        app:topLine="true" />
 
     <com.apollo.discounthunter.widgets.ItemView
         android:id="@+id/item_setting_flash"
@@ -45,6 +53,14 @@
         android:layout_height="48dp"
         app:leftDrawable="@mipmap/icon_scan"
         app:leftText="@string/scan"
+        app:topLine="true" />
+
+    <com.apollo.discounthunter.widgets.ItemView
+        android:id="@+id/item_setting_share"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:leftDrawable="@mipmap/icon_share"
+        app:leftText="@string/share"
         app:topLine="true" />
 
 
