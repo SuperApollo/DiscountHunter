@@ -37,7 +37,7 @@ public class ShowCodeActivity extends BaseActivity {
         try {
 //                    Bitmap mBitmap = EncodingHandler.createQRCode("www.baidu.com", 300);
 //                    qrcodeImg.setImageBitmap(mBitmap);
-            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_logo);
+            Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_logo_trans);
             String url = SharedPreferencesUtils.getString(AppConfig.APK_URL);
             Bitmap www = EncodingHandler.createQRCode(url, 600, 600, bitmap);
             ivShowCode.setImageBitmap(www);

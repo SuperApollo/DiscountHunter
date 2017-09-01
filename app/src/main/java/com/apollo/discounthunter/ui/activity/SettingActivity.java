@@ -166,6 +166,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         itemShare.setOnItemClickedListner(new ItemView.onItemClickedListner() {
             @Override
             public void onClick() {
+                String pic_url = "http://pp.myapp.com/ma_icon/0/icon_52415166_1492676694/96";
                 mToastUtils.show(mContext, "分享");
             }
         });
