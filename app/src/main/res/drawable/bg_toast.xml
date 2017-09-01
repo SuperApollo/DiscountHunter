@@ -9,7 +9,7 @@
     <!--android:endColor="@color/white"-->
     <!--android:startColor="@color/white" />-->
     <!--圆角-->
-    <corners android:radius="40dp" />
+    <corners android:radius="30dp" />
     <!--描边-->
     <!--<stroke-->
     <!--android:width="0.5dp"-->

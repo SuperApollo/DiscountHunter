@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/custom_dialog_image_progress"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:src="@mipmap/dialog_loading" />
