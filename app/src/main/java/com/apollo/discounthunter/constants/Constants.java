@@ -38,4 +38,12 @@ public interface Constants {
      * 测试下载
      */
     String TEST_DOWNLOAD_PIC = "http://e.hiphotos.baidu.com/";
+    /**
+     * 折扣猎手在腾讯应用宝的地址
+     */
+    String zkls_tencent_url = "http://sj.qq.com/myapp/detail.htm?apkName=com.apollo.discounthunter";
+    /**
+     * 折扣猎手在应用宝缩略图地址
+     */
+    String zkls_tencent_pic = "http://pp.myapp.com/ma_icon/0/icon_52415166_1492676694/96";
 }

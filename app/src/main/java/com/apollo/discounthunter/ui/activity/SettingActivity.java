@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.collection.view.MyCollectionActivity;
 import com.apollo.discounthunter.constants.AppConfig;
+import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.flash.Flash;
 import com.apollo.discounthunter.flash.FlashLightManager;
 import com.apollo.discounthunter.utils.DataCleanUtil;
@@ -30,6 +31,8 @@ import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -100,7 +103,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            Toast.makeText(mContext,"成功了",Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "成功了", Toast.LENGTH_LONG).show();
         }
 
         /**
@@ -110,7 +113,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(mContext,"失败"+t.getMessage(),Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "失败" + t.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         /**
@@ -119,7 +122,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(mContext,"取消了",Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "取消了", Toast.LENGTH_LONG).show();
 
         }
     };
@@ -131,6 +134,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             mHandler.removeCallbacksAndMessages(null);
             mHandler = null;
         }
+        UMShareAPI.get(this).release();
 
     }
 
@@ -211,10 +215,19 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         itemShare.setOnItemClickedListner(new ItemView.onItemClickedListner() {
             @Override
             public void onClick() {
-                String pic_url = "http://pp.myapp.com/ma_icon/0/icon_52415166_1492676694/96";
+                UMWeb web = new UMWeb(Constants.zkls_tencent_url);
+                UMImage thumb = new UMImage(mContext, Constants.zkls_tencent_pic);
+                web.setTitle("好货推荐");//标题
+                web.setThumb(thumb);  //缩略图
+                web.setDescription("我发现了一个有趣的APP，推荐给你哦");//描述
                 new ShareAction(SettingActivity.this)
-                        .withText("hello")
-                        .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN)
+                        .withMedia(web)
+                        .setDisplayList(
+                                SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
+                                SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
+                                SHARE_MEDIA.SINA
+
+                        )
                         .setCallback(shareListener)
                         .open();
 
@@ -341,8 +354,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
         return false;
     }
-
-
 
 
 }
