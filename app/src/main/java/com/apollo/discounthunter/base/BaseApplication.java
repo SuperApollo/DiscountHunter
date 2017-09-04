@@ -22,8 +22,8 @@ public class BaseApplication extends Application {
     {
 
         PlatformConfig.setWeixin("wx4337fc02d6b46fa0", "86f0416198ffe6ce39b6d1c1031a9283");
-//        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
-//        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
+        PlatformConfig.setQQZone("1105879293", "etfzk15idzvPMsyX");
+        PlatformConfig.setSinaWeibo("1130304914", "68667af335131ba6b3898f3eb31e0d44", "http://www.zhekoulieshou.com");
     }
 
     private static BaseApplication baseApplication;
@@ -43,7 +43,7 @@ public class BaseApplication extends Application {
         MobclickAgent.setCatchUncaughtExceptions(false);//关闭友盟错误统计
         //初始化错误日志记录
         CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(getApplicationContext());
+//        crashHandler.init(getApplicationContext());
         //内存泄漏检测
         LeakCanary.install(this);
         //友盟第三方分享初始化
