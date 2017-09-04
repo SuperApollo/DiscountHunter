@@ -11,6 +11,7 @@ import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.collection.view.MyCollectionActivity;
@@ -25,6 +26,10 @@ import com.apollo.discounthunter.utils.SharedPreferencesUtils;
 import com.apollo.discounthunter.widgets.ItemView;
 import com.apollo.discounthunter.widgets.MyProgressDialog;
 import com.apollo.discounthunter.zxing.activity.CaptureActivity;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -75,6 +80,46 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                     clearProgressDialog.dismiss();
                     break;
             }
+
+        }
+    };
+
+    private UMShareListener shareListener = new UMShareListener() {
+        /**
+         * @descrption 分享开始的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+
+        }
+
+        /**
+         * @descrption 分享成功的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            Toast.makeText(mContext,"成功了",Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @descrption 分享失败的回调
+         * @param platform 平台类型
+         * @param t 错误原因
+         */
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            Toast.makeText(mContext,"失败"+t.getMessage(),Toast.LENGTH_LONG).show();
+        }
+
+        /**
+         * @descrption 分享取消的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            Toast.makeText(mContext,"取消了",Toast.LENGTH_LONG).show();
 
         }
     };
@@ -167,7 +212,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             @Override
             public void onClick() {
                 String pic_url = "http://pp.myapp.com/ma_icon/0/icon_52415166_1492676694/96";
-                mToastUtils.show(mContext, "分享");
+                new ShareAction(SettingActivity.this)
+                        .withText("hello")
+                        .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN)
+                        .setCallback(shareListener)
+                        .open();
+
             }
         });
 
@@ -180,6 +230,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) { //RESULT_OK = -1
             Bundle bundle = data.getExtras();
             String scanResult = bundle.getString("result");
@@ -290,5 +341,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         }
         return false;
     }
+
+
+
 
 }

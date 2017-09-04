@@ -6,6 +6,7 @@
     <color name="appColor">#0894EC</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
+    <color name="white_trans">#CEFFFFFF</color>
     <color name="transparent">#00000000</color>
     <!--底部导航栏细线条的颜色-->
     <color name="grey_transparent">#86999999</color>

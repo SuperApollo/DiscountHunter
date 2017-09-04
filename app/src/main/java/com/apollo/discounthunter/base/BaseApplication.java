@@ -10,12 +10,22 @@ import com.apollo.discounthunter.greendao.dao.DaoSession;
 import com.apollo.discounthunter.utils.CrashHandler;
 import com.squareup.leakcanary.LeakCanary;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 /**
  * Created by ${Apollo} on 2017/1/13.
  */
 
 public class BaseApplication extends Application {
+    //各个平台的配置，建议放在全局Application或者程序入口
+    {
+
+        PlatformConfig.setWeixin("wx4337fc02d6b46fa0", "86f0416198ffe6ce39b6d1c1031a9283");
+//        PlatformConfig.setQQZone("100424468", "c7394704798a158208a74ab60104f0ba");
+//        PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad", "http://sns.whalecloud.com");
+    }
+
     private static BaseApplication baseApplication;
     private static Context mContext;
     public DaoSession daoSession;
@@ -36,6 +46,8 @@ public class BaseApplication extends Application {
         crashHandler.init(getApplicationContext());
         //内存泄漏检测
         LeakCanary.install(this);
+        //友盟第三方分享初始化
+        UMShareAPI.get(this);
     }
 
     /**

@@ -22,7 +22,6 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -537,12 +536,32 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(mContext, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
                 || ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
-                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_LOGS) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.SET_DEBUG_APP) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.SYSTEM_ALERT_WINDOW) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED
+                || ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_APN_SETTINGS) != PackageManager.PERMISSION_GRANTED
+                ) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.RECORD_AUDIO//麦克风权限
-                    , Manifest.permission.CAMERA//摄像头权限
-                    , Manifest.permission.WRITE_EXTERNAL_STORAGE
-                    , Manifest.permission.READ_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST);//读写sd卡权限
+                            , Manifest.permission.CAMERA//摄像头权限
+                            , Manifest.permission.WRITE_EXTERNAL_STORAGE
+                            , Manifest.permission.READ_EXTERNAL_STORAGE//读写sd卡权限
+                            , Manifest.permission.ACCESS_FINE_LOCATION
+                            , Manifest.permission.CALL_PHONE
+                            , Manifest.permission.READ_LOGS
+                            , Manifest.permission.READ_PHONE_STATE
+                            , Manifest.permission.SET_DEBUG_APP
+                            , Manifest.permission.SYSTEM_ALERT_WINDOW
+                            , Manifest.permission.GET_ACCOUNTS
+                            , Manifest.permission.WRITE_APN_SETTINGS
+                    }, MY_PERMISSIONS_REQUEST
+            );
         }
+
 
     }
 
