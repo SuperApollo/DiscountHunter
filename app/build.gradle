@@ -32,7 +32,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // 自定义输出配置
             applicationVariants.all { variant ->
@@ -40,7 +40,22 @@ android {
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('.apk')) {
                         // 输出apk名称为DiscountHunter_v1.0_wandoujia.apk
-                        def fileName = "DiscountHunter_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                        def fileName = "DiscountHunter_release_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+        }
+        debug {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            // 自定义输出配置
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+                        // 输出apk名称为DiscountHunter_v1.0_wandoujia.apk
+                        def fileName = "DiscountHunter_debug_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
@@ -49,11 +64,11 @@ android {
     }
     //友盟多渠道打包
     productFlavors {
-        kuan {}
-        xiaomi {}
-        qh360 {}
-        baidu {}
-        wandoujia {}
+//        kuan {}
+//        xiaomi {}
+//        qh360 {}
+//        baidu {}
+//        wandoujia {}
         qq {}
         github {}
     }
