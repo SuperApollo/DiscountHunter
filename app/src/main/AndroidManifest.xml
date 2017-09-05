@@ -124,27 +124,46 @@
 
         </activity>
         <!--qq完整版-->
+        <!--<activity-->
+            <!--android:name="com.tencent.tauth.AuthActivity"-->
+            <!--android:launchMode="singleTask"-->
+            <!--android:noHistory="true">-->
+
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.VIEW" />-->
+
+                <!--<category android:name="android.intent.category.DEFAULT" />-->
+                <!--<category android:name="android.intent.category.BROWSABLE" />-->
+
+                <!--<data android:scheme="tencent1105879293" />-->
+            <!--</intent-filter>-->
+
+        <!--</activity>-->
+
+        <!--<activity-->
+            <!--android:name="com.tencent.connect.common.AssistActivity"-->
+            <!--android:configChanges="orientation|keyboardHidden|screenSize"-->
+            <!--android:screenOrientation="portrait"-->
+            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
         <activity
-            android:name="com.tencent.tauth.AuthActivity"
+            android:name="com.umeng.qq.tencent.AuthActivity"
             android:launchMode="singleTask"
             android:noHistory="true">
-
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data android:scheme="tencent100424468" />
+                <data android:scheme="tencent1105879293"/>
             </intent-filter>
-
         </activity>
-
         <activity
-            android:name="com.tencent.connect.common.AssistActivity"
+            android:name="com.umeng.qq.tencent.AssistActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data

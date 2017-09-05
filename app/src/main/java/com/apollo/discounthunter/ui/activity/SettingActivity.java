@@ -1,6 +1,7 @@
 package com.apollo.discounthunter.ui.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
@@ -67,6 +68,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private boolean mUpper;
     private FlashLightManager mFlashLightManager;
     private Flash mFlash;
+    private ShareAction mShareAction;
     private Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -103,7 +105,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
          */
         @Override
         public void onResult(SHARE_MEDIA platform) {
-            Toast.makeText(mContext, "成功了", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "分享成功", Toast.LENGTH_LONG).show();
         }
 
         /**
@@ -113,7 +115,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
          */
         @Override
         public void onError(SHARE_MEDIA platform, Throwable t) {
-            Toast.makeText(mContext, "失败" + t.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "分享失败" + t.getMessage(), Toast.LENGTH_LONG).show();
         }
 
         /**
@@ -122,7 +124,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
          */
         @Override
         public void onCancel(SHARE_MEDIA platform) {
-            Toast.makeText(mContext, "取消了", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "分享取消", Toast.LENGTH_LONG).show();
 
         }
     };
@@ -213,6 +215,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             }
         });
         itemShare.setOnItemClickedListner(new ItemView.onItemClickedListner() {
+
+
+
             @Override
             public void onClick() {
                 UMWeb web = new UMWeb(Constants.zkls_tencent_url);
@@ -220,9 +225,9 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 web.setTitle("好货推荐");//标题
                 web.setThumb(thumb);  //缩略图
                 web.setDescription("我发现了一个有趣的APP，推荐给你哦");//描述
-                new ShareAction(SettingActivity.this)
-                        .withMedia(web)
-                        .setDisplayList(
+                mShareAction = new ShareAction(SettingActivity.this);
+                mShareAction.withMedia(web)
+                            .setDisplayList(
                                 SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
                                 SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
                                 SHARE_MEDIA.SINA
@@ -269,6 +274,15 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * 屏幕横竖屏切换时避免出现window leak的问题
+     */
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mShareAction.close();
     }
 
     /**
