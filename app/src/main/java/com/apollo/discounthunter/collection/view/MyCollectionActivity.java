@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.collection.presenter.PresenterImpl;
@@ -30,6 +31,8 @@ import butterknife.BindView;
 public class MyCollectionActivity extends BaseActivity implements ICollectionView, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener {
     @BindView(R.id.lv_collection)
     ListView mLvCollection;
+    @BindView(R.id.tv_collection_none)
+    TextView mTvCollectionNone;
     private MyCollectionAdapter mAdapter;
     private PresenterImpl mPresenter;
 
@@ -54,13 +57,25 @@ public class MyCollectionActivity extends BaseActivity implements ICollectionVie
 
     @Override
     public void showData(List<MyCollection> datas) {
-        mAdapter = new MyCollectionAdapter(mContext, datas);
-        mLvCollection.setAdapter(mAdapter);
+        if (datas != null && datas.size() > 0) {
+            mTvCollectionNone.setVisibility(View.GONE);
+            mAdapter = new MyCollectionAdapter(mContext, datas);
+            mLvCollection.setAdapter(mAdapter);
+        } else {
+            mTvCollectionNone.setVisibility(View.VISIBLE);
+        }
+
     }
 
     @Override
     public void refreshView(List<MyCollection> datas) {
-        mAdapter.notifyDataSetChanged();
+        if (datas != null && datas.size() > 0) {
+            mTvCollectionNone.setVisibility(View.GONE);
+            mAdapter.notifyDataSetChanged();
+        } else {
+            mTvCollectionNone.setVisibility(View.VISIBLE);
+        }
+
     }
 
 

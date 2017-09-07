@@ -16,7 +16,7 @@
     <string name="my_collection">我的收藏</string>
     <string name="scan">扫一扫</string>
     <string name="share">分享给朋友</string>
-    <string name="collection_describe">以下是收藏列表，长按删除</string>
+    <string name="collection_describe">以下是收藏列表,长按删除</string>
     <!--xlistview-->
     <string name="xlistview_header_hint_normal">下拉刷新</string>
     <string name="xlistview_header_hint_ready">松开刷新数据</string>
@@ -28,6 +28,7 @@
     <string name="buy">去下单</string>
     <string name="quan">去领券</string>
     <string name="collection">收藏</string>
+    <string name="collection_none">暂无收藏</string>
     <string name="unusable">已失效</string>
     <string name="feedback_hint">请输入您的宝贵意见或建议</string>
     <string name="to_top">↑</string>

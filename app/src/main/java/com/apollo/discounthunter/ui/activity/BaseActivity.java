@@ -203,6 +203,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
                         }
                     });
         }
+        customProgressView.setTimeout(60);
         customProgressView.showProgressDialog();
     }
 
