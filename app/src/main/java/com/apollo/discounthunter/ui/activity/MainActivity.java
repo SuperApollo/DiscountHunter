@@ -398,7 +398,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                     SharedPreferencesUtils.putBoolean(AppConfig.HAS_UPDATE, true);
                     break;
                 case NO_UPDATE:
-                    mToastUtils.show(mContext, "当前已是最新版本");
+//                    mToastUtils.show(mContext, "当前已是最新版本");
                     SharedPreferencesUtils.putBoolean(AppConfig.HAS_UPDATE, false);
                     break;
                 case SERVER_VERSION_ERROR:
