@@ -22,6 +22,7 @@
 -keepattributes Signature
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
+
 #---------------------------------retrofit结束-------------------------------
 ##----------------------------- Gson开始-------------------------------------
 # Gson uses generic type information stored in a class file when working with fields. Proguard
@@ -35,8 +36,11 @@
 -keep class sun.misc.Unsafe { *; }
 #-keep class com.google.gson.stream.** { *; }
 
+-keep public class com.google.gson.**
+#-keep public class com.google.gson.** {public private protected *;}
+
 # Application classes that will be serialized/deserialized over Gson
--keep class com.google.gson.examples.android.model.** { *; }
+#-keep class com.google.gson.examples.android.model.** { *; }
 
 ##---------------------------------Gson结束----------------------------------
 #----------------------universal-image-loader 开始---------------------------
@@ -44,7 +48,7 @@
 -keep class com.nostra13.universalimageloader.** { *; }
 #----------------------universal-image-loader 结束---------------------------
 #----------------------------------greendao开始------------------------------
--keep class de.greenrobot.dao.** {*;}
+#-keep class de.greenrobot.dao.** {*;}
 -keepclassmembers class * extends de.greenrobot.dao.AbstractDao {
     public static java.lang.String TABLENAME;
 }
@@ -55,9 +59,9 @@
 -keepclassmembers class com.apollo.discounthunter.greendao.dao.** {
     public static final <fields>;
   }
--keep class com.apollo.discounthunter.greendao.dao.**
--keep class com.apollo.discounthunter.greendao.dao.bean**
--keep class com.apollo.discounthunter.greendao.daohelper.**
+#-keep class com.apollo.discounthunter.greendao.**
+-keep public class com.apollo.discounthunter.greendao.bean.MyCollection { private *;}#所有private 对象不进行obfuscation。
+
 #----------------------------------greendao结束------------------------------
 
 #----------------------------------zxing开始---------------------------------
