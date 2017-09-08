@@ -85,7 +85,7 @@ public class FlashLightManager {
     }
 
 
-    private void openCameraDevice()  {
+    private void openCameraDevice() {
         try {
             mCameraManager.openCamera(getCameraId(), mStateCallback, mHandler);
         } catch (Exception e) {
@@ -174,6 +174,7 @@ public class FlashLightManager {
 
         } catch (Exception e) {
             showErrorMsg();
+            releaseResource();
         }
     }
 
@@ -197,6 +198,10 @@ public class FlashLightManager {
         }
         mSurface = null;
         mSurfaceTexture = null;
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+            mHandler = null;
+        }
     }
 
     private final CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
@@ -217,6 +222,7 @@ public class FlashLightManager {
         public void onError(CameraDevice camera, int error) {
             if (camera == mCameraDevice || mCameraDevice == null) {
                 showErrorMsg();
+                releaseResource();
             }
         }
     };
@@ -237,6 +243,7 @@ public class FlashLightManager {
                 public void onConfigureFailed(CameraCaptureSession session) {
                     if (mSession == null || mSession == session) {
                         showErrorMsg();
+                        releaseResource();
                     }
                 }
             };

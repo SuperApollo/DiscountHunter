@@ -137,6 +137,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             mHandler = null;
         }
         UMShareAPI.get(this).release();
+        if (mFlashLightManager != null) {
+            mFlashLightManager.releaseResource();
+            mFlashLightManager = null;
+        }
 
     }
 
@@ -217,7 +221,6 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         itemShare.setOnItemClickedListner(new ItemView.onItemClickedListner() {
 
 
-
             @Override
             public void onClick() {
                 UMWeb web = new UMWeb(Constants.zkls_tencent_url);
@@ -227,7 +230,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 web.setDescription("我发现了一个有趣的APP，推荐给你哦");//描述
                 mShareAction = new ShareAction(SettingActivity.this);
                 mShareAction.withMedia(web)
-                            .setDisplayList(
+                        .setDisplayList(
                                 SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
                                 SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
                                 SHARE_MEDIA.SINA

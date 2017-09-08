@@ -34,7 +34,6 @@ android {
         debug {
             signingConfig signingConfigs.debug
             minifyEnabled true
-            debuggable = true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // 自定义输出配置
             applicationVariants.all { variant ->
@@ -51,7 +50,6 @@ android {
         release {
             signingConfig signingConfigs.release
             minifyEnabled true
-            debuggable = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // 自定义输出配置
             applicationVariants.all { variant ->

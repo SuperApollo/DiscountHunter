@@ -52,7 +52,7 @@ public class DaoMaster extends AbstractDaoMaster {
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
             if (newVersion > oldVersion) {
-                MigrationHelper.getInstance().migrate(db, SearchHistoryDao.class, MyCollectionDao.class);
+                MigrationHelper.getInstance().migrate(db, SearchHistoryDao.class);
             } else {
                 dropAllTables(db, true);
                 onCreate(db);
