@@ -51,29 +51,6 @@ public class HotFragment extends BaseFragment {
     private int mOffset = 0;
     private boolean firstEnter = true;//首次进入加载一页数据
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case STOP_REFRESH:
-                    mXlvHot.stopRefresh();
-                    break;
-                case STOP_LOADMORE:
-                    mXlvHot.stopLoadMore();
-                    break;
-                case TOP_BTN_GONE:
-                    if (mBtnToTop.getVisibility() == View.VISIBLE) {
-                        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0);
-                        alphaAnimation.setDuration(1000);
-                        mBtnToTop.startAnimation(alphaAnimation);
-                        mBtnToBottom.startAnimation(alphaAnimation);
-                        mBtnToTop.setVisibility(View.GONE);
-                        mBtnToBottom.setVisibility(View.GONE);
-                    }
-                    break;
-            }
-        }
-    };
     private int firstVisiblePosition;
     private Button mBtnToTop;
     private Button mBtnToBottom;
@@ -251,5 +228,27 @@ public class HotFragment extends BaseFragment {
     @Override
     protected boolean hideBottom() {
         return false;
+    }
+
+    @Override
+    protected void handleMsg(Message msg) {
+        switch (msg.what) {
+            case STOP_REFRESH:
+                mXlvHot.stopRefresh();
+                break;
+            case STOP_LOADMORE:
+                mXlvHot.stopLoadMore();
+                break;
+            case TOP_BTN_GONE:
+                if (mBtnToTop.getVisibility() == View.VISIBLE) {
+                    AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0);
+                    alphaAnimation.setDuration(1000);
+                    mBtnToTop.startAnimation(alphaAnimation);
+                    mBtnToBottom.startAnimation(alphaAnimation);
+                    mBtnToTop.setVisibility(View.GONE);
+                    mBtnToBottom.setVisibility(View.GONE);
+                }
+                break;
+        }
     }
 }

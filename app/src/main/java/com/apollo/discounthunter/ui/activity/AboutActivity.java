@@ -1,6 +1,7 @@
 package com.apollo.discounthunter.ui.activity;
 
 import android.os.AsyncTask;
+import android.os.Message;
 import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Gravity;
@@ -78,6 +79,11 @@ public class AboutActivity extends BaseActivity {
                 IntentUtils.sendIntent(AboutActivity.this, FeedbackActivity.class);
             }
         });
+
+    }
+
+    @Override
+    protected void handleMsg(Message msg) {
 
     }
 

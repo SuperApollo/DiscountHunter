@@ -53,30 +53,6 @@ public class HomeFragment extends BaseFragment {
     private int mOffset = 0;
     private boolean firstEnter = true;//首次进入加载一页数据
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case STOP_REFRESH:
-                    mXlvHome.stopRefresh();
-                    break;
-                case STOP_LOADMORE:
-                    mXlvHome.stopLoadMore();
-                    break;
-                case TOP_BTN_GONE:
-                    if (mBtnToTop.getVisibility() == View.VISIBLE) {
-                        AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
-                        alphaAnimation.setDuration(1000);
-                        mBtnToTop.startAnimation(alphaAnimation);
-                        mBtnToBottom.startAnimation(alphaAnimation);
-                        mBtnToTop.setVisibility(View.GONE);
-                        mBtnToBottom.setVisibility(View.GONE);
-                    }
-
-                    break;
-            }
-        }
-    };
     private Button mBtnToBottom;
 
     @Override
@@ -244,7 +220,7 @@ public class HomeFragment extends BaseFragment {
 
         } catch (Exception e) {
             e.printStackTrace();
-            mToastUtils.show(mContext, "客官，没有更多了");
+            mToastUtils.show(mContext, e.getMessage());
         }
 
     }
@@ -258,4 +234,28 @@ public class HomeFragment extends BaseFragment {
     protected boolean hideBottom() {
         return false;
     }
+
+    @Override
+    protected void handleMsg(Message msg) {
+        switch (msg.what) {
+            case STOP_REFRESH:
+                mXlvHome.stopRefresh();
+                break;
+            case STOP_LOADMORE:
+                mXlvHome.stopLoadMore();
+                break;
+            case TOP_BTN_GONE:
+                if (mBtnToTop.getVisibility() == View.VISIBLE) {
+                    AlphaAnimation alphaAnimation = new AlphaAnimation(1f, 0f);
+                    alphaAnimation.setDuration(1000);
+                    mBtnToTop.startAnimation(alphaAnimation);
+                    mBtnToBottom.startAnimation(alphaAnimation);
+                    mBtnToTop.setVisibility(View.GONE);
+                    mBtnToBottom.setVisibility(View.GONE);
+                }
+
+                break;
+        }
+    }
+
 }

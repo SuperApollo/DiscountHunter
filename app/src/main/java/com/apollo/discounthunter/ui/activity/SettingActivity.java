@@ -69,25 +69,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private FlashLightManager mFlashLightManager;
     private Flash mFlash;
     private ShareAction mShareAction;
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case CLEAR_SUCCESS:
-                    clearProgressDialog.dismiss();
-                    //刷新缓存大小
-                    getCahceSize();
-                    clearProgressDialog = new MyProgressDialog(SettingActivity.this, R.style.NoWhiteDialog, R.layout.load_dialog_done);
-                    clearProgressDialog.show();
-                    mHandler.sendEmptyMessageDelayed(DISMISS_DIALOG, 1000);
-                    break;
-                case DISMISS_DIALOG:
-                    clearProgressDialog.dismiss();
-                    break;
-            }
 
-        }
-    };
 
     private UMShareListener shareListener = new UMShareListener() {
         /**
@@ -132,10 +114,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mHandler != null) {
-            mHandler.removeCallbacksAndMessages(null);
-            mHandler = null;
-        }
+
         UMShareAPI.get(this).release();
         if (mFlashLightManager != null) {
             mFlashLightManager.releaseResource();
@@ -246,6 +225,23 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         initFlash();
 
+    }
+
+    @Override
+    protected void handleMsg(Message msg) {
+        switch (msg.what) {
+            case CLEAR_SUCCESS:
+                clearProgressDialog.dismiss();
+                //刷新缓存大小
+                getCahceSize();
+                clearProgressDialog = new MyProgressDialog(SettingActivity.this, R.style.NoWhiteDialog, R.layout.load_dialog_done);
+                clearProgressDialog.show();
+                mHandler.sendEmptyMessageDelayed(DISMISS_DIALOG, 1000);
+                break;
+            case DISMISS_DIALOG:
+                clearProgressDialog.dismiss();
+                break;
+        }
     }
 
     @Override

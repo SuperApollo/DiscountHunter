@@ -32,19 +32,7 @@ public class ShowWebActivity extends BaseActivity {
     WebView mWebView;
     private final int START_LOAD = 10086;
     private final int END_LOAD = 10087;
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case START_LOAD:
-                    showProgress();
-                    break;
-                case END_LOAD:
-                    clearProgress();
-                    break;
-            }
-        }
-    };
+
 
     @Override
     protected void onDestroy() {
@@ -143,6 +131,18 @@ public class ShowWebActivity extends BaseActivity {
                     mWebView.loadUrl(codeUrl);
             }
 
+        }
+    }
+
+    @Override
+    protected void handleMsg(Message msg) {
+        switch (msg.what) {
+            case START_LOAD:
+                showProgress();
+                break;
+            case END_LOAD:
+                clearProgress();
+                break;
         }
     }
 

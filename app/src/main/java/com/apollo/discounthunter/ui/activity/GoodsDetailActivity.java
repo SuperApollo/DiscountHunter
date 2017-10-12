@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -129,6 +130,11 @@ public class GoodsDetailActivity extends BaseActivity {
 
             }
         });
+
+    }
+
+    @Override
+    protected void handleMsg(Message msg) {
 
     }
 

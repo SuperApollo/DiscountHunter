@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
@@ -48,6 +50,13 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
     protected SearchView mSearchView;
     public EditText mSearchEditText;
 
+    protected MyHandler mHandler = new MyHandler() {
+        @Override
+        public void handleMessage(Message msg) {
+            handleMsg(msg);
+        }
+    };
+
     public EditText getmSearchEditText() {
         return mSearchEditText;
     }
@@ -82,6 +91,15 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
         super.onPause();
         MobclickAgent.onPause(this);
         MobclickAgent.onPageEnd(this.getClass().getSimpleName());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+            mHandler = null;
+        }
     }
 
     @Override
@@ -191,6 +209,13 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
     }
 
     /**
+     * 处理 handler 消息
+     *
+     * @param msg
+     */
+    protected abstract void handleMsg(Message msg);
+
+    /**
      * 显示进度条
      */
     protected void showProgress() {
@@ -252,5 +277,9 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
 
     protected <T extends View> T queryViewById(View parentView, int id) {
         return (T) parentView.findViewById(id);
+    }
+
+    public static class MyHandler extends Handler {
+
     }
 }

@@ -96,6 +96,11 @@ public class CaptureActivity extends BaseActivity implements Callback {
 //        });
     }
 
+    @Override
+    protected void handleMsg(Message msg) {
+
+    }
+
 
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {

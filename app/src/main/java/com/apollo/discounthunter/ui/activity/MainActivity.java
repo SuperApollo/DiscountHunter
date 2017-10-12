@@ -96,25 +96,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     private final int SERVER_VERSION_ERROR = 0x00010086;
     private final int HAS_UPDATE = 0x00010087;
     private final int NO_UPDATE = 0x00010088;
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case CHECK_UPDATE:
-                    checkUpdate();
-                    break;
-            }
 
-        }
-    };
     private View parent;
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mHandler.removeCallbacksAndMessages(null);
-        mHandler = null;
-    }
 
     public String getmEid() {
         return mEid;
@@ -171,6 +155,15 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         mHandler.sendMessageDelayed(message, 1000);
 
         checkPermission();
+    }
+
+    @Override
+    protected void handleMsg(Message msg) {
+        switch (msg.what) {
+            case CHECK_UPDATE:
+                checkUpdate();
+                break;
+        }
     }
 
     /**

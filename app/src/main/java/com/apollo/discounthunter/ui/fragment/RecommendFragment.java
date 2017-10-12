@@ -253,4 +253,9 @@ public class RecommendFragment extends BaseFragment {
     protected boolean hideBottom() {
         return false;
     }
+
+    @Override
+    protected void handleMsg(Message msg) {
+
+    }
 }

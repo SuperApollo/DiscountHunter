@@ -3,6 +3,7 @@ package com.apollo.discounthunter.collection.view;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -53,6 +54,11 @@ public class MyCollectionActivity extends BaseActivity implements ICollectionVie
         mLvCollection.setOnItemLongClickListener(this);
         mPresenter = new PresenterImpl(this);
         mPresenter.getAllCollections();
+    }
+
+    @Override
+    protected void handleMsg(Message msg) {
+
     }
 
     @Override

@@ -65,30 +65,6 @@ public class SearchFragment extends BaseFragment {
     private static final int STOP_LOADMORE = 2;
     private final int TOP_BTN_GONE = 3;
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case STOP_REFRESH:
-                    mXlvSearch.stopRefresh();
-                    break;
-                case STOP_LOADMORE:
-                    mXlvSearch.stopLoadMore();
-                    break;
-                case TOP_BTN_GONE:
-                    if (mBtnToTop.getVisibility() == View.VISIBLE) {
-                        AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0);
-                        alphaAnimation.setDuration(1000);
-                        mBtnToTop.startAnimation(alphaAnimation);
-                        mBtnToBottom.startAnimation(alphaAnimation);
-                        mBtnToTop.setVisibility(View.GONE);
-                        mBtnToBottom.setVisibility(View.GONE);
-                    }
-
-                    break;
-            }
-        }
-    };
     private HomeListAdapter mSearchAdapter;
     private String mSearchText;
     private boolean isHistory;//当前展示的是否是搜索历史的adapter内容
@@ -369,5 +345,28 @@ public class SearchFragment extends BaseFragment {
     @Override
     protected boolean hideBottom() {
         return true;
+    }
+
+    @Override
+    protected void handleMsg(Message msg) {
+        switch (msg.what) {
+            case STOP_REFRESH:
+                mXlvSearch.stopRefresh();
+                break;
+            case STOP_LOADMORE:
+                mXlvSearch.stopLoadMore();
+                break;
+            case TOP_BTN_GONE:
+                if (mBtnToTop.getVisibility() == View.VISIBLE) {
+                    AlphaAnimation alphaAnimation = new AlphaAnimation(1, 0);
+                    alphaAnimation.setDuration(1000);
+                    mBtnToTop.startAnimation(alphaAnimation);
+                    mBtnToBottom.startAnimation(alphaAnimation);
+                    mBtnToTop.setVisibility(View.GONE);
+                    mBtnToBottom.setVisibility(View.GONE);
+                }
+
+                break;
+        }
     }
 }

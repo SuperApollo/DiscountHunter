@@ -2,6 +2,7 @@ package com.apollo.discounthunter.ui.activity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -44,5 +45,10 @@ public class ShowCodeActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected void handleMsg(Message msg) {
+
     }
 }

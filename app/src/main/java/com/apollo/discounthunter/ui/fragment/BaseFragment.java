@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -31,6 +33,14 @@ public abstract class BaseFragment extends Fragment {
     protected String TAG;
     protected boolean isVisible;//当前fragment是否可见
     protected boolean isPrepared;//当前fragment视图是否准备好
+    //统一提取 handler 到基类，处理内存泄漏
+    protected Myhandler mHandler = new Myhandler() {
+        @Override
+        public void handleMessage(Message msg) {
+            handleMsg(msg);
+        }
+    };
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -90,6 +100,10 @@ public abstract class BaseFragment extends Fragment {
         super.onDestroy();
         if (mRbBottom != null)
             mRbBottom.setVisibility(View.VISIBLE);
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+            mHandler = null;
+        }
     }
 
     /**
@@ -137,6 +151,13 @@ public abstract class BaseFragment extends Fragment {
     protected abstract boolean hideBottom();
 
     /**
+     * 处理 handler 的消息
+     *
+     * @param msg
+     */
+    protected abstract void handleMsg(Message msg);
+
+    /**
      * 显示进度条
      */
     protected void showProgress() {
@@ -160,6 +181,9 @@ public abstract class BaseFragment extends Fragment {
             customProgressView.dissDialog();
             customProgressView = null;
         }
+    }
+
+    public static class Myhandler extends Handler {
     }
 
 }

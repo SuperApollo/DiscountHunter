@@ -1,5 +1,6 @@
 package com.apollo.discounthunter.ui.activity;
 
+import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -45,6 +46,11 @@ public class FeedbackActivity extends BaseActivity {
                 FeedbackActivity.this.finish();
             }
         });
+    }
+
+    @Override
+    protected void handleMsg(Message msg) {
+
     }
 
     private void doFeedBack(String feedback) {
