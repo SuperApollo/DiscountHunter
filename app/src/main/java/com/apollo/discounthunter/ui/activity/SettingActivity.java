@@ -25,6 +25,7 @@ import com.apollo.discounthunter.utils.ImageLoaderUtils;
 import com.apollo.discounthunter.utils.IntentUtils;
 import com.apollo.discounthunter.utils.MyPopUtil;
 import com.apollo.discounthunter.utils.SharedPreferencesUtils;
+import com.apollo.discounthunter.utils.ToastUtils;
 import com.apollo.discounthunter.widgets.ItemView;
 import com.apollo.discounthunter.widgets.MyProgressDialog;
 import com.apollo.discounthunter.zxing.activity.CaptureActivity;
@@ -52,6 +53,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     ItemView itemAbout;
     @BindView(R.id.item_setting_flash)
     ItemView itemFlash;
+    @BindView(R.id.item_setting_clock)
+    ItemView itemClock;
     @BindView(R.id.item_setting_clear_cache)
     ItemView itemClearCache;
     @BindView(R.id.item_setting_my_code)
@@ -157,6 +160,12 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 } else {
                     mFlash.setLight(on);
                 }
+            }
+        });
+        itemClock.setOnItemClickedListner(new ItemView.onItemClickedListner() {
+            @Override
+            public void onClick() {
+                IntentUtils.sendIntent(SettingActivity.this, ShowClockActivity.class);
             }
         });
 

@@ -31,6 +31,14 @@
         app:topLine="true" />
 
     <com.apollo.discounthunter.widgets.ItemView
+        android:id="@+id/item_setting_clock"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:leftDrawable="@mipmap/icon_clock"
+        app:leftText="@string/clock"
+        app:topLine="true" />
+
+    <com.apollo.discounthunter.widgets.ItemView
         android:id="@+id/item_setting_clear_cache"
         android:layout_width="match_parent"
         android:layout_height="48dp"

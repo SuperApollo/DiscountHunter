@@ -67,5 +67,31 @@
         <attr name="label_text" format="string" />
         <attr name="label_text_size" format="float" />
     </declare-styleable>
+    <!--自定义控件之时钟-->
+    <declare-styleable name="ClockView">
+        <attr name="discRadius" format="integer" />//表盘半径
+        <attr name="discColor" format="color" />//表盘颜色
+        <attr name="discPadding" format="integer" />//表盘内部间距
+        <attr name="pointRadius" format="integer" />//圆心小点半径
+        <attr name="pointColor" format="color" />//小圆点颜色
+        <attr name="edgeWidth" format="integer" />//表盘边缘宽度
+        <attr name="discLongWidth" format="integer" />//长刻度的宽
+        <attr name="discLongLength" format="integer" />//长刻度的长
+        <attr name="discLongColor" format="color" />//长刻度的颜色
+        <attr name="discShortWidth" format="integer" />//短刻度的宽
+        <attr name="discShortLength" format="integer" />//短刻度的长
+        <attr name="discShortColor" format="color" />//短刻度的颜色
+        <attr name="textFont" format="integer" />//数字大小
+        <attr name="textColor" format="color" />//数字颜色
+        <attr name="hourWidth" format="integer" />//时针宽
+        <attr name="hourLength" format="integer" />//时针长
+        <attr name="hourColor" format="color" />//时针颜色
+        <attr name="minuteWidth" format="integer" />//分针宽
+        <attr name="minuteLength" format="integer" />//分针长
+        <attr name="minuteColor" format="color" />//分针颜色
+        <attr name="secondWidth" format="integer" />秒针宽
+        <attr name="secondLength" format="integer" />//秒针长
+        <attr name="secondColor" format="color" />//秒针颜色
 
+    </declare-styleable>
 </resources>

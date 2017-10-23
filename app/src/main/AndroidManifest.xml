@@ -93,6 +93,11 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/ActivityTheme_Light" />
+        <activity
+            android:name=".ui.activity.ShowClockActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActivityTheme_Light" />
         <!-- wechat callback-->
         <activity
             android:name=".wxapi.WXEntryActivity"
