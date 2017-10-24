@@ -19,6 +19,7 @@ import com.apollo.discounthunter.utils.AppUtil;
 import com.apollo.discounthunter.utils.IntentUtils;
 import com.apollo.discounthunter.utils.MyPopUtil;
 import com.apollo.discounthunter.utils.SharedPreferencesUtils;
+import com.apollo.discounthunter.utils.ToastUtils;
 import com.apollo.discounthunter.widgets.ItemView;
 import com.google.gson.Gson;
 
@@ -99,10 +100,12 @@ public class AboutActivity extends BaseActivity {
         AppUpdateInfoModel updateInfoModel = null;
         try {
             Gson gson = new Gson();
-            if (json != null)
+            if (json != null){
                 updateInfoModel = gson.fromJson(json, AppUpdateInfoModel.class);
+            }
+
             if (updateInfoModel == null) {
-                mToastUtils.show(mContext, "服务器开小差");
+                ToastUtils.show(mContext, "服务器开小差");
                 return;
             }
             String serverVersion = updateInfoModel.getAppVersion();
@@ -115,11 +118,11 @@ public class AboutActivity extends BaseActivity {
                     SharedPreferencesUtils.putBoolean(AppConfig.HAS_UPDATE, true);
                     break;
                 case NO_UPDATE:
-                    mToastUtils.show(mContext, "当前已是最新版本");
+                    ToastUtils.show(mContext, "当前已是最新版本");
                     SharedPreferencesUtils.putBoolean(AppConfig.HAS_UPDATE, false);
                     break;
                 case SERVER_VERSION_ERROR:
-                    mToastUtils.show(mContext, "服务器版本号错误");
+                    ToastUtils.show(mContext, "服务器版本号错误");
                     SharedPreferencesUtils.putBoolean(AppConfig.HAS_UPDATE, false);
                     break;
             }
@@ -246,8 +249,10 @@ public class AboutActivity extends BaseActivity {
         MyPopUtil myPopUtil = MyPopUtil.getInstance(this);
         myPopUtil.initView(R.layout.new_update_pop, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
                 R.style.add_pop_tv_style);
-        if (parent == null)
+        if (parent == null){
             return;
+        }
+
         myPopUtil.showAtLoacation(parent, Gravity.CENTER, 0, 0);
         TextView tv_new_update_num = queryViewById(myPopUtil.getmPopView(), R.id.tv_new_update_num);
         tv_new_update_num.setText("版本号：" + curVersion);
@@ -276,7 +281,7 @@ public class AboutActivity extends BaseActivity {
                     apkUpdateUtil.startDown();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    mToastUtils.show(mContext, e.getMessage());
+                    ToastUtils.show(mContext, e.getMessage());
                 }
             }
         });

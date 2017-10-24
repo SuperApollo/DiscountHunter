@@ -129,8 +129,10 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
             }
 
             return true;
-        } else
+        } else{
             return super.onCreateOptionsMenu(menu);
+        }
+
     }
 
     @Override
