@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.2'
+    buildToolsVersion '26.0.2'
     defaultConfig {
         applicationId "com.apollo.discounthunter"
         minSdkVersion 14
@@ -36,14 +36,21 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // 自定义输出配置
+//            applicationVariants.all { variant ->
+//                variant.outputs.each { output ->
+//                    def outputFile = output.outputFile
+//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                        // 输出apk名称为DiscountHunter_v1.0_wandoujia.apk
+//                        def fileName = "DiscountHunter_debug_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+//                        output.outputFile = new File(outputFile.parent, fileName)
+//                    }
+//                }
+//            }
             applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        // 输出apk名称为DiscountHunter_v1.0_wandoujia.apk
-                        def fileName = "DiscountHunter_debug_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
-                    }
+                variant.outputs.all {
+                    // 输出apk名称为DiscountHunter_v1.0_wandoujia.apk
+                    def fileName = "DiscountHunter_debug_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                    outputFileName = fileName
                 }
             }
         }
@@ -52,19 +59,29 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // 自定义输出配置
+//            applicationVariants.all { variant ->
+//                variant.outputs.each { output ->
+//                    def outputFile = output.outputFile
+//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                        // 输出apk名称为DiscountHunter_v1.0_wandoujia.apk
+//                        def fileName = "DiscountHunter_release_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+//                        output.outputFile = new File(outputFile.parent, fileName)
+//                    }
+//                }
+//            }
             applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
-                        // 输出apk名称为DiscountHunter_v1.0_wandoujia.apk
-                        def fileName = "DiscountHunter_release_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
-                    }
+                variant.outputs.all {
+                    // 输出apk名称为DiscountHunter_v1.0_wandoujia.apk
+                    def fileName = "DiscountHunter_release_v${defaultConfig.versionName}_${variant.productFlavors[0].name}.apk"
+                    outputFileName = fileName
+
                 }
             }
         }
 
     }
+
+    flavorDimensions "name"
     //友盟多渠道打包
     productFlavors {
 //        kuan {}
@@ -114,7 +131,6 @@ dependencies {
     compile files('libs/umeng_social_shareboard.jar')
     compile files('libs/umeng_social_shareview.jar')
     compile files('libs/umeng_social_tool.jar')
-    compile files('libs/android-support-v4.jar')
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile files('libs/SocialSDK_QQ_Simplify.jar')
 }
