@@ -12,6 +12,7 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Message;
 import android.os.Vibrator;
 import android.provider.MediaStore;
@@ -42,6 +43,7 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeReader;
 
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.util.Hashtable;
 import java.util.Vector;
 
@@ -207,7 +209,8 @@ public class CaptureActivity extends BaseActivity implements Callback {
         if (hasSurface) {
             initCamera(surfaceHolder);
         } else {
-            surfaceHolder.addCallback(this);
+            WeakReference<CaptureActivity> reference = new WeakReference<>(CaptureActivity.this);
+            surfaceHolder.addCallback(reference.get());
             surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         }
         decodeFormats = null;
@@ -236,6 +239,7 @@ public class CaptureActivity extends BaseActivity implements Callback {
         super.onPause();
         if (handler != null) {
             handler.quitSynchronously();
+            handler.removeCallbacksAndMessages(null);
             handler = null;
         }
         CameraManager.get().closeDriver();
@@ -291,8 +295,9 @@ public class CaptureActivity extends BaseActivity implements Callback {
         } catch (RuntimeException e) {
             return;
         }
+        WeakReference<CaptureActivity> reference = new WeakReference<>(CaptureActivity.this);
         if (handler == null) {
-            handler = new CaptureActivityHandler(this, decodeFormats,
+            handler = new CaptureActivityHandler(reference.get(), decodeFormats,
                     characterSet);
         }
     }

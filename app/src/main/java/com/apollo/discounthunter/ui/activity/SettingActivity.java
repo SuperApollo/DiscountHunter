@@ -37,6 +37,7 @@ import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -238,12 +239,13 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void handleMsg(Message msg) {
+        WeakReference<SettingActivity> reference = new WeakReference<>(SettingActivity.this);
         switch (msg.what) {
             case CLEAR_SUCCESS:
                 clearProgressDialog.dismiss();
                 //刷新缓存大小
                 getCahceSize();
-                clearProgressDialog = new MyProgressDialog(SettingActivity.this, R.style.NoWhiteDialog, R.layout.load_dialog_done);
+                clearProgressDialog = new MyProgressDialog(reference.get(), R.style.NoWhiteDialog, R.layout.load_dialog_done);
                 clearProgressDialog.show();
                 mHandler.sendEmptyMessageDelayed(DISMISS_DIALOG, 1000);
                 break;
