@@ -44,10 +44,19 @@ public class BaseApplication extends Application {
         //初始化错误日志记录
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.init(getApplicationContext());
-        //内存泄漏检测
-        LeakCanary.install(this);
+        initLeakCanary();
         //友盟第三方分享初始化
         UMShareAPI.get(this);
+    }
+
+    /**
+     * 内存泄漏检测
+     */
+    private void initLeakCanary() {
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            return;
+        }
+        LeakCanary.install(this);
     }
 
     /**
