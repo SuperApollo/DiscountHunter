@@ -35,6 +35,7 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.ShareBoardConfig;
 
 import java.io.File;
 import java.lang.ref.WeakReference;
@@ -118,7 +119,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        //友盟分享内存泄露
         UMShareAPI.get(this).release();
         if (mFlashLightManager != null) {
             mFlashLightManager.releaseResource();
@@ -218,6 +219,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 web.setThumb(thumb);  //缩略图
                 web.setDescription("我发现了一个有趣的APP，推荐给你哦");//描述
                 mShareAction = new ShareAction(SettingActivity.this);
+                ShareBoardConfig config = new ShareBoardConfig();
+                config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_BOTTOM);
                 mShareAction.withMedia(web)
                         .setDisplayList(
                                 SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
@@ -226,7 +229,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
                         )
                         .setCallback(shareListener)
-                        .open();
+                        .open(config);
 
             }
         });
