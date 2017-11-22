@@ -242,6 +242,7 @@ public class CaptureActivity extends BaseActivity implements Callback {
             handler.removeCallbacksAndMessages(null);
             handler = null;
         }
+        mediaPlayer.pause();
         CameraManager.get().closeDriver();
     }
 
@@ -256,9 +257,12 @@ public class CaptureActivity extends BaseActivity implements Callback {
         return -1;
     }
 
+
     @Override
     protected void onDestroy() {
         inactivityTimer.shutdown();
+        mediaPlayer.stop();
+        mediaPlayer.release();
         super.onDestroy();
     }
 

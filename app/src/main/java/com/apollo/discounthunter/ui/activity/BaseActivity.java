@@ -35,6 +35,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by zayh_yf20160909 on 2017/1/11.
@@ -56,6 +57,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
             handleMsg(msg);
         }
     };
+    private Unbinder mUnbinder;
 
     public EditText getmSearchEditText() {
         return mSearchEditText;
@@ -67,7 +69,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
         super.onCreate(savedInstanceState);
         View view = LayoutInflater.from(this).inflate(getLayoutId(), null);
         setContentView(view);
-        ButterKnife.bind(this);
+        mUnbinder = ButterKnife.bind(this);
         setOverflowShowingAlways();
         mContext = BaseApplication.getContext();
         mToastUtils = ToastUtils.shareInstance();
@@ -100,6 +102,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
             mHandler.removeCallbacksAndMessages(null);
             mHandler = null;
         }
+        mUnbinder.unbind();
     }
 
     @Override
@@ -129,7 +132,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
             }
 
             return true;
-        } else{
+        } else {
             return super.onCreateOptionsMenu(menu);
         }
 

@@ -20,6 +20,7 @@ import com.apollo.discounthunter.widgets.CustomProgressView;
 import com.umeng.analytics.MobclickAgent;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 /**
  * Created by Apollo on 2017/1/13.
@@ -40,6 +41,7 @@ public abstract class BaseFragment extends Fragment {
             handleMsg(msg);
         }
     };
+    private Unbinder mUnbinder;
 
 
     @Override
@@ -55,7 +57,7 @@ public abstract class BaseFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(getLayoutId(), container, false);
         isPrepared = true;
-        ButterKnife.bind(this, view);
+        mUnbinder = ButterKnife.bind(this, view);
         lazyLoad();
         return view;
     }
@@ -104,6 +106,7 @@ public abstract class BaseFragment extends Fragment {
             mHandler.removeCallbacksAndMessages(null);
             mHandler = null;
         }
+        mUnbinder.unbind();
     }
 
     /**

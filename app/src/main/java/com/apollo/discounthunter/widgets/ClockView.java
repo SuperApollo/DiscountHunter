@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.apollo.discounthunter.R;
 
+import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
@@ -134,14 +135,14 @@ public class ClockView extends View {
 
     public ClockView(Context context) {
         super(context);
-        mContext = context;
+        mContext = new WeakReference<>(context).get();
         initPaint();
     }
 
 
     public ClockView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        mContext = context;
+        mContext = new WeakReference<>(context).get();
 
         //获取自定义属性
         TypedArray typedArray = mContext.obtainStyledAttributes(attrs, R.styleable.ClockView);//属性集合
