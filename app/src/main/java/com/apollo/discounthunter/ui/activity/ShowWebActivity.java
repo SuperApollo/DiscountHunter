@@ -13,9 +13,11 @@ import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.retrofit.model.Model;
+import com.apollo.discounthunter.utils.AnimationUtils;
 import com.apollo.discounthunter.utils.ApkUpdateUtil;
 import com.apollo.discounthunter.utils.AppUtil;
 import com.apollo.discounthunter.utils.LogUtil;
@@ -30,6 +32,8 @@ import butterknife.BindView;
 public class ShowWebActivity extends BaseActivity {
     @BindView(R.id.webview_showweb)
     WebView mWebView;
+    @BindView(R.id.animation_view_show_web)
+    LottieAnimationView mAnimationView;
     private final int START_LOAD = 10086;
     private final int END_LOAD = 10087;
 
@@ -53,6 +57,14 @@ public class ShowWebActivity extends BaseActivity {
 
     @Override
     protected void initView(View view) {
+        try {
+            mAnimationView.setAnimation("loading.json");
+            mAnimationView.loop(true);
+            mAnimationView.setScale(0.1f);
+
+        } catch (Throwable ex) {
+            ex.printStackTrace();
+        }
         mWebView.requestFocusFromTouch();//输入焦点
         WebSettings settings = mWebView.getSettings();
         settings.setJavaScriptEnabled(true);//支持js
@@ -138,10 +150,16 @@ public class ShowWebActivity extends BaseActivity {
     protected void handleMsg(Message msg) {
         switch (msg.what) {
             case START_LOAD:
-                showProgress();
+//                showProgress();
+                if (mAnimationView != null) {
+                    mAnimationView.playAnimation();
+                }
                 break;
             case END_LOAD:
-                clearProgress();
+//                clearProgress();
+                if (mAnimationView != null) {
+                    AnimationUtils.showAndHiddenAnimation(mAnimationView, AnimationUtils.AnimationState.STATE_HIDDEN, 800);
+                }
                 break;
         }
     }
