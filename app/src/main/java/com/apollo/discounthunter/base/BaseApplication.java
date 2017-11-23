@@ -10,6 +10,7 @@ import com.apollo.discounthunter.greendao.dao.DaoSession;
 import com.apollo.discounthunter.utils.CrashHandler;
 import com.squareup.leakcanary.LeakCanary;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
@@ -26,6 +27,7 @@ public class BaseApplication extends Application {
         PlatformConfig.setWeixin("wx4337fc02d6b46fa0", "86f0416198ffe6ce39b6d1c1031a9283");
         PlatformConfig.setQQZone("1105879293", "etfzk15idzvPMsyX");
         PlatformConfig.setSinaWeibo("1130304914", "68667af335131ba6b3898f3eb31e0d44", "http://www.zhekoulieshou.com");
+        Config.DEBUG = true;
     }
 
     private static BaseApplication baseApplication;
@@ -54,8 +56,8 @@ public class BaseApplication extends Application {
         mContext = getApplicationContext();
         MobclickAgent.setCatchUncaughtExceptions(false);//关闭友盟错误统计
         //初始化错误日志记录
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(getApplicationContext());
+//        CrashHandler crashHandler = CrashHandler.getInstance();
+//        crashHandler.init(getApplicationContext());
         initLeakCanary();
         //友盟第三方分享初始化
         UMShareAPI.get(this);

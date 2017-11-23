@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.DownloadListener;
 import android.webkit.WebSettings;
@@ -21,6 +21,7 @@ import com.apollo.discounthunter.utils.AnimationUtils;
 import com.apollo.discounthunter.utils.ApkUpdateUtil;
 import com.apollo.discounthunter.utils.AppUtil;
 import com.apollo.discounthunter.utils.LogUtil;
+import com.apollo.discounthunter.utils.ToastUtils;
 
 import butterknife.BindView;
 
@@ -41,8 +42,10 @@ public class ShowWebActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mHandler.removeCallbacksAndMessages(null);
-        mHandler = null;
+        if (mHandler != null) {
+            mHandler.removeCallbacksAndMessages(null);
+            mHandler = null;
+        }
     }
 
     @Override
@@ -114,8 +117,9 @@ public class ShowWebActivity extends BaseActivity {
                 @Override
                 public void onPageFinished(WebView view, String url) {
                     super.onPageFinished(view, url);
-                    if (mHandler != null)
+                    if (mHandler != null) {
                         mHandler.sendEmptyMessage(END_LOAD);
+                    }
                 }
 
                 @Override
@@ -126,21 +130,27 @@ public class ShowWebActivity extends BaseActivity {
             });
             if (homeModel != null) {
                 String tag = bundle.getString(Constants.BUNDLE_TAG);
-                if (TextUtils.equals("HomeFragment", tag))//显示weburl内容
+                if (TextUtils.equals("HomeFragment", tag)) {
+                    //显示weburl内容
                     mWebView.loadUrl(homeModel.getWeb_url());
-                else if (TextUtils.equals("GoodsDetailActivity_quan", tag))//去领券
+                } else if (TextUtils.equals("GoodsDetailActivity_quan", tag)) {
+                    //去领券
                     mWebView.loadUrl(homeModel.getQuan_link());
-                else if (TextUtils.equals("GoodsDetailActivity_buy", tag))//去下单
+                } else if (TextUtils.equals("GoodsDetailActivity_buy", tag)) {
+                    //去下单
                     mWebView.loadUrl(homeModel.getApp_url());
+                }
             }
             if (!TextUtils.isEmpty(codeUrl)) {
                 if (codeUrl.endsWith(".apk")) {
                     //下载
-                    mToastUtils.show(mContext, "请稍后");
+                    ToastUtils.show(mContext, "请稍后");
                     ApkUpdateUtil apkUpdateUtil = new ApkUpdateUtil(ShowWebActivity.this, codeUrl);
                     apkUpdateUtil.startDown();
-                } else
+                } else {
                     mWebView.loadUrl(codeUrl);
+                }
+
             }
 
         }
@@ -164,4 +174,13 @@ public class ShowWebActivity extends BaseActivity {
         }
     }
 
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && mWebView != null && mWebView.canGoBack()) {
+            mWebView.goBack();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 }

@@ -43,6 +43,7 @@ import com.apollo.discounthunter.utils.AppUtil;
 import com.apollo.discounthunter.utils.IntentUtils;
 import com.apollo.discounthunter.utils.MyPopUtil;
 import com.apollo.discounthunter.utils.SharedPreferencesUtils;
+import com.apollo.discounthunter.utils.ToastUtils;
 import com.apollo.discounthunter.utils.ViewUtil;
 import com.google.gson.Gson;
 import com.umeng.analytics.MobclickAgent;
@@ -303,7 +304,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
     @Override
     public void onBackPressed() {
         if ((currentTimeMillis() - mExitTime) > 2000) {
-            mToastUtils.show(mContext, "再按一次退出程序");
+            ToastUtils.show(mContext, "再按一次退出程序");
             mExitTime = currentTimeMillis();
         } else {
             MainActivity.this.finish();
@@ -323,7 +324,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                 IntentUtils.sendIntent(this, SettingActivity.class);
                 return true;
             case R.id.action_plus:
-                mToastUtils.show(this, "添加");
+                ToastUtils.show(this, "添加");
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -395,7 +396,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                     SharedPreferencesUtils.putBoolean(AppConfig.HAS_UPDATE, false);
                     break;
                 case SERVER_VERSION_ERROR:
-                    mToastUtils.show(mContext, "服务器版本号错误");
+                    ToastUtils.show(mContext, "服务器版本号错误");
                     SharedPreferencesUtils.putBoolean(AppConfig.HAS_UPDATE, false);
                     break;
             }
@@ -515,7 +516,7 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
                     apkUpdateUtil.startDown();
                 } catch (Exception e) {
                     e.printStackTrace();
-                    mToastUtils.show(mContext, e.getMessage());
+                    ToastUtils.show(mContext, e.getMessage());
                 }
             }
         });
