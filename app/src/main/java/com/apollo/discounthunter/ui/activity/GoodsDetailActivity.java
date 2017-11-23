@@ -182,22 +182,22 @@ public class GoodsDetailActivity extends BaseActivity {
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                startX = ev.getRawX();//记录初始值
-                startY = ev.getRawY();
-                break;
-            case MotionEvent.ACTION_MOVE:
-                float movingX = ev.getRawX();
-                float movingY = ev.getRawY();
-                if ((movingX - startX) > 200 && Math.abs(movingY - startY) < 100) {//向右滑动200像素，并且 y 方向滑动不超过100像素，判断为结束当前activity手势
-                    GoodsDetailActivity.this.finish();
-                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
-                }
-                break;
-            case MotionEvent.ACTION_UP:
-                break;
-        }
+//        switch (ev.getAction()) {
+//            case MotionEvent.ACTION_DOWN:
+//                startX = ev.getRawX();//记录初始值
+//                startY = ev.getRawY();
+//                break;
+//            case MotionEvent.ACTION_MOVE:
+//                float movingX = ev.getRawX();
+//                float movingY = ev.getRawY();
+//                if ((movingX - startX) > 200 && Math.abs(movingY - startY) < 100) {//向右滑动200像素，并且 y 方向滑动不超过100像素，判断为结束当前activity手势
+//                    GoodsDetailActivity.this.finish();
+//                    overridePendingTransition(R.anim.push_right_in, R.anim.push_right_out);
+//                }
+//                break;
+//            case MotionEvent.ACTION_UP:
+//                break;
+//        }
         return super.dispatchTouchEvent(ev);
     }
 }

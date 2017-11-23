@@ -133,4 +133,8 @@ dependencies {
     compile files('libs/umeng_social_tool.jar')
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     compile files('libs/SocialSDK_QQ_Simplify.jar')
+    //滑动返回
+    compile 'cn.bingoogolapple:bga-swipebacklayout:1.1.6@aar'
+    compile 'com.jaeger.statusbaruitl:library:1.4.0'
+
 }
