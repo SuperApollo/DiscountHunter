@@ -14,6 +14,7 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.apollo.discounthunter.BuildConfig;
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.constants.AppConfig;
 import com.apollo.discounthunter.retrofit.ServiceGenerator;
@@ -118,10 +119,10 @@ public class ApkUpdateUtil {
 
     private void setupAPk(File file) {
         if (Build.VERSION.SDK_INT >= 24) {//判读版本是否在7.0以上
-            Uri apkUri = FileProvider.getUriForFile(mContext, "com.apollo.discounthunter.fileProvider", file);
             Intent install = new Intent(Intent.ACTION_VIEW);
             install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//添加这一句表示对目标应用临时授权该Uri所代表的文件
+            install.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//添加这一句表示对目标应用临时授权该Uri所代表的文件
+            Uri apkUri = FileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".fileProvider", file);
             install.setDataAndType(apkUri, "application/vnd.android.package-archive");
             mContext.startActivity(install);
         } else {
