@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -115,11 +117,22 @@ public class ApkUpdateUtil {
 
 
     private void setupAPk(File file) {
-        Intent intent = new Intent();
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
-        mContext.startActivity(intent);
+        if (Build.VERSION.SDK_INT >= 24) {//判读版本是否在7.0以上
+            Uri apkUri = FileProvider.getUriForFile(mContext, "com.apollo.discounthunter.fileProvider", file);
+            Intent install = new Intent(Intent.ACTION_VIEW);
+            install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//添加这一句表示对目标应用临时授权该Uri所代表的文件
+            install.setDataAndType(apkUri, "application/vnd.android.package-archive");
+            mContext.startActivity(install);
+        } else {
+            Intent intent = new Intent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
+            mContext.startActivity(intent);
+        }
+
+
     }
 
     /**
