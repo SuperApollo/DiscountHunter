@@ -27,7 +27,6 @@ public class BaseApplication extends Application {
         PlatformConfig.setWeixin("wx4337fc02d6b46fa0", "86f0416198ffe6ce39b6d1c1031a9283");
         PlatformConfig.setQQZone("1105879293", "etfzk15idzvPMsyX");
         PlatformConfig.setSinaWeibo("1130304914", "68667af335131ba6b3898f3eb31e0d44", "http://www.zhekoulieshou.com");
-        Config.DEBUG = true;
     }
 
     private static BaseApplication baseApplication;

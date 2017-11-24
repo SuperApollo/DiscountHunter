@@ -118,22 +118,20 @@ public class ApkUpdateUtil {
 
 
     private void setupAPk(File file) {
+        Intent install = new Intent(Intent.ACTION_VIEW);
+        install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if (Build.VERSION.SDK_INT >= 24) {//判读版本是否在7.0以上
-            Intent install = new Intent(Intent.ACTION_VIEW);
-            install.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            install.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//添加这一句表示对目标应用临时授权该Uri所代表的文件
+            install.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);//添加这一句表示对目标应用临时授权该Uri所代表的文件
+            install.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
             Uri apkUri = FileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".fileProvider", file);
             install.setDataAndType(apkUri, "application/vnd.android.package-archive");
-            mContext.startActivity(install);
+
         } else {
-            Intent intent = new Intent();
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            intent.setAction(Intent.ACTION_VIEW);
-            intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
-            mContext.startActivity(intent);
+
+            install.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive");
         }
 
-
+        mContext.startActivity(install);
     }
 
     /**

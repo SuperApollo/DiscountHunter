@@ -1,6 +1,9 @@
 package com.apollo.discounthunter.constants;
 
+import android.content.Context;
 import android.os.Environment;
+
+import com.apollo.discounthunter.base.BaseApplication;
 
 import java.io.File;
 
@@ -33,7 +36,8 @@ public class AppConfig {
     /**
      * app下载位置
      */
-    public static final String FILE_DOWNLOAD = Environment.getExternalStorageDirectory() + File.separator + "discount_hunter/";
+//    public static final String FILE_DOWNLOAD = Environment.getExternalStorageDirectory() + File.separator + "discount_hunter/";
+    public static final String FILE_DOWNLOAD = BaseApplication.getContext().getExternalCacheDir() + File.separator;
 
     /**
      * 数据库名称
