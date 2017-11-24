@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 
+import com.elvishew.xlog.XLog;
+
 import java.lang.ref.WeakReference;
 
 /**
@@ -119,7 +121,7 @@ public class MyPopUtil {
             if (mMyPopupWindow.isShowing())
                 mMyPopupWindow.dismiss();
             System.gc();
-            Log.i(TAG, String.valueOf(mContext.get() == null));
+            XLog.i(TAG, String.valueOf(mContext.get() == null));
         }
     }
 

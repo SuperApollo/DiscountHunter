@@ -138,5 +138,7 @@ dependencies {
     compile 'com.jaeger.statusbaruitl:library:1.4.0'
     //webview动画
     compile 'com.airbnb.android:lottie:2.3.0'
+    //日志工具
+    compile 'com.elvishew:xlog:1.4.0'
 
 }

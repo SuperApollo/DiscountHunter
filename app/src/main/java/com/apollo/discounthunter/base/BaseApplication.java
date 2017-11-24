@@ -4,10 +4,13 @@ import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.apollo.discounthunter.BuildConfig;
 import com.apollo.discounthunter.constants.AppConfig;
 import com.apollo.discounthunter.greendao.dao.DaoMaster;
 import com.apollo.discounthunter.greendao.dao.DaoSession;
 import com.apollo.discounthunter.utils.CrashHandler;
+import com.elvishew.xlog.LogLevel;
+import com.elvishew.xlog.XLog;
 import com.squareup.leakcanary.LeakCanary;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.Config;
@@ -60,6 +63,8 @@ public class BaseApplication extends Application {
         initLeakCanary();
         //友盟第三方分享初始化
         UMShareAPI.get(this);
+        //log工具
+        XLog.init(BuildConfig.DEBUG ? LogLevel.ALL : LogLevel.NONE);
     }
 
     /**

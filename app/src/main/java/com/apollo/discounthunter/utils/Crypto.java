@@ -27,7 +27,7 @@ public class Crypto {
         try {
             skey = new SecretKeySpec(generateKey(key), "AES");
         } catch (Exception e) {
-            //Log.e("Crypto", e);
+            //XLog.e("Crypto", e);
         }
     }
 
@@ -39,7 +39,7 @@ public class Crypto {
             ecipher.init(Cipher.ENCRYPT_MODE, skey, paramSpec);
         } catch (Exception e) {
             ecipher = null;
-            //Log.e("setupCrypto", e);
+            //XLog.e("setupCrypto", e);
         }
     }
 
@@ -51,7 +51,7 @@ public class Crypto {
             ecipher.init(Cipher.DECRYPT_MODE, skey, paramSpec);
         } catch (Exception e) {
             ecipher = null;
-            //Log.e("setupCrypto", e);
+            //XLog.e("setupCrypto", e);
         }
     }
 
@@ -64,7 +64,7 @@ public class Crypto {
             byte[] ciphertext = ecipher.doFinal(plaintext.getBytes("UTF-8"));
             return Base64.encodeToString(ciphertext, Base64.NO_WRAP);
         } catch (Exception e) {
-            //Log.e("encryp", e);
+            //XLog.e("encryp", e);
             return "";
         }
     }
@@ -78,7 +78,7 @@ public class Crypto {
             byte[] ciphertext = ecipher.doFinal(Base64.decode(plaintext, Base64.NO_WRAP));
             return new String(ciphertext, "UTF-8");
         } catch (Exception e) {
-            //Log.e("encryp", e);
+            //XLog.e("encryp", e);
             return "";
         }
     }
@@ -105,7 +105,7 @@ public class Crypto {
             MessageDigest md = MessageDigest.getInstance("SHA256");
             return md.digest(bytesOfMessage);
         } catch (Exception e) {
-            //Log.e("generateKey", e);
+            //XLog.e("generateKey", e);
             return null;
         }
     }
@@ -116,7 +116,7 @@ public class Crypto {
             PublicKey pubKey = (PublicKey) oin.readObject();
             return pubKey;
         } catch (Exception e) {
-            //Log.e("readKeyFromStream", e);
+            //XLog.e("readKeyFromStream", e);
             return null;
         } finally {
             oin.close();
@@ -139,7 +139,7 @@ public class Crypto {
             byte[] cipherData = cipher.doFinal(data);
             return Base64.encodeToString(cipherData, Base64.NO_WRAP);
         } catch (Exception e) {
-            //Log.e("rsaEncrypt", e);
+            //XLog.e("rsaEncrypt", e);
             return "";
         }
     }

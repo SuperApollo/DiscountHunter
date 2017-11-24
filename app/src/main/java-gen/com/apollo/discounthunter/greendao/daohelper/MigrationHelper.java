@@ -66,7 +66,7 @@ public class MigrationHelper {
                     try {
                         type = getTypeByClass(daoConfig.properties[j].type);
                     } catch (Exception exception) {
-                        Log.e(TAG, exception.getMessage());
+                        XLog.e(TAG, exception.getMessage());
                     }
 
                     createTableStringBuilder.append(divider).append(columnName).append(" ").append(type);
@@ -139,7 +139,7 @@ public class MigrationHelper {
         }
 
         Exception exception = new Exception(CONVERSION_CLASS_NOT_FOUND_EXCEPTION.concat(" - Class: ").concat(type.toString()));
-        Log.e(TAG, exception.getMessage());
+        XLog.e(TAG, exception.getMessage());
         throw exception;
     }
 
@@ -152,7 +152,7 @@ public class MigrationHelper {
                 columns = new ArrayList<>(Arrays.asList(cursor.getColumnNames()));
             }
         } catch (Exception e) {
-            Log.v(tableName, e.getMessage(), e);
+            XLog.v(tableName, e.getMessage(), e);
             e.printStackTrace();
         } finally {
             if (cursor != null)

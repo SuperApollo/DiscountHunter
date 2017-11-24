@@ -98,7 +98,7 @@ public class ApkUpdateUtil {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Log.i(TAG, "连接服务成功,开始下载存储文件===");
+                    XLog.i(TAG, "连接服务成功,开始下载存储文件===");
                     new SaveTask(response.body()).execute();
                 }
             }
@@ -110,7 +110,7 @@ public class ApkUpdateUtil {
                 }
                 call.cancel();
                 Toast.makeText(mContext.getApplicationContext(), "连接服务失败", Toast.LENGTH_SHORT).show();
-                Log.e(TAG, t.getMessage());
+                XLog.e(TAG, t.getMessage());
             }
         });
 
@@ -177,7 +177,7 @@ public class ApkUpdateUtil {
                     long[] progress = {fileSizeDownloaded, fileSize};
                     message.obj = progress;
                     mHandler.sendMessage(message);
-                    Log.w("saveFile", "file download: " + fileSizeDownloaded + " of " + fileSize);
+                    XLog.w("saveFile", "file download: " + fileSizeDownloaded + " of " + fileSize);
                 }
 
                 outputStream.flush();
@@ -222,7 +222,7 @@ public class ApkUpdateUtil {
         protected Object doInBackground(Object[] objects) {
             String filePath = AppConfig.FILE_DOWNLOAD + "apk" + File.separator + apkName;
             boolean success = writeResponseBodyToDisk(body, filePath);
-            Log.i(TAG, "保存成功：" + success);
+            XLog.i(TAG, "保存成功：" + success);
             return null;
         }
 

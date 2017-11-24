@@ -32,6 +32,7 @@ import com.apollo.discounthunter.zxing.decoding.CaptureActivityHandler;
 import com.apollo.discounthunter.zxing.decoding.InactivityTimer;
 import com.apollo.discounthunter.zxing.decoding.RGBLuminanceSource;
 import com.apollo.discounthunter.zxing.view.ViewfinderView;
+import com.elvishew.xlog.XLog;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.ChecksumException;
@@ -122,9 +123,9 @@ public class CaptureActivity extends BaseActivity implements Callback {
                         if (photo_path == null) {
                             photo_path = UriUtils.getRealPathFromUri(getApplicationContext(),
                                     data.getData());
-                            Log.i("123path  Utils", photo_path);
+                            XLog.i("123path  Utils", photo_path);
                         }
-                        Log.i("123path", photo_path);
+                        XLog.i("123path", photo_path);
 
                     }
 
@@ -141,7 +142,7 @@ public class CaptureActivity extends BaseActivity implements Callback {
                         public void run() {
                             Result result = scanningImage(photo_path);
                             if (result != null) {
-                                Log.i("123path", result.toString());
+                                XLog.i("123path", result.toString());
                                 Intent resultIntent = new Intent();
                                 Bundle bundle = new Bundle();
                                 bundle.putString("result", result.getText());

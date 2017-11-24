@@ -18,6 +18,8 @@ package com.apollo.discounthunter.utils;
 import android.content.Context;
 import android.util.Log;
 
+import com.elvishew.xlog.XLog;
+
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -45,7 +47,7 @@ public class LogUtil {
 	 * @param message
 	 */
 	public static void d(String tag, String message) {
-		if(D) Log.d(tag, message);
+		if(D) XLog.d(tag, message);
 	}
 	
 	/**
@@ -96,7 +98,7 @@ public class LogUtil {
 	 * @param message
 	 */
 	public static void i(String tag, String message) {
-		Log.i(tag, message);
+		XLog.i(tag, message);
 	}
 	
 	/**
@@ -149,7 +151,7 @@ public class LogUtil {
 	 * @param message
 	 */
 	public static void e(String tag, String message) {
-		Log.e(tag, message);
+		XLog.e(tag, message);
 	}
 	
 	/**
@@ -202,7 +204,7 @@ public class LogUtil {
 	public static void prepareLog(String tag) {
 		Calendar current = Calendar.getInstance();
 		startLogTimeInMillis = current.getTimeInMillis();
-		Log.d(tag,"日志计时开始："+startLogTimeInMillis);
+		XLog.d(tag,"日志计时开始："+startLogTimeInMillis);
 	}
 	
 	/**
@@ -233,7 +235,7 @@ public class LogUtil {
 	public static void d(String tag, String message, boolean printTime) {
 		Calendar current = Calendar.getInstance();
 		long endLogTimeInMillis = current.getTimeInMillis();
-		Log.d(tag,message+":"+(endLogTimeInMillis-startLogTimeInMillis)+"ms");
+		XLog.d(tag,message+":"+(endLogTimeInMillis-startLogTimeInMillis)+"ms");
 	}
 	
 	
