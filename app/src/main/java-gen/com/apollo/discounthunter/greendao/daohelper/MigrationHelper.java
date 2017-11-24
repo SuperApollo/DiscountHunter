@@ -7,6 +7,7 @@ import android.util.Log;
 
 
 import com.apollo.discounthunter.greendao.dao.DaoMaster;
+import com.elvishew.xlog.XLog;
 
 import java.util.ArrayList;
 import java.util.Arrays;

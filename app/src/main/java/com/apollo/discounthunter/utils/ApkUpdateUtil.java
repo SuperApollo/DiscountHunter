@@ -20,6 +20,7 @@ import com.apollo.discounthunter.constants.AppConfig;
 import com.apollo.discounthunter.retrofit.ServiceGenerator;
 import com.apollo.discounthunter.retrofit.requestinterface.DownloadService;
 import com.apollo.discounthunter.widgets.HorizontalProgressBar;
+import com.elvishew.xlog.XLog;
 
 import java.io.File;
 import java.io.FileOutputStream;
