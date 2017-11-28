@@ -273,11 +273,15 @@ public class GoodsDetailActivity extends BaseActivity {
      * 分享商品详情给朋友
      */
     private void share() {
-        UMWeb web = new UMWeb(mHomeModel.getQuan_link());
+        String url = mHomeModel.getQuan_link();
+        if (url.contains("https")) {
+            url.replace("https", "http");
+        }
+        UMWeb web = new UMWeb(url);
         UMImage thumb = new UMImage(mContext, mHomeModel.getPic());
         web.setTitle("好货推荐");//标题
         web.setThumb(thumb);  //缩略图
-        web.setDescription("我发现了一个有趣的APP，推荐给你哦");//描述
+        web.setDescription("我发现了一个物美价廉的宝贝，分享给你哦");//描述
         mShareAction = new ShareAction(GoodsDetailActivity.this);
         ShareBoardConfig config = new ShareBoardConfig();
         config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_BOTTOM);
@@ -297,6 +301,7 @@ public class GoodsDetailActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
+
     /**
      * 屏幕横竖屏切换时避免出现window leak的问题
      */
