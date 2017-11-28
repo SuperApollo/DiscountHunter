@@ -373,7 +373,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     }
 
-    //判断版本是否是5.0以上
+    /**判断版本是否是5.0以上
+     *
+     * @return 是否是
+     */
     private boolean isVersion21Upper() {
         int version = Build.VERSION.SDK_INT;
         if (version >= 21) {

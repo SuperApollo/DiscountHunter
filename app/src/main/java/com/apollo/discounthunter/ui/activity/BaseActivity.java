@@ -45,7 +45,7 @@ import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
  * Created by zayh_yf20160909 on 2017/1/11.
  */
 
-public abstract class BaseActivity extends FragmentActivity implements MenuItem.OnActionExpandListener, SearchView.OnQueryTextListener,BGASwipeBackHelper.Delegate {
+public abstract class BaseActivity extends FragmentActivity implements MenuItem.OnActionExpandListener, SearchView.OnQueryTextListener, BGASwipeBackHelper.Delegate {
     protected ToastUtils mToastUtils;
     public Context mContext;
     protected CustomProgressView customProgressView;
@@ -177,6 +177,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
     public void setStatusBarColor(@ColorInt int color, @IntRange(from = 0, to = 255) int statusBarAlpha) {
         StatusBarUtil.setColorForSwipeBack(this, color, statusBarAlpha);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -208,22 +209,26 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(id, menu);
             mSearchItem = menu.findItem(R.id.action_search);
-            mSearchItem.setOnActionExpandListener(this);
-            mSearchView = (SearchView) mSearchItem.getActionView();
-            if (mSearchView != null) {
-                mSearchView.setOnQueryTextListener(this);
-                int viewId = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-                mSearchEditText = (EditText) mSearchView.findViewById(viewId);
-                //去掉edittext下划线
-                try {
-                    Class argClass = mSearchView.getClass();
-                    // mSearchPlate是SearchView父布局的名字
-                    Field ownField = argClass.getDeclaredField("mSearchPlate");
-                    ownField.setAccessible(true);
-                    View mView = (View) ownField.get(mSearchView);
-                    mView.setBackgroundColor(Color.TRANSPARENT);
-                } catch (Exception e) {
-                    e.printStackTrace();
+            if (mSearchItem != null) {
+                mSearchItem.setOnActionExpandListener(this);
+                if (mSearchItem.getActionView() instanceof SearchView) {//是搜索按钮
+                    mSearchView = (SearchView) mSearchItem.getActionView();
+                    if (mSearchView != null) {
+                        mSearchView.setOnQueryTextListener(this);
+                        int viewId = mSearchView.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+                        mSearchEditText = (EditText) mSearchView.findViewById(viewId);
+                        //去掉edittext下划线
+                        try {
+                            Class argClass = mSearchView.getClass();
+                            // mSearchPlate是SearchView父布局的名字
+                            Field ownField = argClass.getDeclaredField("mSearchPlate");
+                            ownField.setAccessible(true);
+                            View mView = (View) ownField.get(mSearchView);
+                            mView.setBackgroundColor(Color.TRANSPARENT);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
 
@@ -279,7 +284,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
     }
 
     /**
-     * 获取布局id,之类若没有布局需返回-1
+     * 获取布局id,子类若没有布局需返回-1
      *
      * @return 布局id
      */
@@ -288,7 +293,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
     /**
      * 获取actionbar的menu布局
      *
-     * @return menu布局资源id
+     * @return menu布局资源id，若没有返回-1
      */
     protected abstract int getMenuLayoutId();
 

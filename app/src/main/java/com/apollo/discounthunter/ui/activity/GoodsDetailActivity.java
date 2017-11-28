@@ -2,15 +2,18 @@ package com.apollo.discounthunter.ui.activity;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.constants.Constants;
@@ -19,7 +22,15 @@ import com.apollo.discounthunter.greendao.daohelper.MyCollectionDaoHelper;
 import com.apollo.discounthunter.retrofit.model.Model;
 import com.apollo.discounthunter.utils.ImageLoaderUtils;
 import com.apollo.discounthunter.utils.IntentUtils;
+import com.apollo.discounthunter.utils.ToastUtils;
 import com.google.gson.Gson;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
+import com.umeng.socialize.shareboard.ShareBoardConfig;
 
 import butterknife.BindView;
 
@@ -46,6 +57,46 @@ public class GoodsDetailActivity extends BaseActivity {
 
     private Model mHomeModel;
     private ImageLoaderUtils mImageLoader;
+    private ShareAction mShareAction;
+
+    private UMShareListener shareListener = new UMShareListener() {
+        /**
+         * @descrption 分享开始的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+
+        }
+
+        /**
+         * @descrption 分享成功的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onResult(SHARE_MEDIA platform) {
+            ToastUtils.show("分享成功");
+        }
+
+        /**
+         * @descrption 分享失败的回调
+         * @param platform 平台类型
+         * @param t 错误原因
+         */
+        @Override
+        public void onError(SHARE_MEDIA platform, Throwable t) {
+            ToastUtils.show("分享失败" + t.getMessage());
+        }
+
+        /**
+         * @descrption 分享取消的回调
+         * @param platform 平台类型
+         */
+        @Override
+        public void onCancel(SHARE_MEDIA platform) {
+            ToastUtils.show("分享取消");
+        }
+    };
 
     @Override
     protected int getLayoutId() {
@@ -54,7 +105,7 @@ public class GoodsDetailActivity extends BaseActivity {
 
     @Override
     protected int getMenuLayoutId() {
-        return -1;
+        return R.menu.goods_detail;
     }
 
     @Override
@@ -64,22 +115,26 @@ public class GoodsDetailActivity extends BaseActivity {
         if (bundle != null) {
             mHomeModel = bundle.getParcelable(Constants.GOODS_INFO);
             String title = mHomeModel.getTitle();
-            if (!TextUtils.equals("0", mHomeModel.getFlag()))
+            if (!TextUtils.equals("0", mHomeModel.getFlag())) {
                 title = "【置顶】" + title;
+            }
             setTitle(title);
             mTvTitle.setText(title);
             mTvReasson.setText(mHomeModel.getReason());
             mImageLoader.loadImageView(mHomeModel.getPic(), mIv);
             float p = Float.parseFloat(mHomeModel.getPrice());
-            if (p > 0)
+            if (p > 0) {
                 mTvPrice.setText("¥" + mHomeModel.getPrice());
-            else
+            } else {
                 mTvPrice.setVisibility(View.GONE);
+            }
 
-            if (TextUtils.isEmpty(mHomeModel.getApp_url()))
+            if (TextUtils.isEmpty(mHomeModel.getApp_url())) {
                 mBtnQuan.setVisibility(View.GONE);
-            if (TextUtils.isEmpty(mHomeModel.getQuan_link()))
+            }
+            if (TextUtils.isEmpty(mHomeModel.getQuan_link())) {
                 mBtnQuan.setVisibility(View.GONE);
+            }
 
         }
 
@@ -89,7 +144,7 @@ public class GoodsDetailActivity extends BaseActivity {
                 if (checkPackage("com.taobao.taobao")) {
                     toTaoBao(mHomeModel.getQuan_link());
                 } else {
-                    mToastUtils.show(mContext, "请安装淘宝APP");
+                    ToastUtils.show(mContext, "请安装淘宝APP");
                     bundle.putString(Constants.BUNDLE_TAG, TAG + "_quan");
                     IntentUtils.sendIntent(GoodsDetailActivity.this, ShowWebActivity.class, bundle);
                 }
@@ -102,7 +157,7 @@ public class GoodsDetailActivity extends BaseActivity {
                 if (checkPackage("com.taobao.taobao")) {
                     toTaoBao(mHomeModel.getApp_url());
                 } else {
-                    mToastUtils.show(mContext, "请安装淘宝APP");
+                    ToastUtils.show(mContext, "请安装淘宝APP");
                     bundle.putString(Constants.BUNDLE_TAG, TAG + "_buy");
                     IntentUtils.sendIntent(GoodsDetailActivity.this, ShowWebActivity.class, bundle);
                 }
@@ -114,7 +169,7 @@ public class GoodsDetailActivity extends BaseActivity {
             public void onClick(View view) {
                 MyCollection myCollectionById = MyCollectionDaoHelper.getMyCollectionDaoHelper().getMyCollectionById(mHomeModel.getId());
                 if (myCollectionById != null) {
-                    mToastUtils.show(mContext, "您已经收藏过该宝贝!");
+                    ToastUtils.show(mContext, "您已经收藏过该宝贝!");
                     return;
                 }
                 Gson gson = new Gson();
@@ -122,9 +177,9 @@ public class GoodsDetailActivity extends BaseActivity {
                 MyCollection myCollection = gson.fromJson(json, MyCollection.class);
                 long result = MyCollectionDaoHelper.getMyCollectionDaoHelper().insertOrReplace(myCollection);
                 if (result == -1) {
-                    mToastUtils.show(mContext, "收藏失败!");
+                    ToastUtils.show(mContext, "收藏失败!");
                 } else {
-                    mToastUtils.show(mContext, "收藏成功!");
+                    ToastUtils.show(mContext, "收藏成功!");
                 }
 
 
@@ -165,8 +220,9 @@ public class GoodsDetailActivity extends BaseActivity {
      * @return
      */
     public boolean checkPackage(String packageName) {
-        if (packageName == null || "".equals(packageName))
+        if (packageName == null || "".equals(packageName)) {
             return false;
+        }
         try {
             mContext.getPackageManager().getApplicationInfo(packageName, PackageManager
                     .GET_UNINSTALLED_PACKAGES);
@@ -199,5 +255,61 @@ public class GoodsDetailActivity extends BaseActivity {
 //                break;
 //        }
         return super.dispatchTouchEvent(ev);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_share:
+                share();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+
+    }
+
+    /**
+     * 分享商品详情给朋友
+     */
+    private void share() {
+        UMWeb web = new UMWeb(mHomeModel.getQuan_link());
+        UMImage thumb = new UMImage(mContext, mHomeModel.getPic());
+        web.setTitle("好货推荐");//标题
+        web.setThumb(thumb);  //缩略图
+        web.setDescription("我发现了一个有趣的APP，推荐给你哦");//描述
+        mShareAction = new ShareAction(GoodsDetailActivity.this);
+        ShareBoardConfig config = new ShareBoardConfig();
+        config.setShareboardPostion(ShareBoardConfig.SHAREBOARD_POSITION_BOTTOM);
+        mShareAction.withMedia(web)
+                .setDisplayList(
+                        SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE,
+                        SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE,
+                        SHARE_MEDIA.SINA
+
+                )
+                .setCallback(shareListener)
+                .open(config);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+    }
+    /**
+     * 屏幕横竖屏切换时避免出现window leak的问题
+     */
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        mShareAction.close();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //友盟分享内存泄露
+        UMShareAPI.get(this).release();
     }
 }

@@ -248,8 +248,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
             transaction.hide(fragment);
         }
         //添加搜索fragment
-        if (mSearchFragment == null)
+        if (mSearchFragment == null) {
             mSearchFragment = new SearchFragment();
+        }
 
         mVpContainer.setVisibility(View.GONE);
         mFlContainer.setVisibility(View.VISIBLE);
@@ -380,8 +381,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         AppUpdateInfoModel updateInfoModel = null;
         try {
             Gson gson = new Gson();
-            if (json != null)
+            if (json != null) {
                 updateInfoModel = gson.fromJson(json, AppUpdateInfoModel.class);
+            }
             String serverVersion = updateInfoModel.getAppVersion();
             String localVersion = AppUtil.getAppVersionName(mContext);
             SharedPreferencesUtils.putString(AppConfig.APK_URL, updateInfoModel.getAppUrl());
@@ -486,8 +488,9 @@ public class MainActivity extends BaseActivity implements RadioGroup.OnCheckedCh
         MyPopUtil myPopUtil = MyPopUtil.getInstance(MainActivity.this);
         myPopUtil.initView(R.layout.new_update_pop, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT,
                 R.style.add_pop_tv_style);
-        if (parent == null)
+        if (parent == null) {
             return;
+        }
         myPopUtil.showAtLoacation(parent, Gravity.CENTER, 0, 0);
         TextView tv_new_update_num = queryViewById(myPopUtil.getmPopView(), R.id.tv_new_update_num);
         tv_new_update_num.setText("版本号：" + curVersion);
