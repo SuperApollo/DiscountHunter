@@ -58,8 +58,8 @@ public class BaseApplication extends Application {
         mContext = getApplicationContext();
         MobclickAgent.setCatchUncaughtExceptions(false);//关闭友盟错误统计
         //初始化错误日志记录
-//        CrashHandler crashHandler = CrashHandler.getInstance();
-//        crashHandler.init(getApplicationContext());
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
         initLeakCanary();
         //友盟第三方分享初始化
         UMShareAPI.get(this);
