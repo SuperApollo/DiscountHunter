@@ -3,6 +3,7 @@ package com.apollo.discounthunter.widgets;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.constraint.ConstraintLayout;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -35,7 +36,7 @@ public class ItemView extends LinearLayout {
     private ImageView ivRight;
     private onItemClickedListner onItemClickedListner;
     private OnToggleButtonChangeListner toggleButtonChangeListner;
-    private RelativeLayout bodyLayout;
+    private ConstraintLayout bodyLayout;
     private SwitchButton toggleButton;
     private TextView tvRight;
     private ImageView ivPoint;
@@ -56,7 +57,7 @@ public class ItemView extends LinearLayout {
         return ivRight;
     }
 
-    public RelativeLayout getBodyLayout() {
+    public ConstraintLayout getBodyLayout() {
         return bodyLayout;
     }
 
@@ -210,7 +211,7 @@ public class ItemView extends LinearLayout {
         tvRight = (TextView) itemView.findViewById(R.id.item_tv_right);
         ivPoint = (ImageView) itemView.findViewById(R.id.item_iv_point);
         ivRight = (ImageView) itemView.findViewById(R.id.item_iv_right);
-        bodyLayout = (RelativeLayout) itemView.findViewById(R.id.item_body_layout);
+        bodyLayout = (ConstraintLayout) itemView.findViewById(R.id.item_body_layout);
         toggleButton = (SwitchButton) itemView.findViewById(R.id.item_switch_button);
 
         if (topLine) {
