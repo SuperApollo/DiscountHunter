@@ -1,112 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:custom="http://www.baidu.com/apk/res/custom"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:paddingBottom="5dp"
-    android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    android:paddingTop="5dp">
+    android:padding="5dp">
 
     <ImageView
         android:id="@+id/iv_home_item_icon"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@mipmap/icon_logo" />
+        android:src="@mipmap/icon_logo"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <RelativeLayout
-        android:id="@+id/rl_home_item"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_marginLeft="10dp"
-        android:layout_weight="1">
+    <TextView
+        android:id="@+id/tv_home_item_title"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:ellipsize="end"
+        android:maxLines="2"
+        android:text="标题"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintLeft_toRightOf="@+id/iv_home_item_icon"
+        app:layout_constraintTop_toTopOf="@+id/iv_home_item_icon" />
 
-        <TextView
-            android:id="@+id/tv_home_item_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="3"
-            android:text="标题"
-            android:textColor="@color/black"
-            android:textSize="14sp" />
+    <TextView
+        android:id="@+id/tv_home_item_price"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:gravity="center"
+        android:text="价格"
+        android:textColor="@color/price_color"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_home_item_icon"
+        app:layout_constraintLeft_toRightOf="@+id/iv_home_item_icon" />
 
-        <TextView
-            android:id="@+id/tv_home_item_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="-4.5dp"
-            android:layout_marginLeft="-6dp"
-            android:gravity="center"
-            android:paddingBottom="2dp"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingTop="2dp"
-            android:text="价格"
-            android:textColor="@color/price_color"
-            android:textSize="16sp" />
+    <TextView
+        android:id="@+id/tv_home_item_buycount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:text="xxx人付款"
+        android:textColor="@color/grey"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_home_item_price"
+        app:layout_constraintLeft_toRightOf="@+id/tv_home_item_price" />
 
-        <TextView
-            android:id="@+id/tv_home_item_buycount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/tv_home_item_price"
-            android:text="xxx人付款"
-            android:textColor="@color/grey"
-            android:textSize="12sp" />
+    <com.apollo.discounthunter.widgets.RotateTextView
+        android:id="@+id/tv_home_item_unusable"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:alpha="0.6"
+        android:text="@string/unusable"
+        android:textColor="@color/red"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.7"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        custom:rotate="-45"
+        custom:translateX="0.2"
+        custom:translateY="0.7" />
 
-        <com.apollo.discounthunter.widgets.RotateTextView
-            android:id="@+id/tv_home_item_unusable"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_centerInParent="true"
-            android:alpha="0.6"
-            android:text="@string/unusable"
-            android:textColor="@color/red"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:visibility="visible"
-            custom:rotate="-45"
-            custom:translateX="0.2"
-            custom:translateY="0.7" />
+    <TextView
+        android:id="@+id/tv_home_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:text="时间"
+        android:textColor="@color/grey"
+        android:textSize="12sp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tv_home_item_buycount"
+        app:layout_constraintRight_toLeftOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_home_item_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:text="时间"
-            android:textColor="@color/grey"
-            android:textSize="12sp" />
+    <TextView
+        android:id="@+id/tv_home_item_reason"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:ellipsize="end"
+        android:maxEms="10"
+        android:singleLine="true"
+        android:text="推荐理由"
+        android:textColor="@color/grey"
+        android:textSize="12sp"
+        android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/tv_home_item_reason"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:ellipsize="end"
-            android:maxEms="10"
-            android:singleLine="true"
-            android:text="推荐理由"
-            android:textColor="@color/grey"
-            android:textSize="12sp"
-            android:visibility="gone" />
-
-
-    </RelativeLayout>
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/arrow_right" />
+        android:layout_margin="5dp"
+        android:src="@mipmap/arrow_right"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

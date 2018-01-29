@@ -68,7 +68,6 @@ public class MyCollectionAdapter extends BaseAdapter {
             holder.tvTime = (TextView) view.findViewById(R.id.tv_home_item_time);
             holder.tvReason = (TextView) view.findViewById(R.id.tv_home_item_reason);
             holder.tvUnusable = (TextView) view.findViewById(R.id.tv_home_item_unusable);
-            holder.rlItem = (RelativeLayout) view.findViewById(R.id.rl_home_item);
             view.setTag(holder);
 
         } else {
@@ -130,7 +129,6 @@ public class MyCollectionAdapter extends BaseAdapter {
         TextView tvTime;
         TextView tvReason;
         TextView tvUnusable;
-        RelativeLayout rlItem;
     }
 
 }

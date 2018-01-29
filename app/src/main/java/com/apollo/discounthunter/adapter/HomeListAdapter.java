@@ -65,7 +65,6 @@ public class HomeListAdapter extends BaseAdapter {
             holder.tvTime = (TextView) view.findViewById(R.id.tv_home_item_time);
             holder.tvReason = (TextView) view.findViewById(R.id.tv_home_item_reason);
             holder.tvUnusable = (TextView) view.findViewById(R.id.tv_home_item_unusable);
-            holder.rlItem = (RelativeLayout) view.findViewById(R.id.rl_home_item);
             view.setTag(holder);
 
         } else {
@@ -101,7 +100,6 @@ public class HomeListAdapter extends BaseAdapter {
             appliedCount = Float.parseFloat(homeModel.getAppliedCount());
             if ((appliedCount / totlaCount) < 1) {
                 holder.tvUnusable.setVisibility(View.GONE);//隐藏已失效
-//                holder.rlItem.setAlpha(1.0f);
             } else {
                 holder.tvUnusable.setVisibility(View.VISIBLE);//显示已失效
                 ScaleAnimation scaleAnimation = new ScaleAnimation(3f,1f,3f,1f);
@@ -109,7 +107,6 @@ public class HomeListAdapter extends BaseAdapter {
                 scaleAnimation.setFillAfter(false);
                 holder.tvUnusable.startAnimation(scaleAnimation);
 
-//                holder.rlItem.setAlpha(0.4f);
             }
 
         } else {
@@ -127,7 +124,6 @@ public class HomeListAdapter extends BaseAdapter {
         TextView tvTime;
         TextView tvReason;
         TextView tvUnusable;
-        RelativeLayout rlItem;
     }
 
 }
