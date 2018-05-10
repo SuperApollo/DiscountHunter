@@ -85,7 +85,7 @@ public final class EncodingHandler {
 				bitmap = addLogo(bitmap, logoBm);
 			}
 			//必须使用compress方法将bitmap保存到文件中再进行读取。直接返回的bitmap是没有任何压缩的，内存消耗巨大！
-			return bitmap;
+			return deleteWhite(bitMatrix, bitmap);
 		} catch (WriterException e) {
 			e.printStackTrace();
 		}
@@ -126,6 +126,26 @@ public final class EncodingHandler {
 		} catch (Exception e) {
 			bitmap = null;
 			e.getStackTrace();
+		}
+		return bitmap;
+	}
+	/**
+	 * 去除白边
+	 *
+	 * @param bitMatrix
+	 * @param bitmap
+	 * @return
+	 */
+	private static Bitmap deleteWhite(BitMatrix bitMatrix, Bitmap bitmap) {
+		try {
+			int[] rec = bitMatrix.getEnclosingRectangle();
+			int left = rec[0];
+			int top = rec[1];
+			int width = rec[2];
+			int height = rec[3];
+			return Bitmap.createBitmap(bitmap, left, top, width, height);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return bitmap;
 	}
