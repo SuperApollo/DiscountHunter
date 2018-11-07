@@ -65,6 +65,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     ItemView itemScan;
     @BindView(R.id.item_setting_share)
     ItemView itemShare;
+    @BindView(R.id.item_setting_login)
+    ItemView itemLogin;
 
     private MyProgressDialog clearProgressDialog;
     private final int CLEAR_SUCCESS = 0x0001;
@@ -234,10 +236,21 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
             }
         });
 
+        itemLogin.setOnItemClickedListner(new ItemView.onItemClickedListner() {
+            @Override
+            public void onClick() {
+                doLogin();
+            }
+        });
+
         getCahceSize();
 
         initFlash();
 
+    }
+
+    private void doLogin() {
+        ToastUtils.show("登录授权");
     }
 
     @Override
@@ -373,7 +386,8 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
     }
 
-    /**判断版本是否是5.0以上
+    /**
+     * 判断版本是否是5.0以上
      *
      * @return 是否是
      */

@@ -42,7 +42,30 @@ public class BaseApplication extends Application {
         init();
         initDao();
         initSwipe();
+//        initBaichuan();
     }
+
+    /**
+     * 初始化阿里百川
+     */
+//    private void initBaichuan() {
+//        AlibabaSDK.asyncInit(this, new InitResultCallback() {
+//
+//            @Override
+//            public void onSuccess() {
+//                Toast.makeText(TAEApplication.this, "TaeSDK 初始化成功", Toast.LENGTH_SHORT)
+//                        .show();
+//            }
+//
+//            @Override
+//            public void onFailure(int code, String message) {
+//                Toast.makeText(TAEApplication.this, "TaeSDK 初始化异常，code = " + code + ", info = " + message, Toast.LENGTH_SHORT)
+//                        .show();
+//                Log.w("mayongge", "初始化异常，code = " + code + ", info = " + message);
+//            }
+//
+//        });
+//    }
 
     private void initSwipe() {
         /**

@@ -42,6 +42,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="110dp"
-        android:text="Copyright © 2016-2017 Apollo"
+        android:text="Copyright © 2017-2018 ZheKouLieShou"
         android:textColor="@color/grey" />
 </LinearLayout>

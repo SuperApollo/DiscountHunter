@@ -15,6 +15,7 @@
     <string name="clear_cache">清理缓存</string>
     <string name="my_code">扫我下载</string>
     <string name="my_collection">我的收藏</string>
+    <string name="login">授权登录</string>
     <string name="scan">扫一扫</string>
     <string name="share">分享给朋友</string>
     <string name="collection_describe">以下是收藏列表,长按删除</string>
@@ -34,6 +35,7 @@
     <string name="feedback_hint">请输入您的宝贵意见或建议</string>
     <string name="to_top">↑</string>
     <string name="to_bottom">↓</string>
-    <string name="welcome">折扣猎手,值得拥有!</string>
+    <string name="welcome">折扣猎手,值得拥有</string>
+    <string name="loading">Loading...</string>
 
 </resources>

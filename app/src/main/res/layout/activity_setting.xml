@@ -6,12 +6,20 @@
     android:orientation="vertical">
 
     <com.apollo.discounthunter.widgets.ItemView
-        android:id="@+id/item_setting_my_collection"
+        android:id="@+id/item_setting_login"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="20dp"
+        app:leftDrawable="@mipmap/icon_login"
+        app:leftText="@string/login" />
+
+    <com.apollo.discounthunter.widgets.ItemView
+        android:id="@+id/item_setting_my_collection"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
         app:leftDrawable="@mipmap/icon_collection"
-        app:leftText="@string/my_collection" />
+        app:leftText="@string/my_collection"
+        app:topLine="true" />
 
     <com.apollo.discounthunter.widgets.ItemView
         android:id="@+id/item_setting_about"
