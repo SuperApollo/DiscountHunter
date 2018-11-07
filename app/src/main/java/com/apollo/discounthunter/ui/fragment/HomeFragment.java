@@ -19,6 +19,7 @@ import com.apollo.discounthunter.ui.activity.GoodsDetailActivity;
 import com.apollo.discounthunter.ui.activity.MainActivity;
 import com.apollo.discounthunter.ui.activity.ShowWebActivity;
 import com.apollo.discounthunter.utils.IntentUtils;
+import com.apollo.discounthunter.utils.ToastUtils;
 import com.apollo.discounthunter.widgets.XListView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -147,8 +148,10 @@ public class HomeFragment extends BaseFragment {
         mBtnToBottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mHomeModels != null && mHomeModels.size() > 0)
+                if (mHomeModels != null && mHomeModels.size() > 0) {
                     mXlvHome.smoothScrollToPosition(mHomeModels.size() - 1);
+                }
+
             }
         });
 
@@ -174,8 +177,10 @@ public class HomeFragment extends BaseFragment {
 
         ApiService service = retrofit.create(ApiService.class);
         Call<ResponseBody> modelCall = service.loadHomeListRepo("API", "app_items", mOffset + "", "10", "0");
-        if (mHomeModels.size() < 1)
+        if (mHomeModels.size() < 1) {
             showProgress();
+        }
+
         modelCall.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -189,7 +194,7 @@ public class HomeFragment extends BaseFragment {
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 clearProgress();
-                mToastUtils.show(mContext, "网络错误,请检查网络环境!");
+                ToastUtils.show(mContext, "网络错误,请检查网络环境!");
                 mHandler.sendEmptyMessage(STOP_LOADMORE);
                 mHandler.sendEmptyMessage(STOP_REFRESH);
             }
@@ -215,12 +220,12 @@ public class HomeFragment extends BaseFragment {
                 mHomeModels.addAll(datas);
                 mAdapter.notifyDataSetChanged();
             } else {
-                mToastUtils.show(mContext, "客官，没有更多了");
+                ToastUtils.show(mContext, "客官，没有更多了");
             }
 
         } catch (Exception e) {
             e.printStackTrace();
-            mToastUtils.show(mContext, e.getMessage());
+            ToastUtils.show(mContext, e.getMessage());
         }
 
     }
