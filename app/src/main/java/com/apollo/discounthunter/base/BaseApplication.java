@@ -3,12 +3,18 @@ package com.apollo.discounthunter.base;
 import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
+import android.widget.Toast;
 
+import com.ali.auth.third.core.callback.InitResultCallback;
+import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
+import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
 import com.apollo.discounthunter.BuildConfig;
 import com.apollo.discounthunter.constants.AppConfig;
 import com.apollo.discounthunter.greendao.dao.DaoMaster;
 import com.apollo.discounthunter.greendao.dao.DaoSession;
 import com.apollo.discounthunter.utils.CrashHandler;
+import com.apollo.discounthunter.utils.ToastUtils;
 import com.elvishew.xlog.LogLevel;
 import com.elvishew.xlog.XLog;
 import com.squareup.leakcanary.LeakCanary;
@@ -42,30 +48,29 @@ public class BaseApplication extends Application {
         init();
         initDao();
         initSwipe();
-//        initBaichuan();
+        initBaichuan();
     }
 
     /**
      * 初始化阿里百川
      */
-//    private void initBaichuan() {
-//        AlibabaSDK.asyncInit(this, new InitResultCallback() {
-//
-//            @Override
-//            public void onSuccess() {
-//                Toast.makeText(TAEApplication.this, "TaeSDK 初始化成功", Toast.LENGTH_SHORT)
-//                        .show();
-//            }
-//
-//            @Override
-//            public void onFailure(int code, String message) {
-//                Toast.makeText(TAEApplication.this, "TaeSDK 初始化异常，code = " + code + ", info = " + message, Toast.LENGTH_SHORT)
-//                        .show();
-//                Log.w("mayongge", "初始化异常，code = " + code + ", info = " + message);
-//            }
-//
-//        });
-//    }
+    private void initBaichuan() {
+        AlibcTradeSDK.asyncInit(this, new AlibcTradeInitCallback() {
+            @Override
+            public void onSuccess() {
+                //初始化成功，设置相关的全局配置参数
+                ToastUtils.show("百川初始化成功");
+                // ...
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                //初始化失败，可以根据code和msg判断失败原因，详情参见错误说明
+                ToastUtils.show("百川初始化失败："+msg);
+                Log.e("apollo","初始化失败："+code+":"+msg);
+            }
+        });
+    }
 
     private void initSwipe() {
         /**
