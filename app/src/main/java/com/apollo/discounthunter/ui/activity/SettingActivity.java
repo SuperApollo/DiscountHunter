@@ -9,11 +9,14 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.alibaba.baichuan.trade.biz.login.AlibcLogin;
+import com.alibaba.baichuan.trade.biz.login.AlibcLoginCallback;
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.collection.view.MyCollectionActivity;
 import com.apollo.discounthunter.constants.AppConfig;
@@ -250,7 +253,24 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     }
 
     private void doLogin() {
-        ToastUtils.show("登录授权");
+        final AlibcLogin alibcLogin = AlibcLogin.getInstance();
+
+        alibcLogin.showLogin( new AlibcLoginCallback() {
+
+            @Override
+            public void onSuccess(int i) {
+                Toast.makeText(SettingActivity.this, "登录成功 ",
+                        Toast.LENGTH_LONG).show();
+                //获取淘宝用户信息
+                Log.i(TAG, "获取淘宝用户信息: "+AlibcLogin.getInstance().getSession());
+            }
+
+            @Override
+            public void onFailure(int code, String msg) {
+                Toast.makeText(SettingActivity.this, "登录失败 ",
+                        Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     @Override

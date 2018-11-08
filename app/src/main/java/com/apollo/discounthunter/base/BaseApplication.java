@@ -60,6 +60,7 @@ public class BaseApplication extends Application {
             public void onSuccess() {
                 //初始化成功，设置相关的全局配置参数
                 ToastUtils.show("百川初始化成功");
+                Log.i("apollo","百川初始化成功");
                 // ...
             }
 
