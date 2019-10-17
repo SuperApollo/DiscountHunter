@@ -43,6 +43,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by apollo on 17-3-14.
@@ -76,6 +80,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
     private FlashLightManager mFlashLightManager;
     private Flash mFlash;
     private ShareAction mShareAction;
+    private Disposable clearCacheDisposable;
 
 
     private UMShareListener shareListener = new UMShareListener() {
@@ -126,6 +131,10 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         if (mFlashLightManager != null) {
             mFlashLightManager.releaseResource();
             mFlashLightManager = null;
+        }
+        if (clearCacheDisposable != null && !clearCacheDisposable.isDisposed()) {
+            clearCacheDisposable.dispose();
+            clearCacheDisposable = null;
         }
 
     }
@@ -248,7 +257,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         initFlash();
 
         int[] screenWH = AppUtil.getScreenWH(this);
-        Log.d("apollo","w: "+screenWH[0]+",h: "+screenWH[1]);
+        Log.d("apollo", "w: " + screenWH[0] + ",h: " + screenWH[1]);
     }
 
 //    private void doLogin() {
@@ -278,17 +287,25 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         WeakReference<SettingActivity> reference = new WeakReference<>(SettingActivity.this);
         switch (msg.what) {
             case CLEAR_SUCCESS:
-                clearProgressDialog.dismiss();
-                //刷新缓存大小
-                getCahceSize();
-                clearProgressDialog = new MyProgressDialog(reference.get(), R.style.NoWhiteDialog, R.layout.load_dialog_done);
-                clearProgressDialog.show();
-                mHandler.sendEmptyMessageDelayed(DISMISS_DIALOG, 1000);
+                clearSuccess(reference);
                 break;
             case DISMISS_DIALOG:
-                clearProgressDialog.dismiss();
+                dismiss();
                 break;
         }
+    }
+
+    private void dismiss() {
+        clearProgressDialog.dismiss();
+    }
+
+    private void clearSuccess(WeakReference<SettingActivity> reference) {
+        dismiss();
+        //刷新缓存大小
+        getCahceSize();
+        clearProgressDialog = new MyProgressDialog(reference.get(), R.style.NoWhiteDialog, R.layout.load_dialog_done);
+        clearProgressDialog.show();
+        mHandler.sendEmptyMessageDelayed(DISMISS_DIALOG, 1000);
     }
 
     @Override
@@ -375,16 +392,14 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
                 /**
                  * 异步清缓存
                  */
-                new AsyncTask() {
-
-                    @Override
-                    protected Object doInBackground(Object[] objects) {
-                        clearCache();
-                        mHandler.sendEmptyMessageDelayed(CLEAR_SUCCESS, 500);
-
-                        return null;
-                    }
-                }.execute();
+                clearCacheDisposable = Observable.fromCallable(() -> {
+                    clearCache();
+                    return true;
+                }).observeOn(AndroidSchedulers.mainThread())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(success -> clearSuccess(new WeakReference<>(SettingActivity.this))
+                                , throwable -> dismiss()
+                        );
 
                 MyPopUtil.getInstance(SettingActivity.this).dismiss();
                 break;
