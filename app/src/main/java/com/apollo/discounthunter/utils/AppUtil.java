@@ -23,6 +23,10 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Xml;
+import android.view.KeyCharacterMap;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
@@ -1250,5 +1254,61 @@ public class AppUtil {
                         ",SDK版本:" + android.os.Build.VERSION.SDK +
                         ",系统版本:Android" + android.os.Build.VERSION.RELEASE;
         return handSetInfo;
+    }
+
+    public static int[] getScreenWH(Activity context) {
+        int[] wh = new int[2];
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics dm = new DisplayMetrics();
+        if (checkDeviceHasNavigationBar(context) && isNavigationBarShown(context)) {//有虚拟键并且显示了
+            wm.getDefaultDisplay().getMetrics(dm);//可显示的部分
+        } else {
+            wm.getDefaultDisplay().getRealMetrics(dm);//全屏
+        }
+        int width = dm.widthPixels;         // 屏幕宽度（像素）
+        int height = dm.heightPixels;       // 屏幕高度（像素）
+        wh[0] = width;
+        wh[1] = height;
+        return wh;
+    }
+
+    /**
+     * 检测是否有虚拟键
+     *
+     * @param activity
+     * @return
+     */
+    public static boolean checkDeviceHasNavigationBar(Context activity) {
+
+        //通过判断设备是否有返回键、菜单键(不是虚拟键,是手机屏幕外的按键)来确定是否有navigation bar
+        boolean hasMenuKey = ViewConfiguration.get(activity)
+                .hasPermanentMenuKey();
+        boolean hasBackKey = KeyCharacterMap
+                .deviceHasKey(KeyEvent.KEYCODE_BACK);
+
+        if (!hasMenuKey && !hasBackKey) {
+            // 做任何你需要做的,这个设备有一个导航栏
+            return true;
+        }
+        return false;
+    }
+    /**
+     * 非全面屏下 虚拟按键是否打开
+     *
+     * @param activity
+     * @return
+     */
+    public static boolean isNavigationBarShown(Activity activity) {
+        //虚拟键的view,为空或者不可见时是隐藏状态
+        View view = activity.findViewById(android.R.id.navigationBarBackground);
+        if (view == null) {
+            return false;
+        }
+        int visible = view.getVisibility();
+        if (visible == View.GONE || visible == View.INVISIBLE) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

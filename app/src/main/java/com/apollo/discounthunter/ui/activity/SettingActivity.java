@@ -8,25 +8,22 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
-import com.alibaba.baichuan.trade.biz.login.AlibcLogin;
-import com.alibaba.baichuan.trade.biz.login.AlibcLoginCallback;
-import com.alibaba.baichuan.trade.biz.utils.AlibcSPData;
 import com.apollo.discounthunter.R;
 import com.apollo.discounthunter.collection.view.MyCollectionActivity;
 import com.apollo.discounthunter.constants.AppConfig;
 import com.apollo.discounthunter.constants.Constants;
 import com.apollo.discounthunter.flash.Flash;
 import com.apollo.discounthunter.flash.FlashLightManager;
+import com.apollo.discounthunter.utils.AppUtil;
 import com.apollo.discounthunter.utils.DataCleanUtil;
 import com.apollo.discounthunter.utils.ImageLoaderUtils;
 import com.apollo.discounthunter.utils.IntentUtils;
-import com.apollo.discounthunter.utils.LogUtil;
 import com.apollo.discounthunter.utils.MyPopUtil;
 import com.apollo.discounthunter.utils.SharedPreferencesUtils;
 import com.apollo.discounthunter.widgets.ItemView;
@@ -242,7 +239,7 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
         itemLogin.setOnItemClickedListner(new ItemView.onItemClickedListner() {
             @Override
             public void onClick() {
-                doLogin();
+//                doLogin();
             }
         });
 
@@ -250,29 +247,31 @@ public class SettingActivity extends BaseActivity implements View.OnClickListene
 
         initFlash();
 
+        int[] screenWH = AppUtil.getScreenWH(this);
+        Log.d("apollo","w: "+screenWH[0]+",h: "+screenWH[1]);
     }
 
-    private void doLogin() {
-        final AlibcLogin alibcLogin = AlibcLogin.getInstance();
-
-        alibcLogin.showLogin( new AlibcLoginCallback() {
-
-            @Override
-            public void onSuccess(int i) {
-                Toast.makeText(SettingActivity.this, "登录成功 ",
-                        Toast.LENGTH_LONG).show();
-                //获取淘宝用户信息
-                LogUtil.i(TAG, "获取淘宝用户信息: "+AlibcLogin.getInstance().getSession());
-            }
-
-            @Override
-            public void onFailure(int code, String msg) {
-                Toast.makeText(SettingActivity.this, "登录失败 ",
-                        Toast.LENGTH_LONG).show();
-                LogUtil.e(TAG,"登录失败,"+code+":"+msg);
-            }
-        });
-    }
+//    private void doLogin() {
+//        final AlibcLogin alibcLogin = AlibcLogin.getInstance();
+//
+//        alibcLogin.showLogin( new AlibcLoginCallback() {
+//
+//            @Override
+//            public void onSuccess(int i) {
+//                Toast.makeText(SettingActivity.this, "登录成功 ",
+//                        Toast.LENGTH_LONG).show();
+//                //获取淘宝用户信息
+//                LogUtil.i(TAG, "获取淘宝用户信息: "+AlibcLogin.getInstance().getSession());
+//            }
+//
+//            @Override
+//            public void onFailure(int code, String msg) {
+//                Toast.makeText(SettingActivity.this, "登录失败 ",
+//                        Toast.LENGTH_LONG).show();
+//                LogUtil.e(TAG,"登录失败,"+code+":"+msg);
+//            }
+//        });
+//    }
 
     @Override
     protected void handleMsg(Message msg) {

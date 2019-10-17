@@ -4,15 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.alibaba.baichuan.android.trade.AlibcTradeSDK;
-import com.alibaba.baichuan.android.trade.callback.AlibcTradeInitCallback;
 import com.apollo.discounthunter.BuildConfig;
 import com.apollo.discounthunter.constants.AppConfig;
 import com.apollo.discounthunter.greendao.dao.DaoMaster;
 import com.apollo.discounthunter.greendao.dao.DaoSession;
 import com.apollo.discounthunter.utils.CrashHandler;
-import com.apollo.discounthunter.utils.LogUtil;
-import com.apollo.discounthunter.utils.ToastUtils;
 import com.elvishew.xlog.LogLevel;
 import com.elvishew.xlog.XLog;
 import com.squareup.leakcanary.LeakCanary;
@@ -52,22 +48,22 @@ public class BaseApplication extends Application {
      * 初始化阿里百川
      */
     private void initBaichuan() {
-        AlibcTradeSDK.asyncInit(this, new AlibcTradeInitCallback() {
-            @Override
-            public void onSuccess() {
-                //初始化成功，设置相关的全局配置参数
-                ToastUtils.show("百川初始化成功");
-                LogUtil.i("apollo","百川初始化成功");
-                // ...
-            }
-
-            @Override
-            public void onFailure(int code, String msg) {
-                //初始化失败，可以根据code和msg判断失败原因，详情参见错误说明
-                ToastUtils.show("百川初始化失败："+msg);
-                LogUtil.e("apollo","初始化失败："+code+":"+msg);
-            }
-        });
+//        AlibcTradeSDK.asyncInit(this, new AlibcTradeInitCallback() {
+//            @Override
+//            public void onSuccess() {
+//                //初始化成功，设置相关的全局配置参数
+//                ToastUtils.show("百川初始化成功");
+//                LogUtil.i("apollo","百川初始化成功");
+//                // ...
+//            }
+//
+//            @Override
+//            public void onFailure(int code, String msg) {
+//                //初始化失败，可以根据code和msg判断失败原因，详情参见错误说明
+//                ToastUtils.show("百川初始化失败："+msg);
+//                LogUtil.e("apollo","初始化失败："+code+":"+msg);
+//            }
+//        });
     }
 
     private void initSwipe() {
