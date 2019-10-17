@@ -165,13 +165,7 @@ public abstract class BaseFragment extends Fragment {
      */
     protected void showProgress() {
         if (customProgressView == null) {
-            customProgressView = new CustomProgressView(getActivity())
-                    .setCancelListener(new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {
-
-                        }
-                    });
+            customProgressView = new CustomProgressView(getActivity());
         }
         customProgressView.showProgressDialog();
     }

@@ -326,13 +326,7 @@ public abstract class BaseActivity extends FragmentActivity implements MenuItem.
      */
     protected void showProgress() {
         if (customProgressView == null) {
-            customProgressView = new CustomProgressView(this)
-                    .setCancelListener(new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {
-
-                        }
-                    });
+            customProgressView = new CustomProgressView(this);
         }
         customProgressView.setTimeout(60);
         customProgressView.showProgressDialog();

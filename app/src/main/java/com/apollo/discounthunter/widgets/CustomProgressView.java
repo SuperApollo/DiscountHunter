@@ -28,20 +28,12 @@ public class CustomProgressView {
     private ImageView imgProgress;
     private WeakReference<Context> mContext;
 
-    private DialogInterface.OnCancelListener cancelListener;
-
     private int timeout = 0;
 
 
     public CustomProgressView(Context context) {
         mContext = new WeakReference<>(context);
         customProgress = new CustomProgress(mContext.get());
-    }
-
-
-    public CustomProgressView setCancelListener(DialogInterface.OnCancelListener cancelListener) {
-        this.cancelListener = cancelListener;
-        return this;
     }
 
     public CustomProgressView setLoadMsg(String msg) {
@@ -66,7 +58,6 @@ public class CustomProgressView {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                customProgress.setOnCancelListener(cancelListener);
                 dissDialog();
             }
         }, (timeout == 0) ? DAY : (timeout * 1000L));
@@ -77,7 +68,7 @@ public class CustomProgressView {
     public void dissDialog() {
         try {
             if (customProgress != null && customProgress.isShowing()) {
-                customProgress.cancel();
+                customProgress.dismiss();
             }
         } catch (Exception e) {
             e.printStackTrace();
